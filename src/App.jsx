@@ -1,15 +1,24 @@
+import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import Layout from './components/layout/Layout';
+import DashboardPage from './pages/DashboardPage';
+import ComparePage from './pages/ComparePage';
+import DisparityPage from './pages/DisparityPage';
+import MethodologyPage from './pages/MethodologyPage';
+
+/**
+ * Komponen root dengan konfigurasi React Router.
+ */
 export default function App() {
   return (
-    <div className="min-h-screen bg-slate-900 text-white flex flex-col items-center justify-center p-6">
-      <div className="bg-slate-800 p-8 rounded-2xl shadow-xl border border-slate-700 text-center max-w-md">
-        <h1 className="text-3xl font-bold text-sky-400 mb-2">EduInsight</h1>
-        <p className="text-slate-300 mb-4">
-          Tailwind CSS v4 & React Berhasil Terhubung!
-        </p>
-        <span className="inline-block bg-sky-500/20 text-sky-300 px-4 py-1.5 rounded-full text-sm font-medium border border-sky-500/30">
-          Ready for WIA 2026
-        </span>
-      </div>
-    </div>
+    <BrowserRouter>
+      <Routes>
+        <Route path="/" element={<Layout />}>
+          <Route index element={<DashboardPage />} />
+          <Route path="compare" element={<ComparePage />} />
+          <Route path="disparity" element={<DisparityPage />} />
+          <Route path="methodology" element={<MethodologyPage />} />
+        </Route>
+      </Routes>
+    </BrowserRouter>
   );
 }
