@@ -21,7 +21,7 @@ function normalizeName(name) {
     .replace('DI ', 'DI ');
 }
 
-// 1. Ekstraksi Data dari File Excel (5 Indikator Fasilitas & Guru)
+// Ekstraksi Data dari File Excel (5 Indikator Fasilitas & Guru)
 const excelFiles = [
   { file: 'komputer.xlsx', key: 'komputer' },
   { file: 'internet.xlsx', key: 'internet' },
@@ -66,7 +66,7 @@ excelFiles.forEach(({ file, key }) => {
   }
 });
 
-// 2. Ekstraksi Data IPM (CSV)
+// Ekstraksi Data IPM (CSV)
 const ipmPath = path.join(rawDir, 'ipm.csv');
 if (fs.existsSync(ipmPath)) {
   const workbook = XLSX.readFile(ipmPath);
@@ -85,7 +85,7 @@ if (fs.existsSync(ipmPath)) {
   });
 }
 
-// 3. Ekstraksi Data APS 13-15 Tahun (CSV)
+// Ekstraksi Data APS 13-15 Tahun (CSV)
 const apsPath = path.join(rawDir, 'aps.csv');
 if (fs.existsSync(apsPath)) {
   const workbook = XLSX.readFile(apsPath);
