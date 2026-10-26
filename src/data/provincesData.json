@@ -1,430 +1,1445 @@
 [
   {
-    "code": "",
+    "code_kemdagri": "11",
+    "code_bps": "11",
     "name": "Aceh",
     "indicators": {
+      "komputer": {
+        "total": 27.74,
+        "negeri": 33.67,
+        "swasta": 14.07
+      },
+      "internet": {
+        "total": 75.58,
+        "negeri": 74.64,
+        "swasta": 77.75
+      },
+      "listrik": {
+        "total": 99.85,
+        "negeri": 99.78,
+        "swasta": 100
+      },
+      "air_minum": {
+        "total": 89.34,
+        "negeri": 87.82,
+        "swasta": 92.84
+      },
+      "guru_d4s1": {
+        "total": 98.19,
+        "negeri": 98.54,
+        "swasta": 96.36
+      },
       "ipm": {
-        "total": 0,
-        "negeri": 0,
-        "swasta": 0
+        "total": 76.23
+      },
+      "aps_13_15": {
+        "total": 97.65
       }
     }
   },
   {
-    "code": "",
+    "code_kemdagri": "12",
+    "code_bps": "12",
     "name": "Sumatera Utara",
     "indicators": {
+      "komputer": {
+        "total": 25.27,
+        "negeri": 27.56,
+        "swasta": 23
+      },
+      "internet": {
+        "total": 79.75,
+        "negeri": 73.26,
+        "swasta": 86.2
+      },
+      "listrik": {
+        "total": 98.81,
+        "negeri": 97.98,
+        "swasta": 99.63
+      },
+      "air_minum": {
+        "total": 90.73,
+        "negeri": 85.44,
+        "swasta": 95.99
+      },
+      "guru_d4s1": {
+        "total": 98.03,
+        "negeri": 98.71,
+        "swasta": 96.32
+      },
       "ipm": {
-        "total": 0,
-        "negeri": 0,
-        "swasta": 0
+        "total": 76.47
+      },
+      "aps_13_15": {
+        "total": 97.67
       }
     }
   },
   {
-    "code": "",
+    "code_kemdagri": "13",
+    "code_bps": "13",
     "name": "Sumatera Barat",
     "indicators": {
+      "komputer": {
+        "total": 35.2,
+        "negeri": 38.67,
+        "swasta": 22.4
+      },
+      "internet": {
+        "total": 79.02,
+        "negeri": 76.89,
+        "swasta": 86.89
+      },
+      "listrik": {
+        "total": 100,
+        "negeri": 100,
+        "swasta": 100
+      },
+      "air_minum": {
+        "total": 92.19,
+        "negeri": 90.52,
+        "swasta": 98.36
+      },
+      "guru_d4s1": {
+        "total": 98.41,
+        "negeri": 98.64,
+        "swasta": 96.78
+      },
       "ipm": {
-        "total": 0,
-        "negeri": 0,
-        "swasta": 0
+        "total": 77.27
+      },
+      "aps_13_15": {
+        "total": 97
       }
     }
   },
   {
-    "code": "",
+    "code_kemdagri": "14",
+    "code_bps": "14",
     "name": "Riau",
     "indicators": {
+      "komputer": {
+        "total": 26.71,
+        "negeri": 26.89,
+        "swasta": 26.33
+      },
+      "internet": {
+        "total": 81.48,
+        "negeri": 78.83,
+        "swasta": 87.34
+      },
+      "listrik": {
+        "total": 99.61,
+        "negeri": 99.43,
+        "swasta": 100
+      },
+      "air_minum": {
+        "total": 89.83,
+        "negeri": 87.87,
+        "swasta": 94.18
+      },
+      "guru_d4s1": {
+        "total": 97.25,
+        "negeri": 97.93,
+        "swasta": 94.7
+      },
       "ipm": {
-        "total": 0,
-        "negeri": 0,
-        "swasta": 0
+        "total": 76.31
+      },
+      "aps_13_15": {
+        "total": 95.47
       }
     }
   },
   {
-    "code": "",
+    "code_kemdagri": "15",
+    "code_bps": "15",
     "name": "Jambi",
     "indicators": {
+      "komputer": {
+        "total": 27.82,
+        "negeri": 30.47,
+        "swasta": 18
+      },
+      "internet": {
+        "total": 77.68,
+        "negeri": 75.63,
+        "swasta": 85.33
+      },
+      "listrik": {
+        "total": 99.29,
+        "negeri": 99.1,
+        "swasta": 100
+      },
+      "air_minum": {
+        "total": 86.58,
+        "negeri": 85.48,
+        "swasta": 90.67
+      },
+      "guru_d4s1": {
+        "total": 98.23,
+        "negeri": 98.51,
+        "swasta": 96.27
+      },
       "ipm": {
-        "total": 0,
-        "negeri": 0,
-        "swasta": 0
+        "total": 75.13
+      },
+      "aps_13_15": {
+        "total": 95.59
       }
     }
   },
   {
-    "code": "",
+    "code_kemdagri": "16",
+    "code_bps": "16",
     "name": "Sumatera Selatan",
     "indicators": {
+      "komputer": {
+        "total": 35.67,
+        "negeri": 42.62,
+        "swasta": 23.77
+      },
+      "internet": {
+        "total": 81.85,
+        "negeri": 78.85,
+        "swasta": 86.98
+      },
+      "listrik": {
+        "total": 99.72,
+        "negeri": 99.67,
+        "swasta": 99.81
+      },
+      "air_minum": {
+        "total": 91.03,
+        "negeri": 89.54,
+        "swasta": 93.58
+      },
+      "guru_d4s1": {
+        "total": 98.23,
+        "negeri": 98.89,
+        "swasta": 95.22
+      },
       "ipm": {
-        "total": 0,
-        "negeri": 0,
-        "swasta": 0
+        "total": 74.76
+      },
+      "aps_13_15": {
+        "total": 95.68
       }
     }
   },
   {
-    "code": "",
+    "code_kemdagri": "17",
+    "code_bps": "17",
     "name": "Bengkulu",
     "indicators": {
+      "komputer": {
+        "total": 33.48,
+        "negeri": 35.26,
+        "swasta": 24.68
+      },
+      "internet": {
+        "total": 77.24,
+        "negeri": 76.58,
+        "swasta": 80.52
+      },
+      "listrik": {
+        "total": 99.56,
+        "negeri": 99.47,
+        "swasta": 100
+      },
+      "air_minum": {
+        "total": 91.68,
+        "negeri": 90.79,
+        "swasta": 96.1
+      },
+      "guru_d4s1": {
+        "total": 98.41,
+        "negeri": 98.7,
+        "swasta": 95.66
+      },
       "ipm": {
-        "total": 0,
-        "negeri": 0,
-        "swasta": 0
+        "total": 75.68
+      },
+      "aps_13_15": {
+        "total": 97.01
       }
     }
   },
   {
-    "code": "",
+    "code_kemdagri": "18",
+    "code_bps": "18",
     "name": "Lampung",
     "indicators": {
+      "komputer": {
+        "total": 25.22,
+        "negeri": 32.3,
+        "swasta": 18.5
+      },
+      "internet": {
+        "total": 83.71,
+        "negeri": 82.93,
+        "swasta": 84.45
+      },
+      "listrik": {
+        "total": 99.73,
+        "negeri": 99.72,
+        "swasta": 99.73
+      },
+      "air_minum": {
+        "total": 93.54,
+        "negeri": 90.27,
+        "swasta": 96.65
+      },
+      "guru_d4s1": {
+        "total": 96.6,
+        "negeri": 97.9,
+        "swasta": 93.24
+      },
       "ipm": {
-        "total": 0,
-        "negeri": 0,
-        "swasta": 0
+        "total": 73.98
+      },
+      "aps_13_15": {
+        "total": 95.72
       }
     }
   },
   {
-    "code": "",
+    "code_kemdagri": "19",
+    "code_bps": "19",
     "name": "Kepulauan Bangka Belitung",
     "indicators": {
+      "komputer": {
+        "total": 40.09,
+        "negeri": 46.01,
+        "swasta": 26.09
+      },
+      "internet": {
+        "total": 90.52,
+        "negeri": 91.41,
+        "swasta": 88.41
+      },
+      "listrik": {
+        "total": 100,
+        "negeri": 100,
+        "swasta": 100
+      },
+      "air_minum": {
+        "total": 91.81,
+        "negeri": 90.8,
+        "swasta": 94.2
+      },
+      "guru_d4s1": {
+        "total": 98.58,
+        "negeri": 99.18,
+        "swasta": 95.7
+      },
       "ipm": {
-        "total": 0,
-        "negeri": 0,
-        "swasta": 0
+        "total": 75.26
+      },
+      "aps_13_15": {
+        "total": 92.9
       }
     }
   },
   {
-    "code": "",
+    "code_kemdagri": "21",
+    "code_bps": "21",
     "name": "Kepulauan Riau",
     "indicators": {
+      "komputer": {
+        "total": 43.13,
+        "negeri": 47.03,
+        "swasta": 37.99
+      },
+      "internet": {
+        "total": 88.92,
+        "negeri": 85.17,
+        "swasta": 93.85
+      },
+      "listrik": {
+        "total": 100,
+        "negeri": 100,
+        "swasta": 100
+      },
+      "air_minum": {
+        "total": 95.42,
+        "negeri": 92.8,
+        "swasta": 98.88
+      },
+      "guru_d4s1": {
+        "total": 97.42,
+        "negeri": 98.47,
+        "swasta": 94.97
+      },
       "ipm": {
-        "total": 0,
-        "negeri": 0,
-        "swasta": 0
+        "total": 80.53
+      },
+      "aps_13_15": {
+        "total": 98.6
       }
     }
   },
   {
-    "code": "",
+    "code_kemdagri": "31",
+    "code_bps": "31",
     "name": "DKI Jakarta",
     "indicators": {
+      "komputer": {
+        "total": 55.14,
+        "negeri": 79.86,
+        "swasta": 45.82
+      },
+      "internet": {
+        "total": 95.98,
+        "negeri": 97.27,
+        "swasta": 95.5
+      },
+      "listrik": {
+        "total": 100,
+        "negeri": 100,
+        "swasta": 100
+      },
+      "air_minum": {
+        "total": 97.94,
+        "negeri": 97.27,
+        "swasta": 98.2
+      },
+      "guru_d4s1": {
+        "total": 98.03,
+        "negeri": 99.55,
+        "swasta": 96.19
+      },
       "ipm": {
-        "total": 0,
-        "negeri": 0,
-        "swasta": 0
+        "total": 85.05
+      },
+      "aps_13_15": {
+        "total": 98.74
       }
     }
   },
   {
-    "code": "",
+    "code_kemdagri": "32",
+    "code_bps": "32",
     "name": "Jawa Barat",
     "indicators": {
+      "komputer": {
+        "total": 32.26,
+        "negeri": 45.96,
+        "swasta": 25.41
+      },
+      "internet": {
+        "total": 92.53,
+        "negeri": 92.79,
+        "swasta": 92.4
+      },
+      "listrik": {
+        "total": 99.97,
+        "negeri": 100,
+        "swasta": 99.95
+      },
+      "air_minum": {
+        "total": 95.37,
+        "negeri": 94.4,
+        "swasta": 95.86
+      },
+      "guru_d4s1": {
+        "total": 97.4,
+        "negeri": 99.27,
+        "swasta": 94.8
+      },
       "ipm": {
-        "total": 0,
-        "negeri": 0,
-        "swasta": 0
+        "total": 75.9
+      },
+      "aps_13_15": {
+        "total": 96.58
       }
     }
   },
   {
-    "code": "",
+    "code_kemdagri": "33",
+    "code_bps": "33",
     "name": "Jawa Tengah",
     "indicators": {
+      "komputer": {
+        "total": 59.84,
+        "negeri": 76.86,
+        "swasta": 41.82
+      },
+      "internet": {
+        "total": 95.47,
+        "negeri": 95.77,
+        "swasta": 95.16
+      },
+      "listrik": {
+        "total": 100,
+        "negeri": 100,
+        "swasta": 100
+      },
+      "air_minum": {
+        "total": 97.07,
+        "negeri": 96.28,
+        "swasta": 97.91
+      },
+      "guru_d4s1": {
+        "total": 98.58,
+        "negeri": 99.41,
+        "swasta": 96.09
+      },
       "ipm": {
-        "total": 0,
-        "negeri": 0,
-        "swasta": 0
+        "total": 74.77
+      },
+      "aps_13_15": {
+        "total": 97.05
       }
     }
   },
   {
-    "code": "",
+    "code_kemdagri": "34",
+    "code_bps": "34",
     "name": "DI Yogyakarta",
     "indicators": {
+      "komputer": {
+        "total": 64.76,
+        "negeri": 86.45,
+        "swasta": 45.42
+      },
+      "internet": {
+        "total": 96.7,
+        "negeri": 97.2,
+        "swasta": 96.25
+      },
+      "listrik": {
+        "total": 100,
+        "negeri": 100,
+        "swasta": 100
+      },
+      "air_minum": {
+        "total": 98.46,
+        "negeri": 97.2,
+        "swasta": 99.58
+      },
+      "guru_d4s1": {
+        "total": 98.72,
+        "negeri": 99.42,
+        "swasta": 97.48
+      },
       "ipm": {
-        "total": 0,
-        "negeri": 0,
-        "swasta": 0
+        "total": 82.48
+      },
+      "aps_13_15": {
+        "total": 99.6
       }
     }
   },
   {
-    "code": "",
+    "code_kemdagri": "35",
+    "code_bps": "35",
     "name": "Jawa Timur",
     "indicators": {
+      "komputer": {
+        "total": 42.17,
+        "negeri": 67.59,
+        "swasta": 28.63
+      },
+      "internet": {
+        "total": 92.35,
+        "negeri": 93.67,
+        "swasta": 91.65
+      },
+      "listrik": {
+        "total": 100,
+        "negeri": 100,
+        "swasta": 100
+      },
+      "air_minum": {
+        "total": 95.98,
+        "negeri": 96.26,
+        "swasta": 95.83
+      },
+      "guru_d4s1": {
+        "total": 98.4,
+        "negeri": 99.52,
+        "swasta": 96.56
+      },
       "ipm": {
-        "total": 0,
-        "negeri": 0,
-        "swasta": 0
+        "total": 76.13
+      },
+      "aps_13_15": {
+        "total": 97.15
       }
     }
   },
   {
-    "code": "",
+    "code_kemdagri": "36",
+    "code_bps": "36",
     "name": "Banten",
     "indicators": {
+      "komputer": {
+        "total": 35.83,
+        "negeri": 40.84,
+        "swasta": 33.04
+      },
+      "internet": {
+        "total": 93.38,
+        "negeri": 92.15,
+        "swasta": 94.07
+      },
+      "listrik": {
+        "total": 100,
+        "negeri": 100,
+        "swasta": 100
+      },
+      "air_minum": {
+        "total": 96.25,
+        "negeri": 94.76,
+        "swasta": 97.08
+      },
+      "guru_d4s1": {
+        "total": 97.58,
+        "negeri": 98.85,
+        "swasta": 95.7
+      },
       "ipm": {
-        "total": 0,
-        "negeri": 0,
-        "swasta": 0
+        "total": 77.25
+      },
+      "aps_13_15": {
+        "total": 97.11
       }
     }
   },
   {
-    "code": "",
+    "code_kemdagri": "51",
+    "code_bps": "51",
     "name": "Bali",
     "indicators": {
+      "komputer": {
+        "total": 67.33,
+        "negeri": 71.48,
+        "swasta": 58.27
+      },
+      "internet": {
+        "total": 94.8,
+        "negeri": 95.67,
+        "swasta": 92.91
+      },
+      "listrik": {
+        "total": 100,
+        "negeri": 100,
+        "swasta": 100
+      },
+      "air_minum": {
+        "total": 97.52,
+        "negeri": 96.39,
+        "swasta": 100
+      },
+      "guru_d4s1": {
+        "total": 99.15,
+        "negeri": 99.35,
+        "swasta": 97.99
+      },
       "ipm": {
-        "total": 0,
-        "negeri": 0,
-        "swasta": 0
+        "total": 79.37
+      },
+      "aps_13_15": {
+        "total": 98.88
       }
     }
   },
   {
-    "code": "",
+    "code_kemdagri": "52",
+    "code_bps": "52",
     "name": "Nusa Tenggara Barat",
     "indicators": {
+      "komputer": {
+        "total": 24.65,
+        "negeri": 33.44,
+        "swasta": 13.07
+      },
+      "internet": {
+        "total": 80.53,
+        "negeri": 78.15,
+        "swasta": 83.66
+      },
+      "listrik": {
+        "total": 99.72,
+        "negeri": 99.67,
+        "swasta": 99.78
+      },
+      "air_minum": {
+        "total": 91.16,
+        "negeri": 88.58,
+        "swasta": 94.55
+      },
+      "guru_d4s1": {
+        "total": 98.4,
+        "negeri": 98.8,
+        "swasta": 96.64
+      },
       "ipm": {
-        "total": 0,
-        "negeri": 0,
-        "swasta": 0
+        "total": 73.97
+      },
+      "aps_13_15": {
+        "total": 96.92
       }
     }
   },
   {
-    "code": "",
+    "code_kemdagri": "53",
+    "code_bps": "53",
     "name": "Nusa Tenggara Timur",
     "indicators": {
+      "komputer": {
+        "total": 33.55,
+        "negeri": 34.13,
+        "swasta": 31.79
+      },
+      "internet": {
+        "total": 65.47,
+        "negeri": 62.54,
+        "swasta": 74.39
+      },
+      "listrik": {
+        "total": 98.09,
+        "negeri": 97.83,
+        "swasta": 98.9
+      },
+      "air_minum": {
+        "total": 70.65,
+        "negeri": 67.03,
+        "swasta": 81.68
+      },
+      "guru_d4s1": {
+        "total": 98.09,
+        "negeri": 98.46,
+        "swasta": 96.43
+      },
       "ipm": {
-        "total": 0,
-        "negeri": 0,
-        "swasta": 0
+        "total": 69.89
+      },
+      "aps_13_15": {
+        "total": 95.44
       }
     }
   },
   {
-    "code": "",
+    "code_kemdagri": "61",
+    "code_bps": "61",
     "name": "Kalimantan Barat",
     "indicators": {
+      "komputer": {
+        "total": 24.84,
+        "negeri": 24.37,
+        "swasta": 26.22
+      },
+      "internet": {
+        "total": 72.4,
+        "negeri": 68.35,
+        "swasta": 84.44
+      },
+      "listrik": {
+        "total": 98.69,
+        "negeri": 98.45,
+        "swasta": 99.42
+      },
+      "air_minum": {
+        "total": 78.43,
+        "negeri": 76.8,
+        "swasta": 83.29
+      },
+      "guru_d4s1": {
+        "total": 97.27,
+        "negeri": 97.99,
+        "swasta": 93.42
+      },
       "ipm": {
-        "total": 0,
-        "negeri": 0,
-        "swasta": 0
+        "total": 72.09
+      },
+      "aps_13_15": {
+        "total": 94.36
       }
     }
   },
   {
-    "code": "",
+    "code_kemdagri": "62",
+    "code_bps": "62",
     "name": "Kalimantan Tengah",
     "indicators": {
+      "komputer": {
+        "total": 27.22,
+        "negeri": 27.87,
+        "swasta": 24.18
+      },
+      "internet": {
+        "total": 69.67,
+        "negeri": 67.51,
+        "swasta": 79.74
+      },
+      "listrik": {
+        "total": 96.77,
+        "negeri": 96.36,
+        "swasta": 98.69
+      },
+      "air_minum": {
+        "total": 76.36,
+        "negeri": 75.35,
+        "swasta": 81.05
+      },
+      "guru_d4s1": {
+        "total": 98.25,
+        "negeri": 98.75,
+        "swasta": 94.99
+      },
       "ipm": {
-        "total": 0,
-        "negeri": 0,
-        "swasta": 0
+        "total": 74.86
+      },
+      "aps_13_15": {
+        "total": 95.74
       }
     }
   },
   {
-    "code": "",
+    "code_kemdagri": "63",
+    "code_bps": "63",
     "name": "Kalimantan Selatan",
     "indicators": {
+      "komputer": {
+        "total": 38.76,
+        "negeri": 42.34,
+        "swasta": 20.95
+      },
+      "internet": {
+        "total": 85.65,
+        "negeri": 84.67,
+        "swasta": 90.48
+      },
+      "listrik": {
+        "total": 99.68,
+        "negeri": 99.62,
+        "swasta": 100
+      },
+      "air_minum": {
+        "total": 82.93,
+        "negeri": 80.65,
+        "swasta": 94.29
+      },
+      "guru_d4s1": {
+        "total": 98.64,
+        "negeri": 99.06,
+        "swasta": 95.61
+      },
       "ipm": {
-        "total": 0,
-        "negeri": 0,
-        "swasta": 0
+        "total": 76.1
+      },
+      "aps_13_15": {
+        "total": 93.82
       }
     }
   },
   {
-    "code": "",
+    "code_kemdagri": "64",
+    "code_bps": "64",
     "name": "Kalimantan Timur",
     "indicators": {
+      "komputer": {
+        "total": 42.75,
+        "negeri": 47.82,
+        "swasta": 33.05
+      },
+      "internet": {
+        "total": 85.08,
+        "negeri": 81.22,
+        "swasta": 92.47
+      },
+      "listrik": {
+        "total": 99.57,
+        "negeri": 99.56,
+        "swasta": 99.58
+      },
+      "air_minum": {
+        "total": 88.81,
+        "negeri": 85.37,
+        "swasta": 95.4
+      },
+      "guru_d4s1": {
+        "total": 98.33,
+        "negeri": 98.88,
+        "swasta": 96.11
+      },
       "ipm": {
-        "total": 0,
-        "negeri": 0,
-        "swasta": 0
+        "total": 79.39
+      },
+      "aps_13_15": {
+        "total": 97.34
       }
     }
   },
   {
-    "code": "",
+    "code_kemdagri": "65",
+    "code_bps": "65",
     "name": "Kalimantan Utara",
     "indicators": {
+      "komputer": {
+        "total": 35.38,
+        "negeri": 37.82,
+        "swasta": 25.64
+      },
+      "internet": {
+        "total": 65.13,
+        "negeri": 60.26,
+        "swasta": 84.62
+      },
+      "listrik": {
+        "total": 97.95,
+        "negeri": 97.44,
+        "swasta": 100
+      },
+      "air_minum": {
+        "total": 85.13,
+        "negeri": 84.62,
+        "swasta": 87.18
+      },
+      "guru_d4s1": {
+        "total": 98.63,
+        "negeri": 99.08,
+        "swasta": 95.37
+      },
       "ipm": {
-        "total": 0,
-        "negeri": 0,
-        "swasta": 0
+        "total": 74.04
+      },
+      "aps_13_15": {
+        "total": 95.96
       }
     }
   },
   {
-    "code": "",
+    "code_kemdagri": "71",
+    "code_bps": "71",
     "name": "Sulawesi Utara",
     "indicators": {
+      "komputer": {
+        "total": 28.1,
+        "negeri": 29.71,
+        "swasta": 25.1
+      },
+      "internet": {
+        "total": 73.4,
+        "negeri": 69.67,
+        "swasta": 80.39
+      },
+      "listrik": {
+        "total": 99.73,
+        "negeri": 99.79,
+        "swasta": 99.61
+      },
+      "air_minum": {
+        "total": 92.36,
+        "negeri": 90.59,
+        "swasta": 95.69
+      },
+      "guru_d4s1": {
+        "total": 97.25,
+        "negeri": 97.65,
+        "swasta": 95.44
+      },
       "ipm": {
-        "total": 0,
-        "negeri": 0,
-        "swasta": 0
+        "total": 76.32
+      },
+      "aps_13_15": {
+        "total": 96.11
       }
     }
   },
   {
-    "code": "",
+    "code_kemdagri": "72",
+    "code_bps": "72",
     "name": "Sulawesi Tengah",
     "indicators": {
+      "komputer": {
+        "total": 25.31,
+        "negeri": 26.02,
+        "swasta": 21.68
+      },
+      "internet": {
+        "total": 69.56,
+        "negeri": 67.57,
+        "swasta": 79.72
+      },
+      "listrik": {
+        "total": 99.32,
+        "negeri": 99.46,
+        "swasta": 98.6
+      },
+      "air_minum": {
+        "total": 88.03,
+        "negeri": 86.92,
+        "swasta": 93.71
+      },
+      "guru_d4s1": {
+        "total": 98.11,
+        "negeri": 98.35,
+        "swasta": 95.4
+      },
       "ipm": {
-        "total": 0,
-        "negeri": 0,
-        "swasta": 0
+        "total": 72.82
+      },
+      "aps_13_15": {
+        "total": 94.58
       }
     }
   },
   {
-    "code": "",
+    "code_kemdagri": "73",
+    "code_bps": "73",
     "name": "Sulawesi Selatan",
     "indicators": {
+      "komputer": {
+        "total": 32.17,
+        "negeri": 33.57,
+        "swasta": 28.15
+      },
+      "internet": {
+        "total": 71.98,
+        "negeri": 68.01,
+        "swasta": 83.33
+      },
+      "listrik": {
+        "total": 99.65,
+        "negeri": 99.61,
+        "swasta": 99.77
+      },
+      "air_minum": {
+        "total": 90.78,
+        "negeri": 89.28,
+        "swasta": 95.05
+      },
+      "guru_d4s1": {
+        "total": 98.83,
+        "negeri": 99.16,
+        "swasta": 96.76
+      },
       "ipm": {
-        "total": 0,
-        "negeri": 0,
-        "swasta": 0
+        "total": 75.92
+      },
+      "aps_13_15": {
+        "total": 94.22
       }
     }
   },
   {
-    "code": "",
+    "code_kemdagri": "74",
+    "code_bps": "74",
     "name": "Sulawesi Tenggara",
     "indicators": {
+      "komputer": {
+        "total": 25.22,
+        "negeri": 26.66,
+        "swasta": 14.74
+      },
+      "internet": {
+        "total": 65.65,
+        "negeri": 63.98,
+        "swasta": 77.89
+      },
+      "listrik": {
+        "total": 99.37,
+        "negeri": 99.71,
+        "swasta": 96.84
+      },
+      "air_minum": {
+        "total": 87.83,
+        "negeri": 87.46,
+        "swasta": 90.53
+      },
+      "guru_d4s1": {
+        "total": 98.56,
+        "negeri": 98.71,
+        "swasta": 95.85
+      },
       "ipm": {
-        "total": 0,
-        "negeri": 0,
-        "swasta": 0
+        "total": 74.25
+      },
+      "aps_13_15": {
+        "total": 96.53
       }
     }
   },
   {
-    "code": "",
+    "code_kemdagri": "75",
+    "code_bps": "75",
     "name": "Gorontalo",
     "indicators": {
+      "komputer": {
+        "total": 36.26,
+        "negeri": 39.3,
+        "swasta": 3.45
+      },
+      "internet": {
+        "total": 72.51,
+        "negeri": 71.57,
+        "swasta": 82.76
+      },
+      "listrik": {
+        "total": 99.71,
+        "negeri": 99.68,
+        "swasta": 100
+      },
+      "air_minum": {
+        "total": 90.06,
+        "negeri": 89.46,
+        "swasta": 96.55
+      },
+      "guru_d4s1": {
+        "total": 98.46,
+        "negeri": 98.61,
+        "swasta": 95.61
+      },
       "ipm": {
-        "total": 0,
-        "negeri": 0,
-        "swasta": 0
+        "total": 72.62
+      },
+      "aps_13_15": {
+        "total": 92.35
       }
     }
   },
   {
-    "code": "",
+    "code_kemdagri": "76",
+    "code_bps": "76",
     "name": "Sulawesi Barat",
     "indicators": {
+      "komputer": {
+        "total": 26.46,
+        "negeri": 27.27,
+        "swasta": 22.03
+      },
+      "internet": {
+        "total": 59.26,
+        "negeri": 59.87,
+        "swasta": 55.93
+      },
+      "listrik": {
+        "total": 98.15,
+        "negeri": 97.81,
+        "swasta": 100
+      },
+      "air_minum": {
+        "total": 83.86,
+        "negeri": 82.76,
+        "swasta": 89.83
+      },
+      "guru_d4s1": {
+        "total": 97.3,
+        "negeri": 97.97,
+        "swasta": 88.83
+      },
       "ipm": {
-        "total": 0,
-        "negeri": 0,
-        "swasta": 0
+        "total": 71.16
+      },
+      "aps_13_15": {
+        "total": 92.3
       }
     }
   },
   {
-    "code": "",
+    "code_kemdagri": "81",
+    "code_bps": "81",
     "name": "Maluku",
     "indicators": {
+      "komputer": {
+        "total": 22.84,
+        "negeri": 22.46,
+        "swasta": 24.31
+      },
+      "internet": {
+        "total": 57.61,
+        "negeri": 55.07,
+        "swasta": 67.36
+      },
+      "listrik": {
+        "total": 95.98,
+        "negeri": 95.65,
+        "swasta": 97.22
+      },
+      "air_minum": {
+        "total": 80.75,
+        "negeri": 78.62,
+        "swasta": 88.89
+      },
+      "guru_d4s1": {
+        "total": 96.49,
+        "negeri": 97.07,
+        "swasta": 92.91
+      },
       "ipm": {
-        "total": 0,
-        "negeri": 0,
-        "swasta": 0
+        "total": 74.09
+      },
+      "aps_13_15": {
+        "total": 97.75
       }
     }
   },
   {
-    "code": "",
+    "code_kemdagri": "82",
+    "code_bps": "82",
     "name": "Maluku Utara",
     "indicators": {
+      "komputer": {
+        "total": 21.39,
+        "negeri": 24.13,
+        "swasta": 14.38
+      },
+      "internet": {
+        "total": 58.57,
+        "negeri": 56.84,
+        "swasta": 63.01
+      },
+      "listrik": {
+        "total": 97.11,
+        "negeri": 98.12,
+        "swasta": 94.52
+      },
+      "air_minum": {
+        "total": 86.9,
+        "negeri": 84.72,
+        "swasta": 92.47
+      },
+      "guru_d4s1": {
+        "total": 97.09,
+        "negeri": 97.4,
+        "swasta": 95.38
+      },
       "ipm": {
-        "total": 0,
-        "negeri": 0,
-        "swasta": 0
+        "total": 72.52
+      },
+      "aps_13_15": {
+        "total": 97.08
       }
     }
   },
   {
-    "code": "",
+    "code_kemdagri": "92",
+    "code_bps": "91",
     "name": "Papua Barat",
     "indicators": {
+      "komputer": {
+        "total": 27.44,
+        "negeri": 27.42,
+        "swasta": 27.5
+      },
+      "internet": {
+        "total": 66.46,
+        "negeri": 60.48,
+        "swasta": 85
+      },
+      "listrik": {
+        "total": 97.56,
+        "negeri": 97.58,
+        "swasta": 97.5
+      },
+      "air_minum": {
+        "total": 73.78,
+        "negeri": 70.97,
+        "swasta": 82.5
+      },
+      "guru_d4s1": {
+        "total": 97.77,
+        "negeri": 98.09,
+        "swasta": 96.54
+      },
       "ipm": {
-        "total": 0,
-        "negeri": 0,
-        "swasta": 0
+        "total": 68.48
+      },
+      "aps_13_15": {
+        "total": 96.22
       }
     }
   },
   {
-    "code": "",
+    "code_kemdagri": "96",
+    "code_bps": "92",
     "name": "Papua Barat Daya",
     "indicators": {
+      "komputer": {
+        "total": 35.91,
+        "negeri": 34.15,
+        "swasta": 39.66
+      },
+      "internet": {
+        "total": 74.59,
+        "negeri": 67.48,
+        "swasta": 89.66
+      },
+      "listrik": {
+        "total": 98.9,
+        "negeri": 98.37,
+        "swasta": 100
+      },
+      "air_minum": {
+        "total": 77.35,
+        "negeri": 73.98,
+        "swasta": 84.48
+      },
+      "guru_d4s1": {
+        "total": 97.45,
+        "negeri": 98.14,
+        "swasta": 94.95
+      },
       "ipm": {
-        "total": 0,
-        "negeri": 0,
-        "swasta": 0
+        "total": 70.55
+      },
+      "aps_13_15": {
+        "total": 96.38
       }
     }
   },
   {
-    "code": "",
+    "code_kemdagri": "91",
+    "code_bps": "94",
     "name": "Papua",
     "indicators": {
+      "komputer": {
+        "total": 33.46,
+        "negeri": 30.69,
+        "swasta": 40
+      },
+      "internet": {
+        "total": 64.68,
+        "negeri": 59.79,
+        "swasta": 76.25
+      },
+      "listrik": {
+        "total": 97.77,
+        "negeri": 97.35,
+        "swasta": 98.75
+      },
+      "air_minum": {
+        "total": 81.78,
+        "negeri": 78.31,
+        "swasta": 90
+      },
+      "guru_d4s1": {
+        "total": 95.44,
+        "negeri": 95.52,
+        "swasta": 95.12
+      },
       "ipm": {
-        "total": 0,
-        "negeri": 0,
-        "swasta": 0
+        "total": 74.69
+      },
+      "aps_13_15": {
+        "total": 97.32
       }
     }
   },
   {
-    "code": "",
-    "name": "Papua Selatan",
-    "indicators": {
-      "ipm": {
-        "total": 0,
-        "negeri": 0,
-        "swasta": 0
-      }
-    }
-  },
-  {
-    "code": "",
+    "code_kemdagri": "94",
+    "code_bps": "96",
     "name": "Papua Tengah",
     "indicators": {
+      "komputer": {
+        "total": 22.81,
+        "negeri": 20.79,
+        "swasta": 25.71
+      },
+      "internet": {
+        "total": 50.88,
+        "negeri": 38.61,
+        "swasta": 68.57
+      },
+      "listrik": {
+        "total": 95.32,
+        "negeri": 96.04,
+        "swasta": 94.29
+      },
+      "air_minum": {
+        "total": 82.46,
+        "negeri": 78.22,
+        "swasta": 88.57
+      },
+      "guru_d4s1": {
+        "total": 95.81,
+        "negeri": 96.31,
+        "swasta": 94.72
+      },
       "ipm": {
-        "total": 0,
-        "negeri": 0,
-        "swasta": 0
+        "total": 60.64
+      },
+      "aps_13_15": {
+        "total": 67.86
       }
     }
   },
   {
-    "code": "",
+    "code_kemdagri": "93",
+    "code_bps": "95",
+    "name": "Papua Selatan",
+    "indicators": {
+      "komputer": {
+        "total": 30,
+        "negeri": 30.85,
+        "swasta": 27.78
+      },
+      "internet": {
+        "total": 56.15,
+        "negeri": 55.32,
+        "swasta": 58.33
+      },
+      "listrik": {
+        "total": 93.08,
+        "negeri": 90.43,
+        "swasta": 100
+      },
+      "air_minum": {
+        "total": 86.92,
+        "negeri": 84.04,
+        "swasta": 94.44
+      },
+      "guru_d4s1": {
+        "total": 97,
+        "negeri": 97.01,
+        "swasta": 96.97
+      },
+      "ipm": {
+        "total": 69.54
+      },
+      "aps_13_15": {
+        "total": 89.29
+      }
+    }
+  },
+  {
+    "code_kemdagri": "95",
+    "code_bps": "97",
     "name": "Papua Pegunungan",
     "indicators": {
+      "komputer": {
+        "total": 11.17,
+        "negeri": 10.53,
+        "swasta": 13.33
+      },
+      "internet": {
+        "total": 32.99,
+        "negeri": 27.63,
+        "swasta": 51.11
+      },
+      "listrik": {
+        "total": 80.71,
+        "negeri": 80.26,
+        "swasta": 82.22
+      },
+      "air_minum": {
+        "total": 75.13,
+        "negeri": 72.37,
+        "swasta": 84.44
+      },
+      "guru_d4s1": {
+        "total": 88.03,
+        "negeri": 87.18,
+        "swasta": 92
+      },
       "ipm": {
-        "total": 0,
-        "negeri": 0,
-        "swasta": 0
-      }
-    }
-  },
-  {
-    "code": "",
-    "name": "Indonesia",
-    "indicators": {
-      "ipm": {
-        "total": 0,
-        "negeri": 0,
-        "swasta": 0
+        "total": 54.91
+      },
+      "aps_13_15": {
+        "total": 71.08
       }
     }
   }

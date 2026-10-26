@@ -1,14 +1,15 @@
 import provincesData from '../data/provincesData.json';
 
 /**
- * Mendapatkan seluruh daftar data provinsi.
+ * Mengambil seluruh data provinsi.
  */
 export const getAllProvinces = () => provincesData;
 
 /**
- * Mendapatkan data provinsi spesifik berdasarkan kode atau nama.
+ * Mengambil data satu provinsi berdasarkan nama.
  */
 export const getProvinceByName = (name) => {
+  if (!name) return null;
   return provincesData.find(
     (p) => p.name.toLowerCase() === name.toLowerCase()
   ) || null;
@@ -27,24 +28,26 @@ export const getNationalAverage = (indicatorKey) => {
 };
 
 /**
- * Mendapatkan peringkat provinsi tertinggi dan terendah berdasarkan indikator.
+ * Mendapatkan daftar peringkat provinsi berdasarkan indikator.
  */
-export const getProvinceRankings = (indicatorKey, asc = false) => {
+export const getRankings = (indicatorKey, ascending = false) => {
   return [...provincesData].sort((a, b) => {
     const valA = a.indicators[indicatorKey]?.total || 0;
     const valB = b.indicators[indicatorKey]?.total || 0;
-    return asc ? valA - valB : valB - valA;
+    return ascending ? valA - valB : valB - valA;
   });
 };
 
 /**
- * Menghitung gap (selisih) antara fasilitas sekolah Negeri vs Swasta di suatu provinsi.
+ * Menghitung selisih (gap) antara sekolah Negeri dan Swasta.
  */
 export const getSectorGap = (provinceName, indicatorKey) => {
   const prov = getProvinceByName(provinceName);
   if (!prov || !prov.indicators[indicatorKey]) return null;
 
   const { negeri, swasta } = prov.indicators[indicatorKey];
+  if (negeri === undefined || swasta === undefined) return null;
+
   const gap = Number((negeri - swasta).toFixed(2));
 
   return {
@@ -57,14 +60,14 @@ export const getSectorGap = (provinceName, indicatorKey) => {
 };
 
 /**
- * Membandingkan 2 atau lebih provinsi secara komparatif.
+ * Membandingkan beberapa provinsi sekaligus untuk grafik perbandingan.
  */
 export const compareProvinces = (provinceNames = [], indicatorKey) => {
   return provinceNames.map((name) => {
     const prov = getProvinceByName(name);
     return {
       name,
-      data: prov ? prov.indicators[indicatorKey] || null : null
+      indicators: prov ? prov.indicators[indicatorKey] || null : null
     };
   });
 };

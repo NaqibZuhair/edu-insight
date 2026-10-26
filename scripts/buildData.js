@@ -10,54 +10,102 @@ if (!fs.existsSync(outputDir)) {
   fs.mkdirSync(outputDir, { recursive: true });
 }
 
-// Map penampung data provinsi
 const provincesMap = new Map();
 
-function parseFile(fileName, indicatorKey) {
-  const filePath = path.join(rawDir, fileName);
-  if (!fs.existsSync(filePath)) {
-    console.warn(`Warning: File ${fileName} tidak ditemukan di raw_data.`);
-    return;
-  }
+function normalizeName(name) {
+  return String(name)
+    .trim()
+    .toUpperCase()
+    .replace('KEP.', 'KEPULAUAN')
+    .replace('DKI ', 'DKI ')
+    .replace('DI ', 'DI ');
+}
+
+// 1. Ekstraksi Data dari File Excel (5 Indikator Fasilitas & Guru)
+const excelFiles = [
+  { file: 'komputer.xlsx', key: 'komputer' },
+  { file: 'internet.xlsx', key: 'internet' },
+  { file: 'listrik.xlsx', key: 'listrik' },
+  { file: 'air_minum.xlsx', key: 'air_minum' },
+  { file: 'guru.xlsx', key: 'guru_d4s1' }
+];
+
+excelFiles.forEach(({ file, key }) => {
+  const filePath = path.join(rawDir, file);
+  if (!fs.existsSync(filePath)) return;
 
   const workbook = XLSX.readFile(filePath);
-  const sheetName = workbook.SheetNames[0];
-  const rawData = XLSX.utils.sheet_to_json(workbook.Sheets[sheetName]);
+  const sheet = workbook.Sheets[workbook.SheetNames[0]];
+  const rows = XLSX.utils.sheet_to_json(sheet, { header: 1 });
 
-  rawData.forEach((row) => {
-    // Penyesuaian nama kolom sesuai struktur header file SDI/BPS
-    const provName = row['Provinsi'] || row['Nama Provinsi'] || row['PROVINSI'];
-    const provCode = row['Kode'] || row['Kode Provinsi'] || String(row['No'] || '');
+  // Data 38 provinsi berada pada baris indeks 4 sampai 41
+  for (let i = 4; i <= 41; i++) {
+    const row = rows[i];
+    if (!row || !row[3]) continue;
 
-    if (!provName) return;
+    const codeKemdagri = String(row[1]).trim();
+    const codeBps = String(row[2]).trim();
+    const provName = String(row[3]).trim();
+    const normKey = normalizeName(provName);
 
-    const key = provName.trim();
-    if (!provincesMap.has(key)) {
-      provincesMap.set(key, {
-        code: provCode,
-        name: key,
+    if (!provincesMap.has(normKey)) {
+      provincesMap.set(normKey, {
+        code_kemdagri: codeKemdagri,
+        code_bps: codeBps,
+        name: provName,
         indicators: {}
       });
     }
 
-    const item = provincesMap.get(key);
-    item.indicators[indicatorKey] = {
-      total: parseFloat(row['Total'] || row['2023'] || row['Persentase'] || 0),
-      negeri: parseFloat(row['Negeri'] || 0),
-      swasta: parseFloat(row['Swasta'] || 0)
+    const prov = provincesMap.get(normKey);
+    prov.indicators[key] = {
+      total: Number(parseFloat(row[6] || 0).toFixed(2)),
+      negeri: Number(parseFloat(row[4] || 0).toFixed(2)),
+      swasta: Number(parseFloat(row[5] || 0).toFixed(2))
     };
+  }
+});
+
+// 2. Ekstraksi Data IPM (CSV)
+const ipmPath = path.join(rawDir, 'ipm.csv');
+if (fs.existsSync(ipmPath)) {
+  const workbook = XLSX.readFile(ipmPath);
+  const rows = XLSX.utils.sheet_to_json(workbook.Sheets[workbook.SheetNames[0]]);
+  rows.forEach((row) => {
+    const provName = row['Provinsi'];
+    const val = row['Indeks Pembangunan Manusia'];
+    if (!provName || provName === 'Indonesia') return;
+
+    const normKey = normalizeName(provName);
+    if (provincesMap.has(normKey)) {
+      provincesMap.get(normKey).indicators.ipm = {
+        total: Number(parseFloat(val || 0).toFixed(2))
+      };
+    }
   });
 }
 
-// Eksekusi parsing file
-parseFile('komputer.xlsx', 'komputer');
-parseFile('internet.xlsx', 'internet');
-parseFile('air_minum.xlsx', 'air_minum');
-parseFile('listrik.xlsx', 'listrik');
-parseFile('guru.xlsx', 'guru_d4s1');
-parseFile('ipm.csv', 'ipm');
-parseFile('aps.csv', 'aps');
+// 3. Ekstraksi Data APS 13-15 Tahun (CSV)
+const apsPath = path.join(rawDir, 'aps.csv');
+if (fs.existsSync(apsPath)) {
+  const workbook = XLSX.readFile(apsPath);
+  const rows = XLSX.utils.sheet_to_json(workbook.Sheets[workbook.SheetNames[0]], { header: 1 });
+  for (let i = 4; i <= 41; i++) {
+    const row = rows[i];
+    if (!row || !row[0]) continue;
+
+    const provName = String(row[0]).trim();
+    const apsVal = row[2]; // Kolom 13-15 Tahun
+    const normKey = normalizeName(provName);
+
+    if (provincesMap.has(normKey)) {
+      provincesMap.get(normKey).indicators.aps_13_15 = {
+        total: Number(parseFloat(apsVal || 0).toFixed(2))
+      };
+    }
+  }
+}
 
 const result = Array.from(provincesMap.values());
 fs.writeFileSync(outputFile, JSON.stringify(result, null, 2));
-console.log(`Berhasil mengolah data. File disimpan di: ${outputFile}`);
+console.log(`Pengolahan selesai. ${result.length} data provinsi disimpan di: ${outputFile}`);
