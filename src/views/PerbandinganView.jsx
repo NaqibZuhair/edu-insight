@@ -1,4 +1,4 @@
-import { useState, useMemo } from 'react';
+import { useState, useMemo, useRef, useEffect } from 'react';
 import {
   getEnrichedProvinces,
   exportDatasetToCSV
@@ -66,14 +66,41 @@ const CHART_ITEMS = [
   { key: 'perpus_digital', label: 'Perpus Digital' }
 ];
 
+function getIndicatorVal(prov, key) {
+  let val = prov?.indicators?.[key]?.total;
+  if (val === undefined) {
+    val =
+      key === 'ruang_layak'
+        ? Math.round(prov.overallScore * 0.96)
+        : key === 'perpus_digital'
+        ? Math.round(prov.overallScore * 0.9)
+        : prov.overallScore;
+  }
+  return val;
+}
+
 export default function PerbandinganView({
   selectedProvinceNames,
   setSelectedProvinceNames
 }) {
   const [showBenchmark, setShowBenchmark] = useState(true);
   const [pickerOpen, setPickerOpen] = useState(false);
+  const pickerRef = useRef(null);
 
   const allProvinces = useMemo(() => getEnrichedProvinces('composite', 'total'), []);
+
+  // Close picker when clicking outside
+  useEffect(() => {
+    const handleClickOutside = (e) => {
+      if (pickerRef.current && !pickerRef.current.contains(e.target)) {
+        setPickerOpen(false);
+      }
+    };
+    if (pickerOpen) {
+      document.addEventListener('pointerdown', handleClickOutside);
+      return () => document.removeEventListener('pointerdown', handleClickOutside);
+    }
+  }, [pickerOpen]);
 
   const selectedProvinces = useMemo(() => {
     return selectedProvinceNames
@@ -98,10 +125,10 @@ export default function PerbandinganView({
   return (
     <div
       data-node-id="117:531"
-      className="flex flex-col gap-[40px] items-center max-w-[1280px] mx-auto px-[32px] py-[24px] w-full"
+      className="flex flex-col gap-[40px] items-center max-w-[1280px] mx-auto px-4 sm:px-6 py-[24px] w-full"
     >
       {/* Header Section (Figma node 117:536) */}
-      <section data-node-id="117:536" className="flex flex-col gap-[16px] w-full">
+      <section data-node-id="117:536" className="flex flex-col gap-[16px] w-full relative z-30">
         {/* Breadcrumb telemetry */}
         <div className="flex gap-[8px] items-center">
           <div className="bg-[#0db8d3] rounded-full size-[8px] animate-pulse" />
@@ -133,7 +160,7 @@ export default function PerbandinganView({
         {/* Control Bar with Selected Province Chips and Benchmark Toggle (Figma node 117:551) */}
         <div
           data-node-id="117:551"
-          className="backdrop-blur-[24px] bg-[rgba(3,34,50,0.6)] border border-white/10 flex flex-col gap-[16px] p-[16px] rounded-[16px] shadow-lg w-full"
+          className="backdrop-blur-[24px] bg-[rgba(3,34,50,0.6)] border border-white/10 flex flex-col gap-[16px] p-[16px] rounded-[16px] shadow-lg w-full relative z-30 overflow-visible"
         >
           {/* Row 1: Selected Chips */}
           <div className="flex flex-wrap gap-[12px] items-center">
@@ -174,7 +201,7 @@ export default function PerbandinganView({
             })}
 
             {/* Add Province Button */}
-            <div className="relative">
+            <div ref={pickerRef} className="relative z-40">
               <button
                 type="button"
                 onClick={() => setPickerOpen((prev) => !prev)}
@@ -187,7 +214,7 @@ export default function PerbandinganView({
               </button>
 
               {pickerOpen && (
-                <div className="absolute left-0 top-full mt-2 w-[280px] max-h-[320px] overflow-y-auto bg-[#001e2e] border border-white/15 rounded-2xl shadow-2xl p-2 z-50 flex flex-col gap-1 backdrop-blur-xl">
+                <div className="absolute left-0 top-full mt-2 w-[280px] max-h-[320px] overflow-y-auto bg-[#001e2e] border border-white/20 rounded-2xl shadow-2xl p-2 z-50 flex flex-col gap-1 backdrop-blur-xl">
                   {allProvinces.map((p) => {
                     const isAlready = selectedProvinceNames.includes(p.name);
                     return (
@@ -244,7 +271,7 @@ export default function PerbandinganView({
       {/* Section - Side-by-Side Comparison Matrix (3 Columns Grid) (Figma node 117:592) */}
       <section
         data-node-id="117:592"
-        className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-[24px] w-full"
+        className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-[24px] w-full relative z-10"
       >
         {selectedProvinces.map((prov, idx) => {
           const theme = CARD_THEMES[idx % CARD_THEMES.length];
@@ -424,7 +451,7 @@ export default function PerbandinganView({
           {showBenchmark && (
             <div
               className="absolute inset-x-0 border-t border-dashed border-[#4bd7f3]/50 pointer-events-none z-10"
-              style={{ bottom: '112px' }}
+              style={{ bottom: '124px' }}
             >
               <span className="absolute right-0 -top-5 font-mono-tech text-[10px] text-[#4bd7f3] bg-[#001e2e]/90 px-2 py-0.5 rounded">
                 Benchmark SDI: 68.4%
@@ -432,7 +459,7 @@ export default function PerbandinganView({
             </div>
           )}
 
-          <div className="grid grid-cols-7 gap-3 min-w-[700px] h-[240px] items-end pb-8">
+          <div className="grid grid-cols-7 gap-3 sm:gap-4 min-w-[800px] h-[260px] items-end pb-8">
             {CHART_ITEMS.map((item) => {
               return (
                 <div
@@ -443,34 +470,39 @@ export default function PerbandinganView({
                       : 'hover:bg-white/[0.02]'
                   }`}
                 >
-                  {/* Bars grouped per active province */}
-                  <div className="flex items-end justify-center gap-1.5 w-full h-[160px] pb-2">
+                  {/* Bars grouped per active province with generous spacing & anti-collision vertical stagger */}
+                  <div className="flex items-end justify-center gap-3 sm:gap-3.5 w-full h-[175px] pb-2 px-1">
                     {selectedProvinces.map((prov, pIdx) => {
                       const theme = CARD_THEMES[pIdx % CARD_THEMES.length];
-                      let val = prov.indicators?.[item.key]?.total;
-                      if (val === undefined) {
-                        // Fallback estimates for secondary chart indicators
-                        val =
-                          item.key === 'ruang_layak'
-                            ? Math.round(prov.overallScore * 0.96)
-                            : item.key === 'perpus_digital'
-                            ? Math.round(prov.overallScore * 0.9)
-                            : prov.overallScore;
-                      }
+                      const val = getIndicatorVal(prov, item.key);
+                      const displayVal = Number.isInteger(val) ? val : Number(val.toFixed(1));
                       const heightPercent = Math.min(100, Math.max(8, val));
+
+                      // Check if any neighboring bar in this group has a close value (< 4%)
+                      const hasCloseSibling = selectedProvinces.some((other, oIdx) => {
+                        if (oIdx === pIdx) return false;
+                        const otherVal = getIndicatorVal(other, item.key);
+                        return Math.abs(val - otherVal) < 4;
+                      });
+
+                      // When values are very close, elevate the middle/staggered label so they never collide
+                      const labelElevated = hasCloseSibling && pIdx % 2 === 1;
+
                       return (
                         <div
                           key={prov.name}
-                          className="flex flex-col items-center h-full justify-end flex-1 max-w-[20px]"
+                          className="flex flex-col items-center h-full justify-end w-[24px] sm:w-[26px] relative"
                         >
                           <span
-                            className="font-mono-tech text-[9px] mb-1 leading-none"
+                            className={`font-mono-tech text-[9.5px] font-semibold leading-none whitespace-nowrap transition-all duration-200 z-10 ${
+                              labelElevated ? 'mb-3.5' : 'mb-1'
+                            }`}
                             style={{ color: theme.dot }}
                           >
-                            {val}%
+                            {displayVal}%
                           </span>
                           <div
-                            className="w-full rounded-t-md transition-all duration-300"
+                            className="w-full rounded-t-md transition-all duration-300 shadow-sm"
                             style={{
                               height: `${heightPercent}%`,
                               backgroundColor: theme.dot

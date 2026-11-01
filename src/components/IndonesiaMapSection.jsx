@@ -213,7 +213,7 @@ export default function IndonesiaMapSection({
     <section
       id="peta-interaktif"
       data-node-id="117:145"
-      className="backdrop-blur-[40px] bg-[rgba(0,30,46,0.9)] flex flex-col items-start overflow-visible pb-[32px] pt-[48px] px-4 sm:px-8 relative rounded-[24px] shadow-[0px_25px_50px_-12px_rgba(0,0,0,0.35)] w-full max-w-[1216px] mx-auto border border-white/10"
+      className="backdrop-blur-[40px] bg-[rgba(0,30,46,0.9)] flex flex-col items-start overflow-visible pb-[32px] pt-[48px] px-4 sm:px-8 relative rounded-[24px] shadow-[0px_25px_50px_-12px_rgba(0,0,0,0.35)] w-full max-w-[1280px] mx-auto border border-white/10"
     >
       {/* Header Bar & Controls Inside Map Card (Figma node 117:146) */}
       <div className="flex flex-col lg:flex-row gap-4 items-start lg:items-center justify-between pb-[24px] w-full">

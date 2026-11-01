@@ -70,7 +70,7 @@ export default function DisparitasView({ onNavigate, onAddProvinceToCompare }) {
   return (
     <div
       data-node-id="117:998"
-      className="flex flex-col gap-[48px] items-center max-w-[1280px] mx-auto px-[32px] py-[24px] w-full"
+      className="flex flex-col gap-[48px] items-center max-w-[1280px] mx-auto px-4 sm:px-6 py-[24px] w-full"
     >
       {/* Top Breadcrumb & Page Header (Figma node 117:1003) */}
       <section data-node-id="117:1003" className="flex flex-col gap-[24px] w-full">

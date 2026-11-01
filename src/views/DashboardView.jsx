@@ -22,14 +22,14 @@ export default function DashboardView({ onNavigate, onAddProvinceToCompare, onOp
   const [selectedSector, setSelectedSector] = useState('total');
 
   return (
-    <div className="flex flex-col gap-[48px] items-center pt-[32px] sm:pt-[44px] relative w-full">
+    <div className="flex flex-col gap-[48px] items-center pt-[32px] sm:pt-[44px] relative w-full px-4 sm:px-6">
       {/* SECTION 1: HERO SECTION (Figma node 117:32) */}
       <section
         data-node-id="117:32"
-        className="flex flex-col items-center max-w-[1040px] px-4 w-full text-center"
+        className="flex flex-col items-center max-w-[1040px] w-full text-center"
       >
         {/* Live Data Telemetry Badge */}
-        <div data-node-id="117:33" className="flex flex-col items-start pb-[28px]">
+        <div data-node-id="117:33" className="flex flex-col items-center pb-[28px]">
           <div
             data-node-id="117:34"
             className="backdrop-blur-[12px] bg-[rgba(15,45,61,0.7)] flex gap-[10px] items-center px-[16px] py-[6px] rounded-[9999px] shadow-[0px_1px_2px_0px_rgba(0,0,0,0.05)] border border-white/10"
@@ -112,7 +112,7 @@ export default function DashboardView({ onNavigate, onAddProvinceToCompare, onOp
       {/* SECTION 2: 4 NATIONAL KPI CARDS (Figma node 117:76) */}
       <section
         data-node-id="117:76"
-        className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-[24px] max-w-[1216px] px-4 w-full"
+        className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-[24px] max-w-[1280px] w-full mx-auto"
       >
         {/* KPI 1: Rata-Rata Nasional */}
         <div

@@ -29,18 +29,12 @@ export default function App() {
   };
 
   return (
-    <div
-      className="min-h-screen text-[#cae6fc] flex flex-col relative selection:bg-[#0db8d3]/30 selection:text-[#4bd7f3]"
-      style={{
-        backgroundImage:
-          'linear-gradient(90deg, rgba(255, 255, 255, 0.03) 2.0833%, rgba(255, 255, 255, 0) 2.0833%), linear-gradient(90deg, rgb(0, 21, 34) 0%, rgb(0, 21, 34) 100%), linear-gradient(90deg, rgb(255, 255, 255) 0%, rgb(255, 255, 255) 100%)'
-      }}
-    >
-      {/* Dynamic Atmospheric Glow Orbs */}
+    <div className="min-h-screen text-[#cae6fc] bg-[#00101b] flex flex-col relative selection:bg-[#0db8d3]/30 selection:text-[#4bd7f3]">
+      {/* Dynamic Atmospheric Glow Orbs - Balanced Left & Right */}
       <div className="fixed inset-0 pointer-events-none overflow-hidden z-0">
-        <div className="absolute bg-[rgba(75,215,243,0.1)] blur-[130px] left-[320px] rounded-full size-[500px] top-[-160px]" />
-        <div className="absolute bg-[rgba(0,118,210,0.15)] blur-[150px] right-[-128px] rounded-full size-[600px] top-[266px]" />
-        <div className="absolute bg-[rgba(13,184,211,0.12)] blur-[140px] left-[33%] right-[17%] rounded-full h-[640px] top-[-160px]" />
+        <div className="absolute bg-[rgba(0,118,210,0.12)] blur-[150px] -left-[140px] rounded-full size-[550px] top-[180px]" />
+        <div className="absolute bg-[rgba(13,184,211,0.1)] blur-[140px] left-1/2 -translate-x-1/2 rounded-full size-[600px] top-[-160px]" />
+        <div className="absolute bg-[rgba(0,118,210,0.12)] blur-[150px] -right-[140px] rounded-full size-[550px] top-[180px]" />
       </div>
 
       {/* Navigation Header (Figma 117:507) */}
@@ -51,7 +45,7 @@ export default function App() {
       />
 
       {/* Main Content Area: STRICTLY 3 PAGES */}
-      <main className="flex-1 relative z-10">
+      <main className="flex-1 relative z-10 w-full">
         {activeTab === 'dashboard' && (
           <DashboardView
             onNavigate={setActiveTab}
