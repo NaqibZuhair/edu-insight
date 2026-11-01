@@ -1,27 +1,135 @@
-import { StrictMode } from 'react'
-import { createRoot } from 'react-dom/client'
-import 'leaflet/dist/leaflet.css' // Import CSS Leaflet di sini
-import './index.css'
-import App from './App.jsx'
-
-createRoot(document.getElementById('root')).render(
-  <StrictMode>
-    <App />
-  </StrictMode>,
-)
+import { useState } from 'react';
+import Navbar from './components/Navbar';
+import Footer from './components/Footer';
+import DashboardView from './views/DashboardView';
+import PerbandinganView from './views/PerbandinganView';
+import DisparitasView from './views/DisparitasView';
+import { X } from 'lucide-react';
 
 export default function App() {
+  const [activeTab, setActiveTab] = useState('dashboard');
+  const [methodologyOpen, setMethodologyOpen] = useState(false);
+  const [selectedProvinceNames, setSelectedProvinceNames] = useState([
+    'DKI Jakarta',
+    'DI Yogyakarta',
+    'Papua Pegunungan'
+  ]);
+
+  const handleAddProvinceToCompare = (provName) => {
+    if (!provName) return;
+    setSelectedProvinceNames((prev) => {
+      if (prev.some((n) => n.toLowerCase() === provName.toLowerCase())) {
+        return prev;
+      }
+      if (prev.length < 3) {
+        return [...prev, provName];
+      }
+      return [prev[0], prev[1], provName];
+    });
+  };
+
   return (
-    <div className="min-h-screen bg-slate-900 text-white flex flex-col items-center justify-center p-6">
-      <div className="bg-slate-800 p-8 rounded-2xl shadow-xl border border-slate-700 text-center max-w-md">
-        <h1 className="text-3xl font-bold text-sky-400 mb-2">EduInsight</h1>
-        <p className="text-slate-300 mb-4">
-          Tailwind CSS v4 & React Berhasil Terhubung!
-        </p>
-        <span className="inline-block bg-sky-500/20 text-sky-300 px-4 py-1.5 rounded-full text-sm font-medium border border-sky-500/30">
-          Ready for WIA 2026
-        </span>
+    <div
+      className="min-h-screen text-[#cae6fc] flex flex-col relative selection:bg-[#0db8d3]/30 selection:text-[#4bd7f3]"
+      style={{
+        backgroundImage:
+          'linear-gradient(90deg, rgba(255, 255, 255, 0.03) 2.0833%, rgba(255, 255, 255, 0) 2.0833%), linear-gradient(90deg, rgb(0, 21, 34) 0%, rgb(0, 21, 34) 100%), linear-gradient(90deg, rgb(255, 255, 255) 0%, rgb(255, 255, 255) 100%)'
+      }}
+    >
+      {/* Dynamic Atmospheric Glow Orbs */}
+      <div className="fixed inset-0 pointer-events-none overflow-hidden z-0">
+        <div className="absolute bg-[rgba(75,215,243,0.1)] blur-[130px] left-[320px] rounded-full size-[500px] top-[-160px]" />
+        <div className="absolute bg-[rgba(0,118,210,0.15)] blur-[150px] right-[-128px] rounded-full size-[600px] top-[266px]" />
+        <div className="absolute bg-[rgba(13,184,211,0.12)] blur-[140px] left-[33%] right-[17%] rounded-full h-[640px] top-[-160px]" />
       </div>
+
+      {/* Navigation Header (Figma 117:507) */}
+      <Navbar
+        activeTab={activeTab}
+        setActiveTab={setActiveTab}
+        onOpenMethodology={() => setMethodologyOpen(true)}
+      />
+
+      {/* Main Content Area: STRICTLY 3 PAGES */}
+      <main className="flex-1 relative z-10">
+        {activeTab === 'dashboard' && (
+          <DashboardView
+            onNavigate={setActiveTab}
+            onAddProvinceToCompare={handleAddProvinceToCompare}
+            onOpenMethodology={() => setMethodologyOpen(true)}
+          />
+        )}
+
+        {activeTab === 'perbandingan' && (
+          <PerbandinganView
+            selectedProvinceNames={selectedProvinceNames}
+            setSelectedProvinceNames={setSelectedProvinceNames}
+            onNavigate={setActiveTab}
+          />
+        )}
+
+        {activeTab === 'disparitas' && (
+          <DisparitasView
+            onNavigate={setActiveTab}
+            onAddProvinceToCompare={handleAddProvinceToCompare}
+          />
+        )}
+      </main>
+
+      {/* Methodology SDI Modal Overlay */}
+      {methodologyOpen && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/75 backdrop-blur-md">
+          <div className="bg-[#001e2e] border border-white/15 rounded-2xl max-w-2xl w-full p-6 sm:p-8 relative shadow-2xl text-left">
+            <button
+              type="button"
+              onClick={() => setMethodologyOpen(false)}
+              className="absolute top-5 right-5 text-[#869397] hover:text-white p-1 rounded-full transition-colors cursor-pointer"
+            >
+              <X className="w-5 h-5" />
+            </button>
+            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#0db8d3]/20 border border-[#0db8d3]/30 mb-4">
+              <span className="w-2 h-2 rounded-full bg-[#0db8d3]" />
+              <span className="font-mono-tech text-[10px] text-[#4bd7f3] uppercase tracking-wider">
+                METODOLOGI SDI 2023
+              </span>
+            </div>
+            <h3 className="font-space font-bold text-2xl text-[#cae6fc] mb-3">
+              Standar Pengukuran &amp; Validasi Data
+            </h3>
+            <p className="font-geist text-sm text-[#bcc9cd] leading-relaxed mb-4">
+              Indikator Kesiapan Sarana &amp; Prasarana Pendidikan EduInsight dihitung dari data resmi
+              Satu Data Indonesia (SDI) 2023 Kemendikdasmen di 38 provinsi mencakup seluruh jenjang
+              pendidikan formal (SD, SMP, SMA, SMK, dan SLB).
+            </p>
+            <div className="space-y-3 font-geist text-xs text-[#cae6fc] bg-[#001522] p-4 rounded-xl border border-white/5 mb-6">
+              <p>
+                <strong>1. Skor Komposit Kesiapan:</strong> Rata-rata terbobot dari 5 variabel kunci:
+                Akses Lab Komputer (25%), Internet Stabil (25%), Aliran Listrik 24 Jam (20%), Sanitasi
+                &amp; Air Bersih (15%), dan Guru D4/S1 Bersertifikasi (15%).
+              </p>
+              <p>
+                <strong>2. Analisis Disparitas:</strong> Perhitungan selisih absolut dan persentase gap
+                antara satuan pendidikan negeri dan swasta per provinsi, serta korelasi regresi
+                terhadap Indeks Pembangunan Manusia (IPM) BPS.
+              </p>
+              <p>
+                <strong>3. Wilayah Prioritas 3T:</strong> Klasifikasi daerah Terdepan, Terluar, dan
+                Tertinggal berdasarkan Perpres untuk alokasi DAK Fisik Afirmasi.
+              </p>
+            </div>
+            <button
+              type="button"
+              onClick={() => setMethodologyOpen(false)}
+              className="w-full py-2.5 rounded-full bg-[#0db8d3] hover:bg-[#4bd7f3] text-[#00363f] font-geist font-semibold text-sm transition-all cursor-pointer text-center"
+            >
+              Tutup Ringkasan Metodologi
+            </button>
+          </div>
+        </div>
+      )}
+
+      {/* Shared Footer (Figma 117:491) */}
+      <Footer onNavigate={setActiveTab} />
     </div>
   );
 }
