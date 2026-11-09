@@ -29,7 +29,7 @@ export default function App() {
   };
 
   return (
-    <div className="min-h-screen text-[#cae6fc] bg-[#00101b] flex flex-col relative selection:bg-[#0db8d3]/30 selection:text-[#4bd7f3]">
+    <div className="min-h-screen text-[#cae6fc] bg-[#00101b] flex flex-col relative selection:bg-[#0db8d3]/30 selection:text-[#4bd7f3] overflow-x-hidden">
       {/* Dynamic Atmospheric Glow Orbs - Balanced Left & Right */}
       <div className="fixed inset-0 pointer-events-none overflow-hidden z-0">
         <div className="absolute bg-[rgba(0,118,210,0.12)] blur-[150px] -left-[140px] rounded-full size-[550px] top-[180px]" />
@@ -72,12 +72,19 @@ export default function App() {
 
       {/* Methodology SDI Modal Overlay */}
       {methodologyOpen && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/75 backdrop-blur-md">
-          <div className="bg-[#001e2e] border border-white/15 rounded-2xl max-w-2xl w-full p-6 sm:p-8 relative shadow-2xl text-left">
+        <div
+          role="dialog"
+          aria-modal="true"
+          aria-labelledby="metodologi-modal-title"
+          className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/75 backdrop-blur-md"
+        >
+          <div className="bg-[#001e2e] border border-white/15 rounded-2xl max-w-2xl w-full max-h-[90vh] overflow-y-auto p-5 sm:p-8 relative shadow-2xl text-left">
             <button
               type="button"
               onClick={() => setMethodologyOpen(false)}
-              className="absolute top-5 right-5 text-[#869397] hover:text-white p-1 rounded-full transition-colors cursor-pointer"
+              aria-label="Tutup ringkasan metodologi"
+              title="Tutup ringkasan metodologi"
+              className="absolute top-3 right-3 sm:top-5 sm:right-5 text-[#869397] hover:text-white min-w-[44px] min-h-[44px] flex items-center justify-center rounded-full transition-colors cursor-pointer"
             >
               <X className="w-5 h-5" />
             </button>
@@ -87,7 +94,10 @@ export default function App() {
                 METODOLOGI SDI 2023
               </span>
             </div>
-            <h3 className="font-space font-bold text-2xl text-[#cae6fc] mb-3">
+            <h3
+              id="metodologi-modal-title"
+              className="font-space font-bold text-xl sm:text-2xl text-[#cae6fc] mb-3 pr-8"
+            >
               Standar Pengukuran &amp; Validasi Data
             </h3>
             <p className="font-geist text-sm text-[#bcc9cd] leading-relaxed mb-4">
@@ -102,9 +112,9 @@ export default function App() {
                 &amp; Air Bersih (15%), dan Guru D4/S1 Bersertifikasi (15%).
               </p>
               <p>
-                <strong>2. Analisis Disparitas:</strong> Perhitungan selisih absolut dan persentase gap
-                antara satuan pendidikan negeri dan swasta per provinsi, serta korelasi regresi
-                terhadap Indeks Pembangunan Manusia (IPM) BPS.
+                <strong>2. Analisis Disparitas:</strong> Perhitungan selisih absolut dan persentase
+                kesenjangan antara satuan pendidikan negeri dan swasta per provinsi, serta korelasi
+                regresi terhadap Indeks Pembangunan Manusia (IPM) BPS.
               </p>
               <p>
                 <strong>3. Wilayah Prioritas 3T:</strong> Klasifikasi daerah Terdepan, Terluar, dan
@@ -114,7 +124,7 @@ export default function App() {
             <button
               type="button"
               onClick={() => setMethodologyOpen(false)}
-              className="w-full py-2.5 rounded-full bg-[#0db8d3] hover:bg-[#4bd7f3] text-[#00363f] font-geist font-semibold text-sm transition-all cursor-pointer text-center"
+              className="w-full min-h-[44px] py-2.5 rounded-full bg-[#0db8d3] hover:bg-[#4bd7f3] text-[#00363f] font-geist font-semibold text-sm transition-all cursor-pointer text-center"
             >
               Tutup Ringkasan Metodologi
             </button>

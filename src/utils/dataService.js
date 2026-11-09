@@ -57,7 +57,7 @@ export const INDICATORS_META = {
     label: 'Indeks Pembangunan Manusia (IPM)',
     shortLabel: 'IPM',
     pillLabel: 'IPM Daerah',
-    unit: 'pt',
+    unit: 'poin',
     description: 'Indeks Pembangunan Manusia provinsi menurut Badan Pusat Statistik (BPS).'
   },
   aps_13_15: {

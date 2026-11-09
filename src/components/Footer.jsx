@@ -4,9 +4,9 @@ export default function Footer({ onNavigate }) {
   return (
     <footer
       data-node-id="166:1789"
-      className="backdrop-blur-[12px] bg-[rgba(0,16,27,0.85)] border-t border-[rgba(255,255,255,0.1)] w-full mt-16"
+      className="backdrop-blur-[12px] bg-[rgba(0,16,27,0.85)] border-t border-[rgba(255,255,255,0.1)] w-full mt-12 sm:mt-16"
     >
-      <div className="max-w-[1280px] mx-auto px-6 sm:px-12 py-10 flex flex-col md:flex-row items-start md:items-center justify-between gap-8">
+      <div className="max-w-[1280px] mx-auto px-4 md:px-6 lg:px-8 py-8 sm:py-10 grid grid-cols-1 md:grid-cols-2 lg:flex lg:flex-row items-start md:items-center justify-between gap-6 sm:gap-8">
         {/* Left Brand & Description */}
         <div className="flex items-start sm:items-center gap-4">
           <button
@@ -15,17 +15,18 @@ export default function Footer({ onNavigate }) {
               if (onNavigate) onNavigate('dashboard');
               window.scrollTo({ top: 0, behavior: 'smooth' });
             }}
-            className="w-[72px] h-[54px] shrink-0 cursor-pointer group"
+            aria-label="Kembali ke beranda Dasbor EduInsight Indonesia"
+            className="w-[64px] sm:w-[72px] min-h-[48px] h-[54px] shrink-0 cursor-pointer group"
           >
             <img
               src={LOGO_FOOTER}
-              alt="EduInsight Indonesia"
+              alt="Logo EduInsight Indonesia"
               className="w-full h-full object-contain transition-transform duration-300 group-hover:scale-105"
             />
           </button>
           <div className="flex flex-col gap-1">
-            <div className="flex items-center gap-2">
-              <span className="font-space font-bold text-[#cae6fc] text-[20px] leading-[28px] tracking-[-0.5px]">
+            <div className="flex flex-wrap items-center gap-2">
+              <span className="font-space font-bold text-[#cae6fc] text-[18px] sm:text-[20px] leading-[28px] tracking-[-0.5px]">
                 EduInsight Indonesia
               </span>
               <span className="bg-[#0f2d3d] border border-[rgba(255,255,255,0.1)] px-[9px] py-[3px] rounded-full font-mono-tech font-medium text-[#4bd7f3] text-[10px] leading-[14px] tracking-[0.8px]">

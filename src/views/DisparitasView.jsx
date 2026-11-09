@@ -3,6 +3,7 @@ import {
   getDisparityAnalytics,
   exportDatasetToCSV
 } from '../utils/dataService';
+import { formatNumberID, formatPercentID } from '../constants/labels';
 import { ArrowUpRight } from 'lucide-react';
 
 // Exact Figma assets from steps/82, steps/48, steps/84, steps/85
@@ -58,7 +59,6 @@ export default function DisparitasView({ onNavigate, onAddProvinceToCompare }) {
     );
   }, [analytics, selectedScatterProvince]);
 
-  // Exact 5 rows for Section 1 as in Figma node 117:1089
   const top5Rows = useMemo(() => {
     return analytics.top5Disparity.slice(0, 5);
   }, [analytics]);
@@ -70,14 +70,14 @@ export default function DisparitasView({ onNavigate, onAddProvinceToCompare }) {
   return (
     <div
       data-node-id="117:998"
-      className="flex flex-col gap-[48px] items-center max-w-[1280px] mx-auto px-4 sm:px-6 py-[24px] w-full"
+      className="flex flex-col gap-[36px] sm:gap-[48px] items-center max-w-[1280px] mx-auto px-4 md:px-6 lg:px-8 py-[20px] sm:py-[24px] w-full"
     >
       {/* Top Breadcrumb & Page Header (Figma node 117:1003) */}
-      <section data-node-id="117:1003" className="flex flex-col gap-[24px] w-full">
+      <section data-node-id="117:1003" className="flex flex-col gap-[20px] sm:gap-[24px] w-full">
         {/* Breadcrumb */}
-        <div className="flex gap-[8px] items-center">
+        <div className="flex flex-wrap gap-[8px] items-center">
           <div className="backdrop-blur-[12px] bg-[rgba(15,45,61,0.8)] border border-white/10 flex items-center gap-[8px] px-[12px] py-[4px] rounded-full">
-            <div className="bg-[#0db8d3] rounded-full size-[6px] animate-pulse" />
+            <div className="bg-[#0db8d3] rounded-full size-[6px] animate-pulse shrink-0" />
             <span className="font-mono-tech font-medium text-[#4bd7f3] text-[10px] tracking-[0.5px] uppercase">
               ANALISIS DISPARITAS &amp; KORELASI SOSIO-EKONOMI · DATA SDI 2023
             </span>
@@ -89,22 +89,22 @@ export default function DisparitasView({ onNavigate, onAddProvinceToCompare }) {
         </div>
 
         {/* Title & Action Buttons */}
-        <div className="flex flex-col lg:flex-row lg:items-end justify-between gap-6 w-full">
+        <div className="flex flex-col lg:flex-row lg:items-end justify-between gap-5 sm:gap-6 w-full">
           <div className="flex flex-col gap-[8px]">
-            <h1 className="font-space font-bold text-[#cae6fc] text-[28px] sm:text-[44px] lg:text-[56px] leading-[1.14] tracking-[1.5px] uppercase max-w-[800px]">
+            <h1 className="font-space font-bold text-[#cae6fc] text-2xl sm:text-4xl lg:text-[52px] leading-[1.14] tracking-[1px] sm:tracking-[1.5px] uppercase max-w-[800px]">
               DISPARITAS SEKOLAH NEGERI VS SWASTA
             </h1>
-            <p className="font-geist font-normal text-[#bcc9cd] text-[15px] sm:text-[16px] leading-[26px] max-w-[740px]">
+            <p className="font-geist font-normal text-[#bcc9cd] text-sm sm:text-base leading-[24px] sm:leading-[26px] max-w-[740px]">
               Evaluasi kesenjangan pemenuhan sarana dan prasarana antara sekolah negeri dan swasta di
               38 provinsi, serta korelasinya terhadap Indeks Pembangunan Manusia (IPM).
             </p>
           </div>
 
-          <div className="flex items-center gap-[12px] self-start lg:self-auto shrink-0">
+          <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-2.5 sm:gap-[12px] w-full sm:w-auto self-start lg:self-auto shrink-0">
             <button
               type="button"
               onClick={handlePrint}
-              className="bg-[rgba(28,56,73,0.6)] hover:bg-[rgba(28,56,73,0.9)] transition-colors border border-white/10 flex items-center gap-[8px] px-[16px] py-[8px] rounded-full text-xs font-mono-tech text-[#cae6fc] cursor-pointer"
+              className="bg-[rgba(28,56,73,0.6)] hover:bg-[rgba(28,56,73,0.9)] transition-colors border border-white/10 flex items-center justify-center gap-[8px] px-[16px] py-[10px] min-h-[44px] rounded-full text-xs font-mono-tech text-[#cae6fc] cursor-pointer"
             >
               <img src={ICON_PRINT} alt="" className="size-[14px]" />
               <span>Cetak Ringkasan</span>
@@ -112,10 +112,10 @@ export default function DisparitasView({ onNavigate, onAddProvinceToCompare }) {
             <button
               type="button"
               onClick={() => exportDatasetToCSV('disparitas-negeri-swasta-sdi.csv')}
-              className="bg-[#0db8d3] hover:bg-[#4bd7f3] text-[#00444f] transition-colors flex items-center gap-[8px] px-[18px] py-[8px] rounded-full text-xs font-mono-tech font-bold cursor-pointer shadow-[0_0_12px_rgba(13,184,211,0.35)]"
+              className="bg-[#0db8d3] hover:bg-[#4bd7f3] text-[#00444f] transition-colors flex items-center justify-center gap-[8px] px-[18px] py-[10px] min-h-[44px] rounded-full text-xs font-mono-tech font-bold cursor-pointer shadow-[0_0_12px_rgba(13,184,211,0.35)]"
             >
               <img src={ICON_EXPORT} alt="" className="size-[12px]" />
-              <span>Ekspor Dataset</span>
+              <span>Unduh Data (.CSV)</span>
             </button>
           </div>
         </div>
@@ -123,7 +123,9 @@ export default function DisparitasView({ onNavigate, onAddProvinceToCompare }) {
         {/* Filter / Indicator Selector Pill Tabs (Figma node 117:1029) */}
         <div
           data-node-id="117:1029"
-          className="flex flex-wrap gap-[8px] items-center pt-2 w-full"
+          role="tablist"
+          aria-label="Pilih indikator analisis disparitas"
+          className="flex flex-wrap gap-2 items-center pt-1 w-full"
         >
           {INDICATOR_TABS.map((tab) => {
             const isActive = selectedIndicator === tab.key;
@@ -131,14 +133,16 @@ export default function DisparitasView({ onNavigate, onAddProvinceToCompare }) {
               <button
                 key={tab.key}
                 type="button"
+                role="tab"
+                aria-selected={isActive}
                 onClick={() => setSelectedIndicator(tab.key)}
-                className={`flex items-center gap-[8px] px-[16px] py-[8px] rounded-full transition-all cursor-pointer ${
+                className={`flex items-center gap-[8px] px-[14px] sm:px-[16px] py-[10px] min-h-[44px] rounded-full transition-all cursor-pointer w-full sm:w-auto justify-start sm:justify-center ${
                   isActive
-                    ? 'bg-[#0db8d3] text-[#00444f] font-geist font-semibold text-[14px] shadow-[0_0_12px_rgba(13,184,211,0.3)]'
-                    : 'bg-[rgba(15,45,61,0.5)] hover:bg-[rgba(15,45,61,0.8)] border border-white/5 text-[#bcc9cd] font-geist text-[13px]'
+                    ? 'bg-[#0db8d3] text-[#00444f] font-geist font-semibold text-xs sm:text-[14px] shadow-[0_0_12px_rgba(13,184,211,0.3)]'
+                    : 'bg-[rgba(15,45,61,0.5)] hover:bg-[rgba(15,45,61,0.8)] border border-white/5 text-[#bcc9cd] font-geist text-xs sm:text-[13px]'
                 }`}
               >
-                <img src={tab.icon} alt="" className="size-[14px]" />
+                <img src={tab.icon} alt="" className="size-[14px] shrink-0" />
                 <span>{tab.label}</span>
               </button>
             );
@@ -148,16 +152,16 @@ export default function DisparitasView({ onNavigate, onAddProvinceToCompare }) {
         {/* KPI Telemetry Bar (Figma node 117:1055) */}
         <div
           data-node-id="117:1055"
-          className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-[16px] w-full pt-2"
+          className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 w-full pt-2"
         >
-          {/* Card 1: Rata-Rata Gap Nasional */}
+          {/* Card 1: Rata-Rata Kesenjangan Nasional */}
           <div className="backdrop-blur-[24px] bg-[rgba(15,45,61,0.6)] border border-white/10 flex flex-col justify-between p-[16px] rounded-[16px] shadow-lg">
             <span className="font-mono-tech font-medium text-[#869397] text-[10px] tracking-[0.5px] uppercase">
-              RATA-RATA GAP NASIONAL
+              RATA-RATA KESENJANGAN NASIONAL
             </span>
             <div className="flex items-baseline gap-2 py-2">
               <span className="font-space font-bold text-[#4bd7f3] text-[28px] leading-tight">
-                +{analytics.nationalGap}%
+                +{formatPercentID(analytics.nationalGap)}
               </span>
               <span className="font-mono-tech font-medium text-[#bcc9cd] text-[11px]">
                 Negeri Unggul
@@ -178,15 +182,15 @@ export default function DisparitasView({ onNavigate, onAddProvinceToCompare }) {
             </span>
             <div className="flex items-baseline gap-2 py-2">
               <span className="font-space font-bold text-[#ffb4ab] text-[28px] leading-tight">
-                +{analytics.highestDisparity?.gap}%
+                +{formatPercentID(analytics.highestDisparity?.gap)}
               </span>
-              <span className="font-mono-tech font-medium text-[#cae6fc] text-[12px]">
+              <span className="font-mono-tech font-medium text-[#cae6fc] text-[12px] truncate">
                 {analytics.highestDisparity?.name}
               </span>
             </div>
             <span className="font-mono-tech text-[#bcc9cd] text-[11px]">
-              Negeri: {analytics.highestDisparity?.negeri}% · Swasta:{' '}
-              {analytics.highestDisparity?.swasta}%
+              Negeri: {formatPercentID(analytics.highestDisparity?.negeri)} · Swasta:{' '}
+              {formatPercentID(analytics.highestDisparity?.swasta)}
             </span>
           </div>
 
@@ -197,14 +201,14 @@ export default function DisparitasView({ onNavigate, onAddProvinceToCompare }) {
             </span>
             <div className="flex items-baseline gap-2 py-2">
               <span className="font-space font-bold text-[#a4c9ff] text-[28px] leading-tight">
-                {analytics.regression?.r}
+                {formatNumberID(analytics.regression?.r, 3)}
               </span>
               <span className="font-mono-tech font-medium text-[#bcc9cd] text-[11px]">
                 Kuat Positif
               </span>
             </div>
             <span className="font-mono-tech text-[#bcc9cd] text-[11px]">
-              p-value &lt; 0.001 (Signifikan)
+              nilai-p &lt; 0,001 (Signifikan)
             </span>
           </div>
 
@@ -215,41 +219,41 @@ export default function DisparitasView({ onNavigate, onAddProvinceToCompare }) {
             </span>
             <div className="flex items-baseline gap-2 py-2">
               <span className="font-space font-bold text-[#4bd7f3] text-[28px] leading-tight">
-                {analytics.regression?.r2}
+                {formatNumberID(analytics.regression?.r2, 3)}
               </span>
               <span className="font-mono-tech font-medium text-[#bcc9cd] text-[11px]">
                 Varians Terjelaskan
               </span>
             </div>
             <span className="font-mono-tech text-[#bcc9cd] text-[11px]">
-              {Math.round(analytics.regression?.r2 * 100)}% IPM berkorelasi dgn TIK
+              {Math.round(analytics.regression?.r2 * 100)}% IPM berkorelasi dengan TIK
             </span>
           </div>
         </div>
       </section>
 
-      {/* SECTION 1: Top 5 Disparity Ranking Cards (Figma node 117:1089) */}
+      {/* SECTION 1: 5 Provinsi Kesenjangan Tertinggi (Figma node 117:1089) */}
       <section
         data-node-id="117:1089"
-        className="backdrop-blur-[24px] bg-[rgba(3,34,50,0.7)] border border-white/10 flex flex-col gap-[24px] p-[32px] rounded-[24px] shadow-xl w-full"
+        className="backdrop-blur-[24px] bg-[rgba(3,34,50,0.7)] border border-white/10 flex flex-col gap-[20px] sm:gap-[24px] p-4 sm:p-6 lg:p-[32px] rounded-[24px] shadow-xl w-full"
       >
         <div className="flex flex-col md:flex-row md:items-end justify-between gap-4 w-full">
           <div>
             <div className="bg-[#032232] inline-flex px-[10px] py-[3px] rounded-full border border-white/5 mb-2">
               <span className="font-mono-tech font-medium text-[#4bd7f3] text-[10px] tracking-[1px] uppercase">
-                RANKING DISPARITAS
+                PERINGKAT DISPARITAS
               </span>
             </div>
-            <h2 className="font-space font-bold text-[#cae6fc] text-[28px] leading-[36px]">
-              Top 5 Kesenjangan Tertinggi (|Negeri - Swasta|)
+            <h2 className="font-space font-bold text-[#cae6fc] text-xl sm:text-[28px] leading-snug sm:leading-[36px]">
+              5 Provinsi Kesenjangan Tertinggi (|Negeri - Swasta|)
             </h2>
-            <p className="font-geist text-[#bcc9cd] text-[14px] mt-1">
+            <p className="font-geist text-[#bcc9cd] text-xs sm:text-[14px] mt-1">
               Provinsi dengan disparitas paling lebar dalam ketersediaan fasilitas komputer sekolah
               antara satuan pendidikan negeri dan swasta.
             </p>
           </div>
 
-          <div className="flex items-center gap-[20px] self-start md:self-auto shrink-0">
+          <div className="flex flex-wrap items-center gap-4 sm:gap-[20px] self-start md:self-auto shrink-0">
             <div className="flex items-center gap-2">
               <div className="size-[10px] rounded-sm bg-[#4bd7f3]" />
               <span className="font-mono-tech text-xs text-[#bcc9cd]">Negeri (SD/SMP/SMA)</span>
@@ -279,17 +283,17 @@ export default function DisparitasView({ onNavigate, onAddProvinceToCompare }) {
             return (
               <div
                 key={row.name}
-                className="bg-[rgba(15,45,61,0.5)] border border-white/5 hover:border-[#4bd7f3]/30 transition-all flex flex-col md:flex-row items-start md:items-center justify-between p-[20px] rounded-[16px] gap-4"
+                className="bg-[rgba(15,45,61,0.5)] border border-white/5 hover:border-[#4bd7f3]/30 transition-all flex flex-col lg:flex-row items-start lg:items-center justify-between p-4 sm:p-[20px] rounded-[16px] gap-4"
               >
                 {/* Left Rank & Province Name */}
-                <div className="flex items-center gap-4 min-w-[240px]">
+                <div className="flex items-center gap-3.5 sm:gap-4 w-full lg:w-auto lg:min-w-[230px]">
                   <div className="bg-[rgba(0,16,27,0.7)] border border-white/10 rounded-full size-[40px] flex items-center justify-center shrink-0">
                     <span className="font-mono-tech font-bold text-[#4bd7f3] text-[16px]">
                       {rankStr}
                     </span>
                   </div>
-                  <div>
-                    <h3 className="font-space font-semibold text-[#cae6fc] text-[18px]">
+                  <div className="min-w-0">
+                    <h3 className="font-space font-semibold text-[#cae6fc] text-base sm:text-[18px] truncate">
                       {row.name}
                     </h3>
                     <span className="font-mono-tech font-medium text-[#869397] text-[10px] tracking-[0.5px]">
@@ -299,20 +303,20 @@ export default function DisparitasView({ onNavigate, onAddProvinceToCompare }) {
                 </div>
 
                 {/* Center Stats & Divergence Track */}
-                <div className="flex flex-col sm:flex-row items-start sm:items-center gap-6 flex-1 w-full max-w-[620px]">
+                <div className="flex flex-col sm:flex-row items-start sm:items-center gap-4 sm:gap-6 flex-1 w-full lg:max-w-[620px]">
                   {/* Negeri vs Swasta numbers */}
                   <div className="flex items-center gap-4 shrink-0">
                     <div className="flex flex-col">
                       <span className="font-mono-tech text-[10px] text-[#869397]">Negeri</span>
-                      <span className="font-mono-tech font-bold text-[#4bd7f3] text-[18px]">
-                        {row.negeri.toFixed(2)}%
+                      <span className="font-mono-tech font-bold text-[#4bd7f3] text-base sm:text-[18px]">
+                        {formatPercentID(row.negeri, 2)}
                       </span>
                     </div>
-                    <span className="text-[#869397] text-sm">vs</span>
+                    <span className="text-[#869397] text-xs font-mono-tech">vs</span>
                     <div className="flex flex-col">
                       <span className="font-mono-tech text-[10px] text-[#869397]">Swasta</span>
-                      <span className="font-mono-tech font-bold text-[#a4c9ff] text-[18px]">
-                        {row.swasta.toFixed(2)}%
+                      <span className="font-mono-tech font-bold text-[#a4c9ff] text-base sm:text-[18px]">
+                        {formatPercentID(row.swasta, 2)}
                       </span>
                     </div>
                   </div>
@@ -321,28 +325,30 @@ export default function DisparitasView({ onNavigate, onAddProvinceToCompare }) {
                   <div className="flex flex-col gap-1 w-full flex-1">
                     <div className="flex items-center justify-between text-[10px] font-mono-tech">
                       <span className="text-[#bcc9cd]">Divergensi Sarana</span>
-                      <span className="text-[#4bd7f3]">Gap: {row.gap.toFixed(2)} pp</span>
+                      <span className="text-[#4bd7f3]">
+                        Selisih: {formatNumberID(row.gap, 2)} poin
+                      </span>
                     </div>
                     <div className="h-[12px] bg-[rgba(0,16,27,0.8)] rounded-full overflow-hidden flex w-full p-0.5">
                       <div
                         className="bg-[#0076d2] h-full rounded-l-full"
                         style={{ width: `${Math.min(100, row.swasta)}%` }}
-                        title={`Swasta: ${row.swasta}%`}
+                        title={`Swasta: ${formatPercentID(row.swasta, 2)}`}
                       />
                       <div
                         className="bg-[#4bd7f3] h-full rounded-r-full shadow-[0_0_8px_#4bd7f3]"
                         style={{ width: `${Math.min(100, row.gap)}%` }}
-                        title={`Gap Dominan: +${row.gap}%`}
+                        title={`Selisih Dominan: +${formatPercentID(row.gap, 2)}`}
                       />
                     </div>
                   </div>
                 </div>
 
                 {/* Right Dominance Badge */}
-                <div className="flex items-center gap-3 shrink-0 self-end md:self-auto">
+                <div className="flex items-center justify-between sm:justify-end gap-3 w-full lg:w-auto shrink-0">
                   <div className="bg-[rgba(13,184,211,0.12)] border border-[rgba(75,215,243,0.3)] px-[12px] py-[6px] rounded-full flex items-center gap-1.5">
                     <span className="font-mono-tech font-bold text-[#4bd7f3] text-[11px] whitespace-nowrap">
-                      ↗ +{row.gap.toFixed(2)}% Negeri Dominan
+                      ↗ +{formatPercentID(row.gap, 2)} Negeri Dominan
                     </span>
                   </div>
                   {onAddProvinceToCompare && (
@@ -352,8 +358,9 @@ export default function DisparitasView({ onNavigate, onAddProvinceToCompare }) {
                         onAddProvinceToCompare(row.name);
                         if (onNavigate) onNavigate('perbandingan');
                       }}
-                      className="size-[36px] rounded-full bg-[rgba(15,45,61,0.8)] border border-white/10 flex items-center justify-center hover:bg-[#0db8d3] hover:text-[#00363f] transition-all cursor-pointer"
+                      aria-label={`Bandingkan provinsi ${row.name}`}
                       title={`Bandingkan ${row.name}`}
+                      className="min-w-[44px] min-h-[44px] rounded-full bg-[rgba(15,45,61,0.8)] border border-white/10 flex items-center justify-center hover:bg-[#0db8d3] hover:text-[#00363f] transition-all cursor-pointer shrink-0"
                     >
                       <ArrowUpRight className="size-4" />
                     </button>
@@ -367,15 +374,15 @@ export default function DisparitasView({ onNavigate, onAddProvinceToCompare }) {
         {/* Anomaly Card: DI Yogyakarta (Swasta Dominan) (Figma node 117:1309) */}
         <div
           data-node-id="117:1309"
-          className="bg-[rgba(15,45,61,0.6)] border border-white/10 flex flex-col md:flex-row items-start md:items-center justify-between p-[16px] rounded-[16px] gap-4"
+          className="bg-[rgba(15,45,61,0.6)] border border-white/10 flex flex-col md:flex-row items-start md:items-center justify-between p-4 rounded-[16px] gap-4"
         >
           <div className="flex items-start gap-3">
-            <span className="text-[#4bd7f3] text-base mt-0.5">ⓘ</span>
+            <span className="text-[#4bd7f3] text-base mt-0.5 shrink-0">ⓘ</span>
             <p className="font-geist text-xs text-[#bcc9cd] leading-relaxed max-w-[960px]">
               <strong className="text-[#4bd7f3]">Kontras Terbalik:</strong> DI Yogyakarta
-              mencatatkan kesenjangan negatif di mana swasta justru mengungguli negeri (-0.45% Swasta
-              Dominan; Negeri: 90.15% vs Swasta: 90.60%). DKI Jakarta berada pada selisih terendah
-              (+2.10%).
+              mencatatkan kesenjangan negatif di mana swasta justru mengungguli negeri (-0,45% Swasta
+              Dominan; Negeri: 90,15% vs Swasta: 90,60%). DKI Jakarta berada pada selisih terendah
+              (+2,10%).
             </p>
           </div>
           <button
@@ -384,7 +391,7 @@ export default function DisparitasView({ onNavigate, onAddProvinceToCompare }) {
               if (onAddProvinceToCompare) onAddProvinceToCompare('DI Yogyakarta');
               if (onNavigate) onNavigate('perbandingan');
             }}
-            className="bg-[#1c3849] hover:bg-[#0db8d3] hover:text-[#00363f] transition-all px-4 py-1.5 rounded-full font-mono-tech text-xs text-[#cae6fc] whitespace-nowrap cursor-pointer border border-white/10 self-end md:self-auto"
+            className="w-full md:w-auto min-h-[44px] bg-[#1c3849] hover:bg-[#0db8d3] hover:text-[#00363f] transition-all px-4 py-2 rounded-full font-mono-tech text-xs text-[#cae6fc] whitespace-nowrap cursor-pointer border border-white/10 text-center"
           >
             Analisis Wilayah Jawa →
           </button>
@@ -394,7 +401,7 @@ export default function DisparitasView({ onNavigate, onAddProvinceToCompare }) {
       {/* SECTION 2: Correlation Scatter Plot Section (Figma node 117:1317) */}
       <section
         data-node-id="117:1317"
-        className="backdrop-blur-[24px] bg-[rgba(3,34,50,0.7)] border border-white/10 flex flex-col gap-[24px] p-[32px] rounded-[24px] shadow-xl w-full"
+        className="backdrop-blur-[24px] bg-[rgba(3,34,50,0.7)] border border-white/10 flex flex-col gap-[20px] sm:gap-[24px] p-4 sm:p-6 lg:p-[32px] rounded-[24px] shadow-xl w-full"
       >
         <div className="flex flex-col lg:flex-row lg:items-end justify-between gap-4 w-full">
           <div>
@@ -403,11 +410,11 @@ export default function DisparitasView({ onNavigate, onAddProvinceToCompare }) {
                 ANALISIS REGRESI &amp; KORELASI
               </span>
             </div>
-            <h2 className="font-space font-bold text-[#cae6fc] text-[28px] leading-[36px]">
+            <h2 className="font-space font-bold text-[#cae6fc] text-xl sm:text-[28px] leading-snug sm:leading-[36px]">
               Korelasi Kesiapan TIK Sekolah vs Indeks Pembangunan Manusia (IPM)
             </h2>
-            <p className="font-geist text-[#bcc9cd] text-[14px] mt-1">
-              Scatter plot 38 provinsi menunjukkan korelasi positif kuat (r = 0.782) antara fasilitas
+            <p className="font-geist text-[#bcc9cd] text-xs sm:text-[14px] mt-1">
+              Diagram sebar 38 provinsi menunjukkan korelasi positif kuat (r = 0,782) antara fasilitas
               TIK dengan IPM daerah.
             </p>
           </div>
@@ -415,15 +422,15 @@ export default function DisparitasView({ onNavigate, onAddProvinceToCompare }) {
           <button
             type="button"
             onClick={() => exportDatasetToCSV('korelasi-tik-vs-ipm-sdi.csv')}
-            className="bg-[rgba(28,56,73,0.6)] hover:bg-[#0db8d3] hover:text-[#00363f] transition-all border border-white/10 flex items-center gap-2 px-4 py-2 rounded-full cursor-pointer text-xs font-mono-tech text-[#cae6fc] self-start lg:self-auto"
+            className="w-full sm:w-auto min-h-[44px] bg-[rgba(28,56,73,0.6)] hover:bg-[#0db8d3] hover:text-[#00363f] transition-all border border-white/10 flex items-center justify-center gap-2 px-4 py-2 rounded-full cursor-pointer text-xs font-mono-tech text-[#cae6fc] self-start lg:self-auto"
           >
             <img src={ICON_CSV_MATRIX} alt="" className="size-[12px]" />
-            <span>Ekspor Matriks CSV</span>
+            <span>Unduh Matriks (.CSV)</span>
           </button>
         </div>
 
         {/* Filter Region Pills & Legend */}
-        <div className="flex flex-col md:flex-row items-start md:items-center justify-between gap-4 pt-2">
+        <div className="flex flex-col lg:flex-row items-start lg:items-center justify-between gap-4 pt-1">
           <div className="flex flex-wrap gap-2">
             {REGION_PILLS.map((reg) => {
               const isActive = selectedRegion === reg;
@@ -432,7 +439,7 @@ export default function DisparitasView({ onNavigate, onAddProvinceToCompare }) {
                   key={reg}
                   type="button"
                   onClick={() => setSelectedRegion(reg)}
-                  className={`px-3 py-1.5 rounded-full text-xs font-geist transition-all cursor-pointer ${
+                  className={`px-3.5 py-2 min-h-[40px] rounded-full text-xs font-geist transition-all cursor-pointer ${
                     isActive
                       ? 'bg-[#0db8d3] text-[#00444f] font-semibold'
                       : 'bg-[rgba(15,45,61,0.5)] text-[#bcc9cd] hover:text-white border border-white/5'
@@ -451,19 +458,19 @@ export default function DisparitasView({ onNavigate, onAddProvinceToCompare }) {
             </div>
             <div className="flex items-center gap-2">
               <div className="w-5 h-0.5 bg-[#4bd7f3]" />
-              <span>Garis Regresi (r = 0.782)</span>
+              <span>Garis Regresi (r = 0,782)</span>
             </div>
             <div className="flex items-center gap-2">
               <div className="w-3 h-0.5 bg-[#869397]" />
-              <span>Benchmark IPM 72.8</span>
+              <span>Tolok Ukur IPM 72,8</span>
             </div>
           </div>
         </div>
 
-        {/* Interactive Scatter Plot Canvas with pinned Maluku Tooltip Card */}
-        <div className="relative bg-[rgba(0,16,27,0.85)] border border-white/10 rounded-[16px] p-6 h-[440px] w-full overflow-hidden">
+        {/* Interactive Scatter Plot Canvas */}
+        <div className="relative bg-[rgba(0,16,27,0.85)] border border-white/10 rounded-[16px] p-4 sm:p-6 h-[300px] sm:h-[420px] w-full overflow-hidden">
           {/* Background Grid Lines */}
-          <div className="absolute inset-0 p-8 flex flex-col justify-between pointer-events-none opacity-20">
+          <div className="absolute inset-0 p-6 sm:p-8 flex flex-col justify-between pointer-events-none opacity-20">
             <div className="border-b border-white/20 w-full" />
             <div className="border-b border-white/20 w-full" />
             <div className="border-b border-white/20 w-full" />
@@ -488,7 +495,6 @@ export default function DisparitasView({ onNavigate, onAddProvinceToCompare }) {
           {/* Scatter Points for filtered rows */}
           <div className="relative size-full z-10">
             {filteredScatterRows.map((p) => {
-              // Map TIK value (20..100) to X (8%..92%) and IPM (60..85) to Y (85%..15%)
               const leftPercent = 8 + ((p.tikScore - 15) / 85) * 82;
               const bottomPercent = 15 + ((p.ipm - 60) / 25) * 70;
               const isSelected = p.name.toLowerCase() === selectedScatterProvince.toLowerCase();
@@ -498,22 +504,29 @@ export default function DisparitasView({ onNavigate, onAddProvinceToCompare }) {
                   key={p.name}
                   type="button"
                   onClick={() => setSelectedScatterProvince(p.name)}
-                  className={`absolute rounded-full transition-transform cursor-pointer -translate-x-1/2 -translate-y-1/2 ${
-                    isSelected
-                      ? 'size-[14px] bg-[#ffb4ab] ring-4 ring-[#ffb4ab]/40 z-30 scale-125'
-                      : 'size-[10px] bg-[#4bd7f3] hover:scale-150 hover:bg-white z-20'
+                  aria-label={`Pilih titik data ${p.name} (TIK: ${formatPercentID(p.tikScore)}, IPM: ${formatNumberID(p.ipm, 2)})`}
+                  className={`absolute rounded-full transition-transform cursor-pointer -translate-x-1/2 -translate-y-1/2 flex items-center justify-center p-2 ${
+                    isSelected ? 'z-30 scale-125' : 'hover:scale-150 z-20'
                   }`}
                   style={{
                     left: `${Math.max(6, Math.min(94, leftPercent))}%`,
                     bottom: `${Math.max(8, Math.min(92, bottomPercent))}%`
                   }}
-                  title={`${p.name} (TIK: ${p.tikScore}%, IPM: ${p.ipm})`}
-                />
+                  title={`${p.name} (TIK: ${formatPercentID(p.tikScore)}, IPM: ${formatNumberID(p.ipm, 2)})`}
+                >
+                  <span
+                    className={`block rounded-full ${
+                      isSelected
+                        ? 'size-[14px] bg-[#ffb4ab] ring-4 ring-[#ffb4ab]/40'
+                        : 'size-[10px] bg-[#4bd7f3] hover:bg-white'
+                    }`}
+                  />
+                </button>
               );
             })}
 
-            {/* Pinned Tooltip Card: Maluku / Selected Province */}
-            <div className="absolute left-[38%] top-[24%] backdrop-blur-xl bg-[rgba(15,45,61,0.95)] border border-[#ffb4ab]/40 rounded-2xl p-4 shadow-2xl z-30 max-w-[280px]">
+            {/* Desktop/Tablet Floating Tooltip Card (md+) */}
+            <div className="hidden md:block absolute left-[36%] top-[22%] backdrop-blur-xl bg-[rgba(15,45,61,0.95)] border border-[#ffb4ab]/40 rounded-2xl p-4 shadow-2xl z-30 max-w-[280px] w-full">
               <div className="flex items-center justify-between pb-2 border-b border-white/10">
                 <div className="flex items-center gap-2">
                   <div className="size-2 rounded-full bg-[#ffb4ab]" />
@@ -522,27 +535,64 @@ export default function DisparitasView({ onNavigate, onAddProvinceToCompare }) {
                   </span>
                 </div>
                 <span className="bg-[#93000a] text-[#ffdad6] text-[9px] font-mono-tech px-2 py-0.5 rounded-full">
-                  r-Outlier
+                  Pencilan
                 </span>
               </div>
               <div className="space-y-1.5 pt-2 text-xs font-mono-tech">
                 <div className="flex justify-between">
                   <span className="text-[#869397]">Fasilitas TIK:</span>
                   <span className="text-[#cae6fc] font-semibold">
-                    {activeTooltipRow.tikScore}%
+                    {formatPercentID(activeTooltipRow.tikScore)}
                   </span>
                 </div>
                 <div className="flex justify-between">
                   <span className="text-[#869397]">IPM Daerah:</span>
-                  <span className="text-[#a4c9ff] font-semibold">{activeTooltipRow.ipm}</span>
+                  <span className="text-[#a4c9ff] font-semibold">
+                    {formatNumberID(activeTooltipRow.ipm, 2)}
+                  </span>
                 </div>
                 <div className="flex justify-between">
                   <span className="text-[#869397]">Disparitas:</span>
                   <span className="text-[#ffb4ab] font-semibold">
-                    +{activeTooltipRow.gap.toFixed(2)}%
+                    +{formatPercentID(activeTooltipRow.gap, 2)}
                   </span>
                 </div>
               </div>
+            </div>
+          </div>
+        </div>
+
+        {/* Mobile Tooltip Card Below Scatter Canvas (< md) - Never Overflows 360px */}
+        <div className="md:hidden backdrop-blur-xl bg-[rgba(15,45,61,0.95)] border border-[#ffb4ab]/40 rounded-2xl p-4 shadow-lg w-full">
+          <div className="flex items-center justify-between pb-2 border-b border-white/10">
+            <div className="flex items-center gap-2">
+              <div className="size-2 rounded-full bg-[#ffb4ab]" />
+              <span className="font-space font-bold text-sm text-[#cae6fc]">
+                {activeTooltipRow.name}
+              </span>
+            </div>
+            <span className="bg-[#93000a] text-[#ffdad6] text-[9px] font-mono-tech px-2 py-0.5 rounded-full">
+              Pencilan
+            </span>
+          </div>
+          <div className="grid grid-cols-3 gap-2 pt-2.5 text-xs font-mono-tech text-center">
+            <div className="bg-[rgba(0,16,27,0.6)] p-2 rounded-xl">
+              <span className="block text-[10px] text-[#869397]">Fasilitas TIK</span>
+              <span className="text-[#cae6fc] font-semibold">
+                {formatPercentID(activeTooltipRow.tikScore)}
+              </span>
+            </div>
+            <div className="bg-[rgba(0,16,27,0.6)] p-2 rounded-xl">
+              <span className="block text-[10px] text-[#869397]">IPM Daerah</span>
+              <span className="text-[#a4c9ff] font-semibold">
+                {formatNumberID(activeTooltipRow.ipm, 2)}
+              </span>
+            </div>
+            <div className="bg-[rgba(0,16,27,0.6)] p-2 rounded-xl">
+              <span className="block text-[10px] text-[#869397]">Disparitas</span>
+              <span className="text-[#ffb4ab] font-semibold">
+                +{formatPercentID(activeTooltipRow.gap, 2)}
+              </span>
             </div>
           </div>
         </div>
@@ -557,8 +607,8 @@ export default function DisparitasView({ onNavigate, onAddProvinceToCompare }) {
               </h4>
               <p className="font-geist text-xs text-[#bcc9cd] leading-relaxed mt-1">
                 Ketersediaan laboratorium komputer berkorelasi linear kuat dengan capaian IPM daerah
-                (r = 0.782, p &lt; 0.001). Setiap peningkatan 10% fasilitas TIK diasosiasikan dengan
-                kenaikan 1.8 poin IPM.
+                (r = 0,782, nilai-p &lt; 0,001). Setiap peningkatan 10% fasilitas TIK diasosiasikan
+                dengan kenaikan 1,8 poin IPM.
               </p>
             </div>
           </div>
@@ -567,11 +617,11 @@ export default function DisparitasView({ onNavigate, onAddProvinceToCompare }) {
             <img src={ICON_TAKEAWAY_2} alt="" className="size-5 shrink-0 mt-0.5" />
             <div>
               <h4 className="font-space font-semibold text-sm text-[#cae6fc]">
-                Outlier Wilayah Timur: Anomali Maluku &amp; Papua Barat Daya
+                Pencilan Wilayah Timur: Anomali Maluku &amp; Papua Barat Daya
               </h4>
               <p className="font-geist text-xs text-[#bcc9cd] leading-relaxed mt-1">
                 Provinsi Maluku dan Papua Barat Daya berada jauh di bawah garis tren regresi
-                (outlier), menunjukkan perlunya afirmasi sarana digital sekolah swasta non-pemerintah
+                (pencilan), menunjukkan perlunya afirmasi sarana digital sekolah swasta non-pemerintah
                 di kepulauan terluar.
               </p>
             </div>
@@ -582,18 +632,18 @@ export default function DisparitasView({ onNavigate, onAddProvinceToCompare }) {
       {/* SECTION 3: Deep Dive Matrix Breakdown (38 Provinces Geographic Clusters) (Figma node 117:1517) */}
       <section
         data-node-id="117:1517"
-        className="flex flex-col gap-[16px] pb-[24px] w-full"
+        className="flex flex-col gap-[16px] pb-[16px] sm:pb-[24px] w-full"
       >
-        <div className="flex items-center justify-between w-full">
+        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 w-full">
           <div>
-            <h2 className="font-space font-semibold text-[#cae6fc] text-[24px] tracking-[0.48px]">
+            <h2 className="font-space font-semibold text-[#cae6fc] text-xl sm:text-[24px] tracking-[0.48px]">
               Matriks Klaster Disparitas Regional
             </h2>
-            <p className="font-geist font-normal text-[#bcc9cd] text-[14px]">
+            <p className="font-geist font-normal text-[#bcc9cd] text-xs sm:text-[14px]">
               Perbandingan agregat kesenjangan per pulau/wilayah geografis
             </p>
           </div>
-          <div className="bg-[rgba(15,45,61,0.6)] px-3 py-1 rounded-full border border-white/5">
+          <div className="bg-[rgba(15,45,61,0.6)] px-3 py-1 rounded-full border border-white/5 w-fit">
             <span className="font-mono-tech font-medium text-[#869397] text-[10px] tracking-[0.5px] uppercase">
               AGREGASI SDI 2023
             </span>
@@ -626,7 +676,7 @@ export default function DisparitasView({ onNavigate, onAddProvinceToCompare }) {
             <div className="flex flex-col gap-[8px] pt-[16px]">
               <div className="flex justify-between text-[12px]">
                 <span className="font-geist text-[#869397]">Rerata Disparitas:</span>
-                <span className="font-geist font-bold text-[#4bd7f3]">+34.4%</span>
+                <span className="font-geist font-bold text-[#4bd7f3]">+34,4%</span>
               </div>
               <div className="flex justify-between text-[12px]">
                 <span className="font-geist text-[#869397]">Provinsi Terdampak:</span>
@@ -662,7 +712,7 @@ export default function DisparitasView({ onNavigate, onAddProvinceToCompare }) {
             <div className="flex flex-col gap-[8px] pt-[16px]">
               <div className="flex justify-between text-[12px]">
                 <span className="font-geist text-[#869397]">Rerata Disparitas:</span>
-                <span className="font-geist font-bold text-[#4bd7f3]">+21.2%</span>
+                <span className="font-geist font-bold text-[#4bd7f3]">+21,2%</span>
               </div>
               <div className="flex justify-between text-[12px]">
                 <span className="font-geist text-[#869397]">Provinsi Terdampak:</span>
@@ -698,7 +748,7 @@ export default function DisparitasView({ onNavigate, onAddProvinceToCompare }) {
             <div className="flex flex-col gap-[8px] pt-[16px]">
               <div className="flex justify-between text-[12px]">
                 <span className="font-geist text-[#869397]">Rerata Disparitas:</span>
-                <span className="font-geist font-bold text-[#4bd7f3]">+4.6%</span>
+                <span className="font-geist font-bold text-[#4bd7f3]">+4,6%</span>
               </div>
               <div className="flex justify-between text-[12px]">
                 <span className="font-geist text-[#869397]">Provinsi Terdampak:</span>
