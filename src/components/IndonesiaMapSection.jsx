@@ -1,10 +1,23 @@
 import { useState, useMemo, useEffect, useRef } from 'react';
 import {
   getEnrichedProvinces,
-  getIndicatorValue
+  getIndicatorValue,
+  CHOROPLETH_LEGEND_ITEMS,
+  getChoroplethColorMeta
 } from '../utils/dataService';
 import { formatPercentID } from '../constants/labels';
-import { ArrowUpRight, X, Search, SlidersHorizontal, ChevronDown, ChevronUp } from 'lucide-react';
+import { useMotionPreferences } from './MotionPrimitives';
+import { MOTION_TOKENS } from '../constants/motionTokens';
+import {
+  ArrowUpRight,
+  X,
+  Search,
+  SlidersHorizontal,
+  ChevronDown,
+  ChevronUp,
+  RotateCcw,
+  Info
+} from 'lucide-react';
 
 const imgIcon = '/assets/figma/10e666b4-ceba-4572-ae59-12ffa28f24ac.svg';
 const imgContainer7 = '/assets/figma/23efe18c-e362-444e-97c4-7b1500078615.svg';
@@ -29,6 +42,7 @@ const ISLAND_REGIONS = [
   {
     id: 'sumatera',
     name: 'Sumatera',
+    matchRegion: 'sumatera',
     representativeProv: 'Sumatera Utara',
     labelPos: { x: 180, y: 155 },
     paths: [
@@ -43,6 +57,7 @@ const ISLAND_REGIONS = [
   {
     id: 'kalimantan',
     name: 'Kalimantan',
+    matchRegion: 'kalimantan',
     representativeProv: 'Kalimantan Barat',
     labelPos: { x: 410, y: 190 },
     paths: [
@@ -52,6 +67,7 @@ const ISLAND_REGIONS = [
   {
     id: 'jawa',
     name: 'Pulau Jawa',
+    matchRegion: 'jawa',
     representativeProv: 'DKI Jakarta',
     labelPos: { x: 375, y: 388 },
     paths: [
@@ -62,6 +78,7 @@ const ISLAND_REGIONS = [
   {
     id: 'nusa-tenggara',
     name: 'Nusa Tenggara',
+    matchRegion: 'nusa',
     representativeProv: 'Nusa Tenggara Timur',
     labelPos: { x: 620, y: 415 },
     paths: [
@@ -76,6 +93,7 @@ const ISLAND_REGIONS = [
   {
     id: 'sulawesi',
     name: 'Sulawesi',
+    matchRegion: 'sulawesi',
     representativeProv: 'Sulawesi Selatan',
     labelPos: { x: 625, y: 220 },
     paths: [
@@ -85,6 +103,7 @@ const ISLAND_REGIONS = [
   {
     id: 'maluku',
     name: 'Maluku',
+    matchRegion: 'maluku',
     representativeProv: 'Maluku',
     labelPos: { x: 740, y: 215 },
     paths: [
@@ -98,6 +117,7 @@ const ISLAND_REGIONS = [
   {
     id: 'papua',
     name: 'Papua',
+    matchRegion: 'papua',
     representativeProv: 'Papua Pegunungan',
     labelPos: { x: 895, y: 275 },
     paths: [
@@ -108,6 +128,13 @@ const ISLAND_REGIONS = [
   }
 ];
 
+function formatScoreOrMissing(val) {
+  if (val === null || val === undefined || Number.isNaN(Number(val))) {
+    return 'Data tidak tersedia';
+  }
+  return formatPercentID(val);
+}
+
 export default function IndonesiaMapSection({
   selectedIndicator,
   setSelectedIndicator,
@@ -115,12 +142,14 @@ export default function IndonesiaMapSection({
   setSelectedSector,
   onSelectProvinceForCompare
 }) {
+  const { reducedMotion } = useMotionPreferences();
   const [selectedProvName, setSelectedProvName] = useState(null);
   const [dropdownOpen, setDropdownOpen] = useState(false);
   const [mobileFilterOpen, setMobileFilterOpen] = useState(true);
   const [searchQuery, setSearchQuery] = useState('');
   const [hoveredNode, setHoveredNode] = useState(null);
   const [hoveredRegion, setHoveredRegion] = useState(null);
+  const [mapEntered, setMapEntered] = useState(() => reducedMotion);
   const [, setViewportTick] = useState(0);
 
   const containerRef = useRef(null);
@@ -131,6 +160,41 @@ export default function IndonesiaMapSection({
     () => getEnrichedProvinces(selectedIndicator, selectedSector),
     [selectedIndicator, selectedSector]
   );
+
+  // Urutan penyalaan provinsi dari nilai TERENDAH ke TERTINGGI (0 .. 37)
+  // agar mata pengguna melihat pola ketimpangan dari timur (rendah) ke barat (tinggi) dalam <= 1,2 detik.
+  const lowToHighOrderMap = useMemo(() => {
+    const ascending = [...enrichedProvinces].sort((a, b) => {
+      const sA = a.score ?? -1;
+      const sB = b.score ?? -1;
+      return sA - sB;
+    });
+    const map = {};
+    ascending.forEach((p, idx) => {
+      map[p.name] = idx;
+    });
+    return map;
+  }, [enrichedProvinces]);
+
+  // Hitung rata-rata skor indikator aktif per gugus pulau untuk pewarnaan choropleth dinamis
+  const islandColorMap = useMemo(() => {
+    const result = {};
+    ISLAND_REGIONS.forEach((reg) => {
+      const provsInIsland = enrichedProvinces.filter((p) =>
+        (p.geo?.region || '').toLowerCase().includes(reg.matchRegion)
+      );
+      const validScores = provsInIsland
+        .map((p) => p.score)
+        .filter((s) => s !== null && s !== undefined && !Number.isNaN(Number(s)));
+      if (!validScores.length) {
+        result[reg.id] = getChoroplethColorMeta(null);
+      } else {
+        const avg = validScores.reduce((a, b) => a + b, 0) / validScores.length;
+        result[reg.id] = getChoroplethColorMeta(avg);
+      }
+    });
+    return result;
+  }, [enrichedProvinces]);
 
   const activeProvince = useMemo(() => {
     if (!selectedProvName) return null;
@@ -151,6 +215,45 @@ export default function IndonesiaMapSection({
     const xCoord = (activeProvince.geo?.x || 50) * 10;
     return xCoord > 500;
   }, [activeProvince]);
+
+  // FlyToBounds camera transform (<= 1s) saat provinsi dipilih
+  const cameraTransform = useMemo(() => {
+    if (!activeProvince || reducedMotion) {
+      return 'translate3d(0px, 0px, 0px) scale(1)';
+    }
+    const targetX = (activeProvince.geo?.x || 50) * 10;
+    const targetY = (activeProvince.geo?.y || 50) * 4.4;
+    const zoom = 1.28;
+    // Geser titik provinsi mendekati tengah kanvas (500, 220) dengan batas aman
+    const rawTx = (500 - targetX) * 0.35;
+    const rawTy = (220 - targetY) * 0.35;
+    const tx = Math.max(-140, Math.min(140, Math.round(rawTx)));
+    const ty = Math.max(-65, Math.min(65, Math.round(rawTy)));
+    return `translate3d(${tx}px, ${ty}px, 0px) scale(${zoom})`;
+  }, [activeProvince, reducedMotion]);
+
+  // Trigger stagger reveal sekali saat peta masuk viewport
+  useEffect(() => {
+    if (reducedMotion) return;
+    const node = containerRef.current;
+    if (!node || typeof IntersectionObserver === 'undefined') {
+      const raf = requestAnimationFrame(() => setMapEntered(true));
+      return () => cancelAnimationFrame(raf);
+    }
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            setMapEntered(true);
+            observer.disconnect();
+          }
+        });
+      },
+      { threshold: 0.15 }
+    );
+    observer.observe(node);
+    return () => observer.disconnect();
+  }, [reducedMotion]);
 
   // Recalculate map container dimensions on window resize / orientation change
   useEffect(() => {
@@ -232,7 +335,9 @@ export default function IndonesiaMapSection({
           type="button"
           onClick={() => setMobileFilterOpen((prev) => !prev)}
           aria-expanded={mobileFilterOpen}
-          aria-label={mobileFilterOpen ? 'Sembunyikan panel filter peta' : 'Tampilkan panel filter peta'}
+          aria-label={
+            mobileFilterOpen ? 'Sembunyikan panel filter peta' : 'Tampilkan panel filter peta'
+          }
           className="inline-flex items-center gap-1.5 px-3 min-h-[44px] rounded-full bg-[rgba(15,45,61,0.8)] border border-white/10 text-xs font-geist text-[#4bd7f3] cursor-pointer"
         >
           <span>{mobileFilterOpen ? 'Lipat Filter' : 'Buka Filter'}</span>
@@ -330,7 +435,7 @@ export default function IndonesiaMapSection({
                   >
                     <span>{p.name}</span>
                     <span className="font-mono-tech text-[10px] text-[#4bd7f3]">
-                      {formatPercentID(p.score)}
+                      {formatScoreOrMissing(p.score)}
                     </span>
                   </button>
                 ))}
@@ -383,214 +488,269 @@ export default function IndonesiaMapSection({
           <div className="absolute top-0 bottom-0 left-[92%] border-r border-white/20" />
         </div>
 
+        {/* Reset Zoom Button when a province is focused */}
+        {activeProvince && (
+          <button
+            type="button"
+            onClick={(e) => {
+              e.stopPropagation();
+              setSelectedProvName(null);
+            }}
+            aria-label="Atur ulang tampilan fokus peta"
+            className="absolute top-3 left-3 z-20 bg-[#001e2e]/90 hover:bg-[#0db8d3] text-[#cae6fc] hover:text-[#00363f] border border-white/15 px-3 py-1.5 min-h-[36px] rounded-full text-[11px] font-mono-tech flex items-center gap-1.5 transition-colors cursor-pointer shadow-md"
+          >
+            <RotateCcw className="size-3" />
+            <span>Tampilkan Seluruh Nusantara</span>
+          </button>
+        )}
+
         {/* SVG Archipelago Map */}
         <svg
           viewBox="0 0 1000 440"
           role="img"
-          aria-label="Peta interaktif kesiapan sarana dan prasarana pendidikan 38 provinsi di Indonesia"
-          className="w-full h-full p-1 sm:p-4 transition-all duration-300"
+          aria-label="Peta choropleth interaktif kesiapan sarana dan prasarana pendidikan 38 provinsi di Indonesia"
+          className="w-full h-full p-1 sm:p-4"
           preserveAspectRatio="xMidYMid meet"
         >
           <defs>
             <filter id="glow-cyan" x="-20%" y="-20%" width="140%" height="140%">
               <feDropShadow dx="0" dy="0" stdDeviation="4" floodColor="#4bd7f3" floodOpacity="0.6" />
             </filter>
-            <filter id="glow-red" x="-20%" y="-20%" width="140%" height="140%">
-              <feDropShadow dx="0" dy="0" stdDeviation="4" floodColor="#ffb4ab" floodOpacity="0.6" />
+            <filter id="glow-amber" x="-20%" y="-20%" width="140%" height="140%">
+              <feDropShadow dx="0" dy="0" stdDeviation="4" floodColor="#f59e0b" floodOpacity="0.65" />
             </filter>
 
-            <linearGradient id="grad-sumatera" x1="0" y1="0" x2="1" y2="1">
-              <stop offset="0%" stopColor="#0f344a" />
-              <stop offset="100%" stopColor="#1c4860" />
+            {/* Pola Arsir Abu-abu untuk "Data tidak tersedia" (null / NaN) */}
+            <pattern
+              id="pattern-no-data"
+              width="8"
+              height="8"
+              patternTransform="rotate(45 0 0)"
+              patternUnits="userSpaceOnUse"
+            >
+              <rect width="8" height="8" fill="#1e293b" />
+              <line x1="0" y1="0" x2="0" y2="8" stroke="#64748b" strokeWidth="3" />
+            </pattern>
+
+            {/* 4 Gradien Kelas Choropleth yang Konsisten dengan Legenda & Ramah Buta Warna */}
+            <linearGradient id="grad-tier-critical" x1="0" y1="0" x2="1" y2="1">
+              <stop offset="0%" stopColor="#2c1808" />
+              <stop offset="100%" stopColor="#6b3410" />
             </linearGradient>
-            <linearGradient id="grad-jawa" x1="0" y1="0" x2="1" y2="0">
-              <stop offset="0%" stopColor="#0d3b54" />
-              <stop offset="100%" stopColor="#0db8d3" stopOpacity="0.8" />
+            <linearGradient id="grad-tier-medium" x1="0" y1="0" x2="1" y2="1">
+              <stop offset="0%" stopColor="#0c2d48" />
+              <stop offset="100%" stopColor="#164e78" />
             </linearGradient>
-            <linearGradient id="grad-kalimantan" x1="0" y1="0" x2="1" y2="1">
-              <stop offset="0%" stopColor="#0d2e42" />
-              <stop offset="100%" stopColor="#1a4760" />
+            <linearGradient id="grad-tier-good" x1="0" y1="0" x2="1" y2="1">
+              <stop offset="0%" stopColor="#0d3b5e" />
+              <stop offset="100%" stopColor="#1d6fa5" />
             </linearGradient>
-            <linearGradient id="grad-sulawesi" x1="0" y1="0" x2="1" y2="1">
-              <stop offset="0%" stopColor="#11364d" />
-              <stop offset="100%" stopColor="#1a4d6b" />
-            </linearGradient>
-            <linearGradient id="grad-nusa-tenggara" x1="0" y1="0" x2="1" y2="1">
-              <stop offset="0%" stopColor="#0e3347" />
-              <stop offset="100%" stopColor="#1a475d" />
-            </linearGradient>
-            <linearGradient id="grad-maluku" x1="0" y1="0" x2="1" y2="1">
-              <stop offset="0%" stopColor="#10364c" />
-              <stop offset="100%" stopColor="#1c4961" />
-            </linearGradient>
-            <linearGradient id="grad-papua" x1="0" y1="0" x2="1" y2="1">
-              <stop offset="0%" stopColor="#1f2c38" />
-              <stop offset="100%" stopColor="#3c1e22" />
+            <linearGradient id="grad-tier-high" x1="0" y1="0" x2="1" y2="0">
+              <stop offset="0%" stopColor="#0d4a63" />
+              <stop offset="100%" stopColor="#0db8d3" stopOpacity="0.85" />
             </linearGradient>
           </defs>
 
-          {/* Equator Line (Khatulistiwa 0°00') */}
-          <g className="pointer-events-none">
-            <line
-              x1="50"
-              y1="170"
-              x2="950"
-              y2="170"
-              stroke="#4bd7f3"
-              strokeWidth="1.2"
-              strokeDasharray="6 6"
-              opacity="0.35"
-            />
-            <text
-              x="55"
-              y="163"
-              fill="#869397"
-              fontSize="10"
-              fontFamily="monospace"
-              opacity="0.65"
-              letterSpacing="0.8"
-            >
-              Khatulistiwa 0°00&apos;
-            </text>
-          </g>
-
-          {/* Render Island Clusters */}
-          {ISLAND_REGIONS.map((region) => {
-            const isHovered = hoveredRegion === region.id;
-            const isSelected =
-              activeProvince &&
-              activeProvince.geo?.region?.toLowerCase().includes(region.id);
-
-            return (
-              <g
-                key={region.id}
-                data-map-node="true"
-                className="cursor-pointer group"
-                onMouseEnter={() => setHoveredRegion(region.id)}
-                onMouseLeave={() => setHoveredRegion(null)}
-                onClick={(e) => {
-                  e.stopPropagation();
-                  setSelectedProvName(region.representativeProv);
-                }}
+          {/* Grup Kamera untuk FlyToBounds (<= 850ms ease-out) */}
+          <g
+            style={{
+              transform: cameraTransform,
+              transformOrigin: '500px 220px',
+              transition: reducedMotion
+                ? 'none'
+                : `transform ${MOTION_TOKENS.duration.flyToBounds}ms ${MOTION_TOKENS.easing.easeOut}`
+            }}
+          >
+            {/* Equator Line (Khatulistiwa 0°00') */}
+            <g className="pointer-events-none">
+              <line
+                x1="50"
+                y1="170"
+                x2="950"
+                y2="170"
+                stroke="#4bd7f3"
+                strokeWidth="1.2"
+                strokeDasharray="6 6"
+                opacity="0.35"
+              />
+              <text
+                x="55"
+                y="163"
+                fill="#869397"
+                fontSize="10"
+                fontFamily="monospace"
+                opacity="0.65"
+                letterSpacing="0.8"
               >
-                {region.paths.map((pData, pIdx) => (
-                  <path
-                    key={pIdx}
-                    d={pData}
-                    fill={`url(#grad-${region.id})`}
-                    stroke={
-                      isSelected
-                        ? '#4bd7f3'
-                        : isHovered
-                        ? '#cae6fc'
-                        : region.id === 'papua'
-                        ? '#ffb4ab'
-                        : '#0db8d3'
-                    }
-                    strokeWidth={isSelected ? '2' : isHovered ? '1.5' : '1'}
-                    strokeOpacity={isSelected ? 1 : isHovered ? 0.9 : 0.45}
-                    filter={isSelected ? 'url(#glow-cyan)' : 'none'}
-                    className="transition-all duration-300"
-                  />
-                ))}
+                Khatulistiwa 0°00&apos;
+              </text>
+            </g>
 
-                {/* Region Label */}
-                <text
-                  x={region.labelPos.x}
-                  y={region.labelPos.y}
-                  fill={isSelected ? '#4bd7f3' : isHovered ? '#cae6fc' : '#bcc9cd'}
-                  fontSize="11"
-                  fontWeight="600"
-                  fontFamily="sans-serif"
-                  letterSpacing="1"
-                  textAnchor="middle"
-                  opacity={isSelected || isHovered ? 0.95 : 0.6}
-                  className="transition-opacity duration-200 pointer-events-none select-none uppercase"
+            {/* Render Island Clusters with Dynamic Choropleth Tier Colors */}
+            {ISLAND_REGIONS.map((region) => {
+              const isHovered = hoveredRegion === region.id;
+              const isSelected =
+                activeProvince &&
+                activeProvince.geo?.region?.toLowerCase().includes(region.matchRegion);
+              const regionColorMeta = islandColorMap[region.id] || getChoroplethColorMeta(null);
+
+              return (
+                <g
+                  key={region.id}
+                  data-map-node="true"
+                  className="cursor-pointer group"
+                  onMouseEnter={() => setHoveredRegion(region.id)}
+                  onMouseLeave={() => setHoveredRegion(null)}
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    setSelectedProvName(region.representativeProv);
+                  }}
                 >
-                  {region.name}
-                </text>
-              </g>
-            );
-          })}
+                  {region.paths.map((pData, pIdx) => (
+                    <path
+                      key={pIdx}
+                      d={pData}
+                      fill={regionColorMeta.regionFill}
+                      stroke={
+                        isSelected
+                          ? '#ffffff'
+                          : isHovered
+                          ? '#cae6fc'
+                          : regionColorMeta.regionStroke
+                      }
+                      strokeWidth={isSelected ? '2' : isHovered ? '1.5' : '1.15'}
+                      strokeOpacity={isSelected ? 1 : isHovered ? 0.95 : 0.65}
+                      filter={isSelected ? regionColorMeta.glowFilter : 'none'}
+                      className="map-region-path"
+                    />
+                  ))}
 
-          {/* 38 Interactive Province Node Markers */}
-          {enrichedProvinces.map((prov) => {
-            const x = (prov.geo?.x || 50) * 10;
-            const y = (prov.geo?.y || 50) * 4.4;
-            const isSelected = activeProvince?.name === prov.name;
-            const isHovered = hoveredNode === prov.name;
-            const isCritical = prov.score < 45;
-            const nodeColor = isCritical ? '#ffb4ab' : isSelected ? '#ffffff' : '#4bd7f3';
+                  {/* Region Label */}
+                  <text
+                    x={region.labelPos.x}
+                    y={region.labelPos.y}
+                    fill={isSelected ? '#ffffff' : isHovered ? '#cae6fc' : '#bcc9cd'}
+                    fontSize="11"
+                    fontWeight="600"
+                    fontFamily="sans-serif"
+                    letterSpacing="1"
+                    textAnchor="middle"
+                    opacity={isSelected || isHovered ? 0.95 : 0.65}
+                    className="transition-opacity duration-200 pointer-events-none select-none uppercase"
+                  >
+                    {region.name}
+                  </text>
+                </g>
+              );
+            })}
 
-            return (
-              <g
-                key={prov.name}
-                data-map-node="true"
-                className="cursor-pointer"
-                onMouseEnter={() => setHoveredNode(prov.name)}
-                onMouseLeave={() => setHoveredNode(null)}
-                onClick={(e) => {
-                  e.stopPropagation();
-                  setSelectedProvName(prov.name);
-                }}
-              >
-                {/* Invisible Expanded Touch Area for Mobile Accessibility */}
-                <circle cx={x} cy={y} r="15" fill="transparent" />
+            {/* 38 Interactive Province Node Markers (Staggered Low -> High on initial reveal) */}
+            {enrichedProvinces.map((prov) => {
+              const x = (prov.geo?.x || 50) * 10;
+              const y = (prov.geo?.y || 50) * 4.4;
+              const isSelected = activeProvince?.name === prov.name;
+              const isHovered = hoveredNode === prov.name;
+              const colorMeta = getChoroplethColorMeta(prov.score);
+              const nodeColor = isSelected ? '#ffffff' : colorMeta.nodeColor;
 
-                {/* Outer Pulse Ring when hovered or selected */}
-                {(isHovered || isSelected) && (
+              // Stagger delay berdasarkan urutan nilai dari terendah (0) ke tertinggi (37), maks 900ms + 280ms durasi = 1,18s (<= 1,2s)
+              const orderIdx = lowToHighOrderMap[prov.name] ?? 0;
+              const staggerDelayMs = reducedMotion ? 0 : Math.round((orderIdx / 37) * 900);
+
+              return (
+                <g
+                  key={prov.name}
+                  data-map-node="true"
+                  className="cursor-pointer map-node-group"
+                  style={
+                    reducedMotion
+                      ? undefined
+                      : {
+                          opacity: mapEntered ? 1 : 0,
+                          transform: mapEntered ? 'scale(1)' : 'scale(0.2)',
+                          transitionDelay: `${staggerDelayMs}ms`
+                        }
+                  }
+                  onMouseEnter={() => setHoveredNode(prov.name)}
+                  onMouseLeave={() => setHoveredNode(null)}
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    setSelectedProvName(prov.name);
+                  }}
+                >
+                  {/* Invisible Expanded Touch Area for Mobile Accessibility */}
+                  <circle cx={x} cy={y} r="15" fill="transparent" />
+
+                  {/* Outer Ring when hovered or selected */}
+                  {(isHovered || isSelected) && (
+                    <circle
+                      cx={x}
+                      cy={y}
+                      r={isSelected ? 13 : 10}
+                      fill="none"
+                      stroke={nodeColor}
+                      strokeWidth="1.5"
+                      strokeDasharray="3 3"
+                      opacity="0.85"
+                    />
+                  )}
+
+                  {/* Inner Glow Circle */}
                   <circle
                     cx={x}
                     cy={y}
-                    r={isSelected ? 14 : 10}
-                    fill="none"
-                    stroke={nodeColor}
-                    strokeWidth="1.5"
-                    strokeDasharray="3 3"
-                    className="animate-spin-slow opacity-80"
+                    r={isSelected ? 6.5 : isHovered ? 5.5 : 4.2}
+                    fill={nodeColor}
+                    stroke="#00101b"
+                    strokeWidth="1"
+                    filter={colorMeta.glowFilter}
+                    className="map-node-circle"
                   />
-                )}
 
-                {/* Inner Glow Circle */}
-                <circle
-                  cx={x}
-                  cy={y}
-                  r={isSelected ? 6 : isHovered ? 5 : 4}
-                  fill={nodeColor}
-                  filter={isCritical ? 'url(#glow-red)' : 'url(#glow-cyan)'}
-                  className="transition-all duration-200"
-                />
-
-                {/* Hover Mini Tooltip Tag */}
-                {isHovered && !isSelected && (
-                  <g pointerEvents="none">
-                    <rect
-                      x={Math.max(10, Math.min(900, x - 45))}
-                      y={Math.max(8, y - 26)}
-                      width="90"
-                      height="20"
-                      rx="10"
-                      fill="#001e2e"
-                      stroke="#4bd7f3"
-                      strokeWidth="1"
-                      opacity="0.95"
-                    />
-                    <text
-                      x={Math.max(55, Math.min(945, x))}
-                      y={Math.max(21, y - 13)}
-                      fill="#cae6fc"
-                      fontSize="9.5"
-                      fontFamily="sans-serif"
-                      fontWeight="500"
-                      textAnchor="middle"
-                    >
-                      {prov.name.length > 12 ? `${prov.name.slice(0, 11)}..` : prov.name}
-                    </text>
-                  </g>
-                )}
-              </g>
-            );
-          })}
+                  {/* Hover Mini Tooltip Tag with Value & Source Year */}
+                  {isHovered && !isSelected && (
+                    <g pointerEvents="none">
+                      <rect
+                        x={Math.max(10, Math.min(840, x - 75))}
+                        y={Math.max(6, y - 42)}
+                        width="150"
+                        height="34"
+                        rx="8"
+                        fill="#001e2e"
+                        stroke={colorMeta.nodeColor}
+                        strokeWidth="1"
+                        opacity="0.96"
+                      />
+                      <text
+                        x={Math.max(85, Math.min(915, x))}
+                        y={Math.max(20, y - 27)}
+                        fill="#cae6fc"
+                        fontSize="9.5"
+                        fontFamily="sans-serif"
+                        fontWeight="600"
+                        textAnchor="middle"
+                      >
+                        {prov.name.length > 16 ? `${prov.name.slice(0, 15)}…` : prov.name} ·{' '}
+                        {formatScoreOrMissing(prov.score)}
+                      </text>
+                      <text
+                        x={Math.max(85, Math.min(915, x))}
+                        y={Math.max(32, y - 15)}
+                        fill="#869397"
+                        fontSize="8"
+                        fontFamily="monospace"
+                        textAnchor="middle"
+                      >
+                        {prov.geo?.isDOB
+                          ? `DOB (${prov.geo.parentProvince}) · SDI 2023`
+                          : 'Sumber: SDI & BPS 2023'}
+                      </text>
+                    </g>
+                  )}
+                </g>
+              );
+            })}
+          </g>
         </svg>
 
         {/* Desktop/Tablet Floating Detail Popup Card (md+) */}
@@ -601,15 +761,16 @@ export default function IndonesiaMapSection({
             data-node-id="117:217"
             className={`hidden md:flex absolute top-4 ${
               isEastProvince ? 'left-4 sm:left-6' : 'right-4 sm:right-6'
-            } backdrop-blur-[24px] bg-[rgba(15,45,61,0.95)] flex-col gap-[12px] p-[18px] rounded-[18px] shadow-[0px_20px_40px_rgba(0,0,0,0.65)] border border-[#4bd7f3]/40 z-30 max-w-[330px] w-full animate-in fade-in zoom-in-95 duration-200`}
+            } backdrop-blur-[24px] bg-[rgba(15,45,61,0.95)] flex-col gap-[10px] p-[18px] rounded-[18px] shadow-[0px_20px_40px_rgba(0,0,0,0.65)] border border-[#4bd7f3]/40 z-30 max-w-[340px] w-full animate-in fade-in zoom-in-95 duration-200`}
           >
             {/* Header: Name + Status + Close Button */}
             <div className="flex items-center justify-between w-full border-b border-white/10 pb-2">
               <div className="flex gap-[8px] items-center truncate">
                 <div
-                  className={`rounded-full size-[10px] shrink-0 animate-pulse ${
-                    activeProvince.score < 45 ? 'bg-[#ffb4ab]' : 'bg-[#4bd7f3]'
-                  }`}
+                  className="rounded-full size-[10px] shrink-0"
+                  style={{
+                    backgroundColor: getChoroplethColorMeta(activeProvince.score).nodeColor
+                  }}
                 />
                 <span className="font-space font-bold text-[#cae6fc] text-[16px] truncate">
                   {activeProvince.name}
@@ -618,12 +779,10 @@ export default function IndonesiaMapSection({
               <div className="flex items-center gap-1.5 shrink-0">
                 <div
                   className={`px-[8px] py-[2px] rounded-full text-[10px] font-mono-tech font-medium ${
-                    activeProvince.score < 45
-                      ? 'bg-[rgba(147,0,10,0.6)] text-[#ffb4ab]'
-                      : 'bg-[rgba(75,215,243,0.15)] text-[#4bd7f3]'
+                    getChoroplethColorMeta(activeProvince.score).badgeClass
                   }`}
                 >
-                  {activeProvince.status} ({formatPercentID(activeProvince.overallScore)})
+                  {activeProvince.status} ({formatScoreOrMissing(activeProvince.score)})
                 </div>
                 <button
                   type="button"
@@ -643,8 +802,10 @@ export default function IndonesiaMapSection({
                 <span className="font-mono-tech font-medium text-[#869397] text-[10px] tracking-[0.5px]">
                   Lab TIK
                 </span>
-                <span className="font-geist font-semibold text-[#cae6fc] text-[15px] pt-0.5">
-                  {formatPercentID(getIndicatorValue(activeProvince, 'komputer', selectedSector))}
+                <span className="font-geist font-semibold text-[#cae6fc] text-[14px] pt-0.5">
+                  {formatScoreOrMissing(
+                    getIndicatorValue(activeProvince, 'komputer', selectedSector)
+                  )}
                 </span>
               </div>
               <div className="w-px h-8 bg-white/10 my-auto" />
@@ -652,8 +813,10 @@ export default function IndonesiaMapSection({
                 <span className="font-mono-tech font-medium text-[#869397] text-[10px] tracking-[0.5px]">
                   Internet
                 </span>
-                <span className="font-geist font-semibold text-[#a4c9ff] text-[15px] pt-0.5">
-                  {formatPercentID(getIndicatorValue(activeProvince, 'internet', selectedSector))}
+                <span className="font-geist font-semibold text-[#a4c9ff] text-[14px] pt-0.5">
+                  {formatScoreOrMissing(
+                    getIndicatorValue(activeProvince, 'internet', selectedSector)
+                  )}
                 </span>
               </div>
               <div className="w-px h-8 bg-white/10 my-auto" />
@@ -661,8 +824,10 @@ export default function IndonesiaMapSection({
                 <span className="font-mono-tech font-medium text-[#869397] text-[10px] tracking-[0.5px]">
                   Listrik
                 </span>
-                <span className="font-geist font-semibold text-[#4bd7f3] text-[15px] pt-0.5">
-                  {formatPercentID(getIndicatorValue(activeProvince, 'listrik', selectedSector))}
+                <span className="font-geist font-semibold text-[#4bd7f3] text-[14px] pt-0.5">
+                  {formatScoreOrMissing(
+                    getIndicatorValue(activeProvince, 'listrik', selectedSector)
+                  )}
                 </span>
               </div>
             </div>
@@ -671,6 +836,22 @@ export default function IndonesiaMapSection({
             <div className="flex items-center justify-between text-xs font-mono-tech text-[#bcc9cd] px-1">
               <span>Wilayah: {activeProvince.geo?.region}</span>
               <span className="text-[#4bd7f3]">Peringkat #{activeProvince.rank}/38</span>
+            </div>
+
+            {/* Source & DOB Derivation Note inside Popup */}
+            <div className="bg-[rgba(0,16,27,0.55)] border border-white/5 rounded-xl px-2.5 py-2 text-[10px] font-geist text-[#bcc9cd] leading-relaxed">
+              <div className="font-mono-tech text-[#869397] text-[9.5px]">
+                Sumber: {activeProvince.geo?.dataSource || 'Kemendikdasmen SDI & BPS (2023)'}
+              </div>
+              {activeProvince.geo?.isDOB && (
+                <div className="text-[#fde68a] mt-1 flex items-start gap-1.5">
+                  <Info className="size-3.5 shrink-0 mt-0.5 text-[#f59e0b]" />
+                  <span>
+                    <strong>Provinsi DOB ({activeProvince.geo.dobLaw}):</strong>{' '}
+                    {activeProvince.geo.dobNote}
+                  </span>
+                </div>
+              )}
             </div>
 
             {/* Jump to Comparison CTA */}
@@ -684,52 +865,61 @@ export default function IndonesiaMapSection({
                 <ArrowUpRight className="size-3.5" />
               </button>
             )}
-
-            <div className="text-[9.5px] text-[#869397] font-mono-tech text-center opacity-75">
-              Klik di luar panel untuk menutup
-            </div>
           </div>
         )}
+      </div>
 
-        {/* Compact Bottom Legend & Status Pill Inside Map Canvas (Figma node 117:242) */}
-        <div className="absolute bottom-2.5 sm:bottom-[16px] flex flex-row flex-wrap gap-2 items-end sm:items-center justify-between left-2.5 right-2.5 sm:left-[16px] sm:right-[16px] pointer-events-none z-10">
-          {/* Bottom-Left Choropleth Legend */}
-          <div
-            data-node-id="117:243"
-            className="backdrop-blur-[12px] bg-[rgba(15,45,61,0.88)] flex flex-col gap-1 sm:gap-[6px] items-start px-3 py-2 sm:px-[16px] sm:py-[10px] rounded-[14px] sm:rounded-[16px] shadow-[0px_10px_15px_-3px_rgba(0,0,0,0.1)] border border-white/10 pointer-events-auto"
-          >
-            <span className="font-mono-tech font-medium text-[#869397] text-[9px] sm:text-[10px] tracking-[0.6px] sm:tracking-[0.8px] uppercase">
-              SKALA KESIAPAN SARANA PRASARANA
-            </span>
-            <div className="bg-gradient-to-r from-[#001522] via-[#0076d2] to-[#4bd7f3] h-[6px] sm:h-[8px] rounded-full w-[160px] sm:w-[240px]" />
-            <div className="flex items-start justify-between w-[160px] sm:w-[240px]">
-              <span className="font-mono-tech font-medium text-[#bcc9cd] text-[9px] sm:text-[10px]">
-                {'<30% (Kritis)'}
-              </span>
-              <span className="font-mono-tech font-medium text-[#bcc9cd] text-[9px] sm:text-[10px]">
-                50%
-              </span>
-              <span className="font-mono-tech font-medium text-[#bcc9cd] text-[9px] sm:text-[10px]">
-                {'>85% (Tinggi)'}
-              </span>
-            </div>
+      {/* Bar Legenda & Statistik Cepat di Luar Kanvas Peta (Agar Tidak Menghalangi Pulau Jawa / Nusa Tenggara) */}
+      <div className="mt-3 flex flex-col xl:flex-row gap-2.5 xl:items-center justify-between w-full">
+        {/* Choropleth Legend (Includes Critical, Blue Tiers, and No Data Hatched Swatch) */}
+        <div
+          data-node-id="117:243"
+          className="backdrop-blur-[12px] bg-[rgba(15,45,61,0.75)] flex flex-col sm:flex-row sm:items-center gap-2 sm:gap-3 px-3.5 py-2.5 rounded-[14px] border border-white/10 w-full xl:w-auto"
+        >
+          <span className="font-mono-tech font-semibold text-[#869397] text-[9px] sm:text-[10px] tracking-[0.6px] uppercase shrink-0">
+            LEGENDA SKALA KESIAPAN:
+          </span>
+          <div className="flex flex-wrap items-center gap-x-3.5 gap-y-1.5">
+            {CHOROPLETH_LEGEND_ITEMS.map((item) => (
+              <div key={item.key} className="flex items-center gap-1.5">
+                {item.isHatched ? (
+                  <span
+                    aria-hidden="true"
+                    className="inline-block size-3 rounded-sm border border-[#94a3b8] shrink-0"
+                    style={{
+                      backgroundImage:
+                        'repeating-linear-gradient(45deg, #1e293b, #1e293b 2px, #64748b 2px, #64748b 4px)'
+                    }}
+                  />
+                ) : (
+                  <span
+                    aria-hidden="true"
+                    className="inline-block size-3 rounded-sm border border-white/20 shrink-0"
+                    style={{ backgroundColor: item.swatchColor }}
+                  />
+                )}
+                <span className="font-mono-tech text-[9.5px] sm:text-[10px] text-[#cae6fc] whitespace-nowrap">
+                  {item.range !== 'N/A' ? `${item.range} (${item.label})` : item.label}
+                </span>
+              </div>
+            ))}
           </div>
+        </div>
 
-          {/* Bottom-Right Quick Statistics Pill */}
-          <div
-            data-node-id="117:256"
-            className="hidden sm:flex backdrop-blur-[12px] bg-[rgba(15,45,61,0.85)] gap-[8px] items-center px-[16px] py-[8px] rounded-full shadow-[0px_10px_15px_-3px_rgba(0,0,0,0.1)] border border-white/10 pointer-events-auto"
-          >
-            <img src={imgContainer7} alt="" className="w-[15px] h-[12px]" />
-            <span className="font-mono-tech font-medium text-[#bcc9cd] text-[10px] tracking-[0.8px]">
-              38 Provinsi Terdata · Diperbarui Des 2023
-            </span>
-          </div>
+        {/* Source & Coverage Badge */}
+        <div
+          data-node-id="117:256"
+          className="backdrop-blur-[12px] bg-[rgba(15,45,61,0.65)] flex gap-[8px] items-center px-[14px] py-[9px] rounded-full border border-white/10 self-start xl:self-auto shrink-0"
+        >
+          <img src={imgContainer7} alt="" className="w-[15px] h-[12px] shrink-0" />
+          <span className="font-mono-tech font-medium text-[#bcc9cd] text-[10px] tracking-[0.6px]">
+            38 Provinsi · SDI Kemendikdasmen &amp; BPS 2023
+          </span>
         </div>
       </div>
 
-      {/* Mobile Detail Card Below Map (< md) - Never blocks or overflows narrow screens */}
-      {activeProvince ? (
+      {/* Mobile Detail Card Below Map (< md) */}
+      {activeProvince && (
         <div
           onClick={(e) => e.stopPropagation()}
           className="md:hidden mt-4 backdrop-blur-[24px] bg-[rgba(15,45,61,0.95)] flex flex-col gap-3 p-4 rounded-2xl shadow-xl border border-[#4bd7f3]/40 w-full"
@@ -737,9 +927,10 @@ export default function IndonesiaMapSection({
           <div className="flex items-center justify-between w-full border-b border-white/10 pb-2">
             <div className="flex gap-2 items-center truncate">
               <div
-                className={`rounded-full size-2.5 shrink-0 animate-pulse ${
-                  activeProvince.score < 45 ? 'bg-[#ffb4ab]' : 'bg-[#4bd7f3]'
-                }`}
+                className="rounded-full size-2.5 shrink-0"
+                style={{
+                  backgroundColor: getChoroplethColorMeta(activeProvince.score).nodeColor
+                }}
               />
               <span className="font-space font-bold text-[#cae6fc] text-base truncate">
                 {activeProvince.name}
@@ -748,12 +939,10 @@ export default function IndonesiaMapSection({
             <div className="flex items-center gap-1.5 shrink-0">
               <div
                 className={`px-2 py-0.5 rounded-full text-[10px] font-mono-tech font-medium ${
-                  activeProvince.score < 45
-                    ? 'bg-[rgba(147,0,10,0.6)] text-[#ffb4ab]'
-                    : 'bg-[rgba(75,215,243,0.15)] text-[#4bd7f3]'
+                  getChoroplethColorMeta(activeProvince.score).badgeClass
                 }`}
               >
-                {activeProvince.status} ({formatPercentID(activeProvince.overallScore)})
+                {activeProvince.status} ({formatScoreOrMissing(activeProvince.score)})
               </div>
               <button
                 type="button"
@@ -770,21 +959,27 @@ export default function IndonesiaMapSection({
             <div className="flex flex-1 flex-col items-center">
               <span className="font-mono-tech font-medium text-[#869397] text-[10px]">Lab TIK</span>
               <span className="font-geist font-semibold text-[#cae6fc] text-sm pt-0.5">
-                {formatPercentID(getIndicatorValue(activeProvince, 'komputer', selectedSector))}
+                {formatScoreOrMissing(
+                  getIndicatorValue(activeProvince, 'komputer', selectedSector)
+                )}
               </span>
             </div>
             <div className="w-px h-8 bg-white/10 my-auto" />
             <div className="flex flex-1 flex-col items-center">
               <span className="font-mono-tech font-medium text-[#869397] text-[10px]">Internet</span>
               <span className="font-geist font-semibold text-[#a4c9ff] text-sm pt-0.5">
-                {formatPercentID(getIndicatorValue(activeProvince, 'internet', selectedSector))}
+                {formatScoreOrMissing(
+                  getIndicatorValue(activeProvince, 'internet', selectedSector)
+                )}
               </span>
             </div>
             <div className="w-px h-8 bg-white/10 my-auto" />
             <div className="flex flex-1 flex-col items-center">
               <span className="font-mono-tech font-medium text-[#869397] text-[10px]">Listrik</span>
               <span className="font-geist font-semibold text-[#4bd7f3] text-sm pt-0.5">
-                {formatPercentID(getIndicatorValue(activeProvince, 'listrik', selectedSector))}
+                {formatScoreOrMissing(
+                  getIndicatorValue(activeProvince, 'listrik', selectedSector)
+                )}
               </span>
             </div>
           </div>
@@ -792,6 +987,18 @@ export default function IndonesiaMapSection({
           <div className="flex items-center justify-between text-xs font-mono-tech text-[#bcc9cd] px-1">
             <span>Wilayah: {activeProvince.geo?.region}</span>
             <span className="text-[#4bd7f3]">Peringkat #{activeProvince.rank}/38</span>
+          </div>
+
+          <div className="bg-[rgba(0,16,27,0.55)] border border-white/5 rounded-xl px-3 py-2 text-[11px] font-geist text-[#bcc9cd]">
+            <div className="font-mono-tech text-[10px] text-[#869397]">
+              Sumber: {activeProvince.geo?.dataSource || 'Kemendikdasmen SDI & BPS (2023)'}
+            </div>
+            {activeProvince.geo?.isDOB && (
+              <div className="text-[#fde68a] mt-1">
+                <strong>Provinsi DOB ({activeProvince.geo.dobLaw}):</strong>{' '}
+                {activeProvince.geo.dobNote}
+              </div>
+            )}
           </div>
 
           {onSelectProvinceForCompare && (
@@ -805,12 +1012,23 @@ export default function IndonesiaMapSection({
             </button>
           )}
         </div>
-      ) : (
-        <div className="md:hidden mt-3 flex items-center justify-between w-full px-1 text-[11px] font-mono-tech text-[#869397]">
-          <span>Ketuk titik provinsi pada peta untuk melihat detail</span>
-          <span>38 Provinsi · SDI 2023</span>
-        </div>
       )}
+
+      {/* Catatan Kaki Peta: Transparansi Sumber Data & Penurunan Data Provinsi DOB Papua */}
+      <div className="mt-3 pt-2.5 border-t border-white/10 flex flex-col sm:flex-row sm:items-center justify-between gap-2 w-full text-[11px] font-geist text-[#869397]">
+        <div className="flex items-start sm:items-center gap-2">
+          <Info className="size-3.5 text-[#4bd7f3] shrink-0 mt-0.5 sm:mt-0" />
+          <span>
+            <strong className="text-[#bcc9cd]">Catatan Data Provinsi Baru (DOB Papua):</strong> Data
+            4 provinsi pemekaran (Papua Selatan, Papua Tengah, Papua Pegunungan, dan Papua Barat
+            Daya) diturunkan dan diagregasi dari provinsi induk (Papua &amp; Papua Barat) sesuai
+            masa transisi pendataan Satu Data Indonesia (SDI) Kemendikdasmen &amp; BPS 2023.
+          </span>
+        </div>
+        <span className="font-mono-tech text-[10px] text-[#4bd7f3] shrink-0">
+          Urutan Nyala: Nilai Terendah → Tertinggi
+        </span>
+      </div>
     </section>
   );
 }

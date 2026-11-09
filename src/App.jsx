@@ -4,9 +4,15 @@ import Footer from './components/Footer';
 import DashboardView from './views/DashboardView';
 import PerbandinganView from './views/PerbandinganView';
 import DisparitasView from './views/DisparitasView';
+import {
+  MotionProvider,
+  PageTransition,
+  useMotionPreferences
+} from './components/MotionPrimitives';
 import { X } from 'lucide-react';
 
-export default function App() {
+function AppContent() {
+  const { reducedMotion } = useMotionPreferences();
   const [activeTab, setActiveTab] = useState('dashboard');
   const [methodologyOpen, setMethodologyOpen] = useState(false);
   const [selectedProvinceNames, setSelectedProvinceNames] = useState([
@@ -29,7 +35,11 @@ export default function App() {
   };
 
   return (
-    <div className="min-h-screen text-[#cae6fc] bg-[#00101b] flex flex-col relative selection:bg-[#0db8d3]/30 selection:text-[#4bd7f3] overflow-x-hidden">
+    <div
+      className={`min-h-screen text-[#cae6fc] bg-[#00101b] flex flex-col relative selection:bg-[#0db8d3]/30 selection:text-[#4bd7f3] overflow-x-hidden ${
+        reducedMotion ? 'motion-reduced' : ''
+      }`}
+    >
       {/* Dynamic Atmospheric Glow Orbs - Balanced Left & Right */}
       <div className="fixed inset-0 pointer-events-none overflow-hidden z-0">
         <div className="absolute bg-[rgba(0,118,210,0.12)] blur-[150px] -left-[140px] rounded-full size-[550px] top-[180px]" />
@@ -44,30 +54,32 @@ export default function App() {
         onOpenMethodology={() => setMethodologyOpen(true)}
       />
 
-      {/* Main Content Area: STRICTLY 3 PAGES */}
+      {/* Main Content Area: STRICTLY 3 PAGES with Smooth PageTransition (fade + 10px slide) */}
       <main className="flex-1 relative z-10 w-full">
-        {activeTab === 'dashboard' && (
-          <DashboardView
-            onNavigate={setActiveTab}
-            onAddProvinceToCompare={handleAddProvinceToCompare}
-            onOpenMethodology={() => setMethodologyOpen(true)}
-          />
-        )}
+        <PageTransition activeKey={activeTab}>
+          {activeTab === 'dashboard' && (
+            <DashboardView
+              onNavigate={setActiveTab}
+              onAddProvinceToCompare={handleAddProvinceToCompare}
+              onOpenMethodology={() => setMethodologyOpen(true)}
+            />
+          )}
 
-        {activeTab === 'perbandingan' && (
-          <PerbandinganView
-            selectedProvinceNames={selectedProvinceNames}
-            setSelectedProvinceNames={setSelectedProvinceNames}
-            onNavigate={setActiveTab}
-          />
-        )}
+          {activeTab === 'perbandingan' && (
+            <PerbandinganView
+              selectedProvinceNames={selectedProvinceNames}
+              setSelectedProvinceNames={setSelectedProvinceNames}
+              onNavigate={setActiveTab}
+            />
+          )}
 
-        {activeTab === 'disparitas' && (
-          <DisparitasView
-            onNavigate={setActiveTab}
-            onAddProvinceToCompare={handleAddProvinceToCompare}
-          />
-        )}
+          {activeTab === 'disparitas' && (
+            <DisparitasView
+              onNavigate={setActiveTab}
+              onAddProvinceToCompare={handleAddProvinceToCompare}
+            />
+          )}
+        </PageTransition>
       </main>
 
       {/* Methodology SDI Modal Overlay */}
@@ -76,7 +88,7 @@ export default function App() {
           role="dialog"
           aria-modal="true"
           aria-labelledby="metodologi-modal-title"
-          className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/75 backdrop-blur-md"
+          className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/75 backdrop-blur-md animate-in fade-in duration-200"
         >
           <div className="bg-[#001e2e] border border-white/15 rounded-2xl max-w-2xl w-full max-h-[90vh] overflow-y-auto p-5 sm:p-8 relative shadow-2xl text-left">
             <button
@@ -117,8 +129,10 @@ export default function App() {
                 regresi terhadap Indeks Pembangunan Manusia (IPM) BPS.
               </p>
               <p>
-                <strong>3. Wilayah Prioritas 3T:</strong> Klasifikasi daerah Terdepan, Terluar, dan
-                Tertinggal berdasarkan Perpres untuk alokasi DAK Fisik Afirmasi.
+                <strong>3. Wilayah Prioritas 3T &amp; Provinsi DOB:</strong> Klasifikasi daerah
+                Terdepan, Terluar, dan Tertinggal berdasarkan Perpres untuk alokasi DAK Fisik
+                Afirmasi, termasuk atribusi penurunan data 4 provinsi Daerah Otonomi Baru (DOB)
+                Papua dari provinsi induk.
               </p>
             </div>
             <button
@@ -135,5 +149,13 @@ export default function App() {
       {/* Shared Footer (Figma 117:491) */}
       <Footer onNavigate={setActiveTab} />
     </div>
+  );
+}
+
+export default function App() {
+  return (
+    <MotionProvider>
+      <AppContent />
+    </MotionProvider>
   );
 }

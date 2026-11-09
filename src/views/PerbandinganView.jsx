@@ -4,6 +4,12 @@ import {
   exportDatasetToCSV
 } from '../utils/dataService';
 import { formatNumberID, formatPercentID } from '../constants/labels';
+import {
+  Reveal,
+  AnimatedBar,
+  useMotionPreferences
+} from '../components/MotionPrimitives';
+import { MOTION_TOKENS } from '../constants/motionTokens';
 import { Search, RotateCcw } from 'lucide-react';
 
 // Exact Figma assets from steps/47/output.txt
@@ -87,6 +93,7 @@ export default function PerbandinganView({
   selectedProvinceNames,
   setSelectedProvinceNames
 }) {
+  const { reducedMotion } = useMotionPreferences();
   const [showBenchmark, setShowBenchmark] = useState(true);
   const [pickerOpen, setPickerOpen] = useState(false);
   const [pickerSearch, setPickerSearch] = useState('');
@@ -149,15 +156,18 @@ export default function PerbandinganView({
       {/* Header Section (Figma node 117:536) */}
       <section data-node-id="117:536" className="flex flex-col gap-[16px] w-full relative z-30">
         {/* Breadcrumb telemetry */}
-        <div className="flex gap-[8px] items-center">
-          <div className="bg-[#0db8d3] rounded-full size-[8px] animate-pulse shrink-0" />
+        <Reveal delay={0} className="flex gap-[8px] items-center">
+          <div className="bg-[#0db8d3] rounded-full size-[8px] shrink-0" />
           <span className="font-mono-tech font-medium text-[#4bd7f3] text-[10px] tracking-[0.5px] uppercase">
             ANALITIK &amp; TOLOK UKUR · DATA RESMI SDI 2023
           </span>
-        </div>
+        </Reveal>
 
         {/* Title and Active Entities Badge */}
-        <div className="flex flex-col lg:flex-row lg:items-end justify-between gap-4 w-full">
+        <Reveal
+          delay={60}
+          className="flex flex-col lg:flex-row lg:items-end justify-between gap-4 w-full"
+        >
           <div className="flex flex-col gap-[6px]">
             <h1 className="font-space font-bold text-[#cae6fc] text-2xl sm:text-4xl lg:text-[52px] leading-[1.14] tracking-[1px] sm:tracking-[1.5px] uppercase">
               PERBANDINGAN ANTARPROVINSI
@@ -174,10 +184,11 @@ export default function PerbandinganView({
               Mode: {selectedProvinces.length} Provinsi Aktif
             </span>
           </div>
-        </div>
+        </Reveal>
 
         {/* Control Bar with Selected Province Chips and Benchmark Toggle (Figma node 117:551) */}
-        <div
+        <Reveal
+          delay={120}
           data-node-id="117:551"
           className="backdrop-blur-[24px] bg-[rgba(3,34,50,0.6)] border border-white/10 flex flex-col gap-[16px] p-4 rounded-[16px] shadow-lg w-full relative z-30 overflow-visible"
         >
@@ -241,7 +252,7 @@ export default function PerbandinganView({
                 </button>
 
                 {pickerOpen && (
-                  <div className="absolute left-0 top-full mt-2 w-full sm:w-[300px] bg-[#001e2e] border border-white/20 rounded-2xl shadow-2xl p-2.5 z-50 flex flex-col gap-2 backdrop-blur-xl">
+                  <div className="absolute left-0 top-full mt-2 w-full sm:w-[300px] bg-[#001e2e] border border-white/20 rounded-2xl shadow-2xl p-2.5 z-50 flex flex-col gap-2 backdrop-blur-xl animate-in fade-in duration-150">
                     {/* Search inside dropdown (text-base on mobile so iOS doesn't zoom) */}
                     <div className="flex items-center gap-2 bg-[rgba(0,16,27,0.8)] border border-white/10 px-3 min-h-[40px] rounded-xl">
                       <Search className="size-3.5 text-[#869397] shrink-0" />
@@ -314,11 +325,11 @@ export default function PerbandinganView({
                 }`}
               />
               <div
-                className={`absolute top-[2px] size-[20px] rounded-full transition-transform ${
-                  showBenchmark
-                    ? 'left-[22px] bg-[#00444f]'
-                    : 'left-[2px] bg-[#869397]'
-                }`}
+                className="absolute top-[2px] left-[2px] size-[20px] rounded-full transition-transform duration-200"
+                style={{
+                  transform: showBenchmark ? 'translate3d(20px, 0, 0)' : 'translate3d(0, 0, 0)',
+                  backgroundColor: showBenchmark ? '#00444f' : '#869397'
+                }}
               />
             </button>
             <span className="font-mono-tech font-medium text-[#cae6fc] text-xs tracking-[0.5px] sm:tracking-[0.72px]">
@@ -326,10 +337,10 @@ export default function PerbandinganView({
               <strong className="font-mono-tech font-bold text-[#4bd7f3]">(68,4%)</strong>
             </span>
           </div>
-        </div>
+        </Reveal>
       </section>
 
-      {/* Section - Side-by-Side Comparison Cards (1 col mobile -> 2 col md -> 3 col lg) (Figma node 117:592) */}
+      {/* Section - Side-by-Side Comparison Cards (fade + scale 0.98 -> 1) */}
       <section
         data-node-id="117:592"
         className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5 sm:gap-[24px] w-full relative z-10"
@@ -357,9 +368,11 @@ export default function PerbandinganView({
               : 'PRIORITAS 3T';
 
           return (
-            <div
+            <Reveal
               key={prov.name}
-              className={`backdrop-blur-[24px] bg-[rgba(15,45,61,0.4)] flex flex-col justify-between overflow-hidden p-5 sm:p-[24px] rounded-[16px] border border-white/10 ${theme.cardBorder}`}
+              delay={idx * MOTION_TOKENS.stagger.card}
+              scale={0.98}
+              className={`hover-lift backdrop-blur-[24px] bg-[rgba(15,45,61,0.4)] flex flex-col justify-between overflow-hidden p-5 sm:p-[24px] rounded-[16px] border border-white/10 ${theme.cardBorder}`}
             >
               <div className="flex flex-col gap-[16px] w-full">
                 {/* Header Subregion & Status Badge */}
@@ -393,9 +406,9 @@ export default function PerbandinganView({
                   </span>
                 </div>
 
-                {/* Metric Breakdown Bars */}
+                {/* Metric Breakdown Bars (scaleX animation) */}
                 <div className="flex flex-col gap-[10px] pt-[6px] w-full">
-                  {INDICATOR_ROWS.map((ind) => {
+                  {INDICATOR_ROWS.map((ind, rIdx) => {
                     const val = prov.indicators?.[ind.key]?.total ?? 0;
                     return (
                       <div key={ind.key} className="flex flex-col gap-[4px] w-full">
@@ -410,9 +423,11 @@ export default function PerbandinganView({
                           </span>
                         </div>
                         <div className="bg-[#1c3849] h-[8px] rounded-full overflow-hidden w-full">
-                          <div
-                            className={`h-full rounded-full ${theme.barGradient}`}
-                            style={{ width: `${Math.min(100, Math.max(0, val))}%` }}
+                          <AnimatedBar
+                            percent={val}
+                            direction="horizontal"
+                            delay={idx * 60 + rIdx * 45}
+                            className={`rounded-full ${theme.barGradient}`}
                           />
                         </div>
                       </div>
@@ -435,31 +450,32 @@ export default function PerbandinganView({
                   </div>
                   <div className="flex gap-[4px] items-center w-full">
                     <div className="bg-[#00101b] flex-1 h-[6px] rounded-full overflow-hidden">
-                      <div
-                        className={`h-full rounded-full ${theme.splitBar}`}
-                        style={{
-                          width: `${prov.indicators?.komputer?.negeri ?? 50}%`
-                        }}
+                      <AnimatedBar
+                        percent={prov.indicators?.komputer?.negeri ?? 50}
+                        direction="horizontal"
+                        delay={idx * 60 + 200}
+                        className={`rounded-full ${theme.splitBar}`}
                       />
                     </div>
                     <div className="bg-[#00101b] flex-1 h-[6px] rounded-full overflow-hidden">
-                      <div
-                        className="bg-[#0076d2] h-full rounded-full"
-                        style={{
-                          width: `${prov.indicators?.komputer?.swasta ?? 50}%`
-                        }}
+                      <AnimatedBar
+                        percent={prov.indicators?.komputer?.swasta ?? 50}
+                        direction="horizontal"
+                        delay={idx * 60 + 250}
+                        className="bg-[#0076d2] rounded-full"
                       />
                     </div>
                   </div>
                 </div>
               </div>
-            </div>
+            </Reveal>
           );
         })}
       </section>
 
       {/* Section - Comparative Grouped Bar Chart (Figma node 117:811) */}
-      <section
+      <Reveal
+        delay={100}
         data-node-id="117:811"
         className="backdrop-blur-[24px] bg-[rgba(3,34,50,0.7)] border border-white/10 flex flex-col gap-[20px] sm:gap-[24px] p-4 sm:p-6 lg:p-[32px] rounded-[24px] shadow-xl w-full"
       >
@@ -475,7 +491,7 @@ export default function PerbandinganView({
           <button
             type="button"
             onClick={() => exportDatasetToCSV('perbandingan-antar-provinsi-sdi.csv')}
-            className="bg-[rgba(28,56,73,0.6)] hover:bg-[#0db8d3] hover:text-[#00363f] transition-all border border-white/10 flex items-center justify-center gap-2 px-[16px] py-[10px] min-h-[44px] w-full sm:w-auto rounded-full cursor-pointer text-xs font-mono-tech text-[#cae6fc]"
+            className="hover-lift bg-[rgba(28,56,73,0.6)] hover:bg-[#0db8d3] hover:text-[#00363f] border border-white/10 flex items-center justify-center gap-2 px-[16px] py-[10px] min-h-[44px] w-full sm:w-auto rounded-full cursor-pointer text-xs font-mono-tech text-[#cae6fc]"
           >
             <img src={imgContainer2} alt="" className="size-[12px]" />
             <span>Unduh Data (.CSV)</span>
@@ -506,9 +522,9 @@ export default function PerbandinganView({
           )}
         </div>
 
-        {/* Mobile Horizontal Bar Layout (< md) for Optimal Label Readability */}
+        {/* Mobile Horizontal Bar Layout (< md) with scaleX animation */}
         <div className="flex md:hidden flex-col gap-3 w-full pt-2">
-          {CHART_ITEMS.map((item) => (
+          {CHART_ITEMS.map((item, cIdx) => (
             <div
               key={item.key}
               className={`flex flex-col gap-2 p-3 rounded-xl border ${
@@ -541,12 +557,12 @@ export default function PerbandinganView({
                         </span>
                       </div>
                       <div className="relative h-2 bg-[#00101b] rounded-full overflow-hidden w-full">
-                        <div
-                          className="h-full rounded-full transition-all duration-300"
-                          style={{
-                            width: `${Math.min(100, Math.max(4, val))}%`,
-                            backgroundColor: theme.dot
-                          }}
+                        <AnimatedBar
+                          percent={Math.min(100, Math.max(4, val))}
+                          direction="horizontal"
+                          delay={cIdx * 40 + pIdx * 35}
+                          className="rounded-full"
+                          style={{ backgroundColor: theme.dot }}
                         />
                       </div>
                     </div>
@@ -557,13 +573,19 @@ export default function PerbandinganView({
           ))}
         </div>
 
-        {/* Tablet/Desktop 7 Grouped Vertical Bar Columns Container (md+) */}
+        {/* Tablet/Desktop 7 Grouped Vertical Bar Columns Container (md+) with scaleY animation */}
         <div className="hidden md:block relative pt-6 pb-2 w-full overflow-x-auto">
-          {/* Dashed Benchmark Line */}
+          {/* Dashed Benchmark Line (grows with scaleX from left) */}
           {showBenchmark && (
             <div
-              className="absolute inset-x-0 border-t border-dashed border-[#4bd7f3]/50 pointer-events-none z-10"
-              style={{ bottom: '124px' }}
+              className="absolute inset-x-0 border-t border-dashed border-[#4bd7f3]/50 pointer-events-none z-10 origin-left"
+              style={{
+                bottom: '124px',
+                transform: 'scaleX(1)',
+                transition: reducedMotion
+                  ? 'none'
+                  : `transform ${MOTION_TOKENS.duration.barGrow}ms ${MOTION_TOKENS.easing.easeOut}`
+              }}
             >
               <span className="absolute right-0 -top-5 font-mono-tech text-[10px] text-[#4bd7f3] bg-[#001e2e]/90 px-2 py-0.5 rounded">
                 Tolok Ukur SDI: 68,4%
@@ -572,11 +594,11 @@ export default function PerbandinganView({
           )}
 
           <div className="grid grid-cols-7 gap-3 sm:gap-4 min-w-[780px] h-[260px] items-end pb-8">
-            {CHART_ITEMS.map((item) => {
+            {CHART_ITEMS.map((item, colIdx) => {
               return (
                 <div
                   key={item.key}
-                  className={`flex flex-col items-center justify-end h-full p-2 rounded-xl transition-all ${
+                  className={`flex flex-col items-center justify-end h-full p-2 rounded-xl transition-opacity duration-200 ${
                     item.isHighlighted
                       ? 'bg-[rgba(13,184,211,0.08)] border border-[rgba(75,215,243,0.3)] shadow-[0_0_16px_rgba(13,184,211,0.15)]'
                       : 'hover:bg-white/[0.02]'
@@ -603,20 +625,26 @@ export default function PerbandinganView({
                           className="flex flex-col items-center h-full justify-end w-[24px] sm:w-[26px] relative"
                         >
                           <span
-                            className={`font-mono-tech text-[9.5px] font-semibold leading-none whitespace-nowrap transition-all duration-200 z-10 ${
+                            className={`font-mono-tech text-[9.5px] font-semibold leading-none whitespace-nowrap z-10 ${
                               labelElevated ? 'mb-3.5' : 'mb-1'
                             }`}
                             style={{ color: theme.dot }}
                           >
                             {formatNumberID(displayVal)}%
                           </span>
+                          {/* Wrapper memiliki tinggi proporsional tetap; batang di dalamnya tumbuh dengan scaleY(0->1) */}
                           <div
-                            className="w-full rounded-t-md transition-all duration-300 shadow-sm"
-                            style={{
-                              height: `${heightPercent}%`,
-                              backgroundColor: theme.dot
-                            }}
-                          />
+                            className="w-full overflow-hidden rounded-t-md"
+                            style={{ height: `${heightPercent}%` }}
+                          >
+                            <AnimatedBar
+                              percent={100}
+                              direction="vertical"
+                              delay={colIdx * 45 + pIdx * 35}
+                              className="rounded-t-md shadow-sm"
+                              style={{ backgroundColor: theme.dot }}
+                            />
+                          </div>
                         </div>
                       );
                     })}
@@ -693,14 +721,15 @@ export default function PerbandinganView({
             </table>
           </div>
         </div>
-      </section>
+      </Reveal>
 
       {/* Two Bottom Insight Cards (Figma nodes 117:945 & 117:959) */}
       <section className="grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-[24px] w-full">
         {/* Card 1 */}
-        <div
+        <Reveal
+          delay={0}
           data-node-id="117:945"
-          className="backdrop-blur-[24px] bg-[rgba(15,45,61,0.5)] border border-white/10 flex items-start gap-4 p-5 sm:p-[24px] rounded-[20px] shadow-lg"
+          className="hover-lift backdrop-blur-[24px] bg-[rgba(15,45,61,0.5)] border border-white/10 flex items-start gap-4 p-5 sm:p-[24px] rounded-[20px] shadow-lg"
         >
           <div className="bg-[rgba(147,0,10,0.2)] rounded-full size-[44px] flex items-center justify-center shrink-0">
             <img src={imgBackground} alt="" className="size-[20px]" />
@@ -715,12 +744,13 @@ export default function PerbandinganView({
               sekolah meskipun bantuan perangkat komputer jinjing telah disalurkan.
             </p>
           </div>
-        </div>
+        </Reveal>
 
         {/* Card 2 */}
-        <div
+        <Reveal
+          delay={80}
           data-node-id="117:959"
-          className="backdrop-blur-[24px] bg-[rgba(15,45,61,0.5)] border border-white/10 flex items-start gap-4 p-5 sm:p-[24px] rounded-[20px] shadow-lg"
+          className="hover-lift backdrop-blur-[24px] bg-[rgba(15,45,61,0.5)] border border-white/10 flex items-start gap-4 p-5 sm:p-[24px] rounded-[20px] shadow-lg"
         >
           <div className="bg-[rgba(13,184,211,0.2)] rounded-full size-[44px] flex items-center justify-center shrink-0">
             <img src={imgBackground1} alt="" className="size-[20px]" />
@@ -735,7 +765,7 @@ export default function PerbandinganView({
               satelit sebelum program pengadaan TIK digulirkan.
             </p>
           </div>
-        </div>
+        </Reveal>
       </section>
     </div>
   );

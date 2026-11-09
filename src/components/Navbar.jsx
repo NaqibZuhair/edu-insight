@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import { Menu, X } from 'lucide-react';
+import { useMotionPreferences } from './MotionPrimitives';
 
 const LOGO_HERO = '/assets/figma/11e472fa-f082-4980-9ccb-2e26f4cba3c0.png';
 
@@ -12,6 +13,7 @@ const NAV_TABS = [
 
 export default function Navbar({ activeTab, setActiveTab, onOpenMethodology }) {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const { reducedMotion } = useMotionPreferences();
 
   // Tutup menu mobile otomatis saat lebar layar kembali ke desktop (lg >= 1024px)
   useEffect(() => {
@@ -44,7 +46,7 @@ export default function Navbar({ activeTab, setActiveTab, onOpenMethodology }) {
       return;
     }
     setActiveTab(tabId);
-    window.scrollTo({ top: 0, behavior: 'smooth' });
+    window.scrollTo({ top: 0, behavior: reducedMotion ? 'auto' : 'smooth' });
   };
 
   return (
@@ -66,7 +68,7 @@ export default function Navbar({ activeTab, setActiveTab, onOpenMethodology }) {
                 <img
                   src={LOGO_HERO}
                   alt="Logo EduInsight"
-                  className="size-full object-contain transition-transform duration-300 group-hover:scale-105"
+                  className="size-full object-contain transition-transform duration-200 group-hover:scale-105"
                 />
               </div>
               <div className="flex flex-col items-start">
@@ -77,7 +79,7 @@ export default function Navbar({ activeTab, setActiveTab, onOpenMethodology }) {
             </button>
           </div>
 
-          {/* Center Navigation Pills - Desktop (lg+) */}
+          {/* Center Navigation Pills - Desktop (lg+) with Hover Underline Micro-interaction */}
           <div className="hidden lg:flex items-center justify-center">
             <nav
               aria-label="Navigasi Utama"
@@ -90,41 +92,54 @@ export default function Navbar({ activeTab, setActiveTab, onOpenMethodology }) {
                     key={tab.id}
                     type="button"
                     onClick={() => handleTabClick(tab.id)}
-                    className={`px-[16px] py-[8px] min-h-[38px] rounded-[9999px] transition-all duration-200 cursor-pointer whitespace-nowrap ${
+                    className={`group relative px-[16px] py-[8px] min-h-[38px] rounded-[9999px] transition-transform duration-200 cursor-pointer whitespace-nowrap ${
                       isActive
                         ? 'bg-[#0db8d3] text-[#00444f] font-geist font-semibold text-[14px] leading-[20px] shadow-[0px_0px_8px_rgba(13,184,211,0.35)]'
                         : 'text-[#bcc9cd] hover:text-[#cae6fc] font-geist font-normal text-[13px] leading-[18px]'
                     }`}
                   >
-                    {tab.label}
+                    <span>{tab.label}</span>
+                    {!isActive && (
+                      <span
+                        aria-hidden="true"
+                        className="absolute bottom-1.5 left-4 right-4 h-[1.5px] bg-[#4bd7f3] rounded-full origin-center scale-x-0 group-hover:scale-x-100 transition-transform duration-200"
+                      />
+                    )}
                   </button>
                 );
               })}
             </nav>
           </div>
 
-          {/* Right Status Pill (Desktop lg+) & Hamburger Toggle (Mobile/Tablet < lg) */}
+          {/* Right Status Pill & Hamburger Toggle */}
           <div className="flex items-center justify-end gap-2">
             <div
               data-node-id="117:524"
-              className="hidden sm:flex bg-[rgba(15,45,61,0.6)] border border-[rgba(255,255,255,0.1)] items-center gap-[8px] px-[14px] lg:px-[17px] py-[7px] rounded-[9999px]"
+              className="hidden sm:flex bg-[rgba(15,45,61,0.6)] border border-[rgba(255,255,255,0.1)] items-center gap-[8px] px-[15px] py-[7px] rounded-[9999px]"
             >
-              <div className="bg-[#0db8d3] rounded-full size-[8px] animate-pulse shadow-[0_0_8px_#0db8d3]" />
+              <div className="bg-[#0db8d3] rounded-full size-[8px] shadow-[0_0_8px_#0db8d3]" />
               <span className="font-mono-tech font-medium text-[#4bd7f3] text-[10px] leading-[14px] tracking-[0.8px] uppercase whitespace-nowrap">
                 DATA SDI 2023 · 38 PROVINSI
               </span>
             </div>
 
-            {/* Hamburger Button (< lg) */}
+            {/* Hamburger Button (< lg) with smooth Menu <-> X transition */}
             <button
               type="button"
               onClick={() => setMobileMenuOpen((prev) => !prev)}
               aria-expanded={mobileMenuOpen}
               aria-controls="mobile-navigation-drawer"
               aria-label={mobileMenuOpen ? 'Tutup menu navigasi' : 'Buka menu navigasi'}
-              className="lg:hidden flex items-center justify-center min-w-[44px] min-h-[44px] rounded-full bg-[rgba(0,16,27,0.5)] border border-white/10 text-[#cae6fc] hover:text-[#4bd7f3] hover:border-[#4bd7f3]/40 transition-colors cursor-pointer"
+              className="lg:hidden flex items-center justify-center min-w-[44px] min-h-[44px] rounded-full bg-[rgba(0,16,27,0.5)] border border-white/10 text-[#cae6fc] hover:text-[#4bd7f3] hover:border-[#4bd7f3]/40 transition-transform duration-200 cursor-pointer"
             >
-              {mobileMenuOpen ? <X className="size-5" /> : <Menu className="size-5" />}
+              <span
+                className="inline-flex items-center justify-center transition-transform duration-200"
+                style={{
+                  transform: mobileMenuOpen ? 'rotate(90deg) scale(1.05)' : 'rotate(0deg) scale(1)'
+                }}
+              >
+                {mobileMenuOpen ? <X className="size-5" /> : <Menu className="size-5" />}
+              </span>
             </button>
           </div>
         </div>
@@ -143,7 +158,7 @@ export default function Navbar({ activeTab, setActiveTab, onOpenMethodology }) {
                   key={tab.id}
                   type="button"
                   onClick={() => handleTabClick(tab.id)}
-                  className={`w-full min-h-[44px] px-4 py-2.5 rounded-xl text-left font-geist text-sm flex items-center justify-between transition-all cursor-pointer ${
+                  className={`w-full min-h-[44px] px-4 py-2.5 rounded-xl text-left font-geist text-sm flex items-center justify-between transition-transform duration-200 cursor-pointer ${
                     isActive
                       ? 'bg-[#0db8d3] text-[#00444f] font-semibold shadow-[0_0_12px_rgba(13,184,211,0.3)]'
                       : 'text-[#cae6fc] hover:bg-white/5 font-normal'
@@ -159,14 +174,11 @@ export default function Navbar({ activeTab, setActiveTab, onOpenMethodology }) {
               );
             })}
 
-            <div className="sm:hidden mt-1 pt-2.5 border-t border-white/10 flex items-center justify-between px-2">
-              <div className="flex items-center gap-2">
-                <span className="bg-[#0db8d3] rounded-full size-2 animate-pulse" />
-                <span className="font-mono-tech text-[10px] text-[#4bd7f3] uppercase tracking-wider">
-                  DATA SDI 2023 · 38 PROVINSI
-                </span>
-              </div>
-              <span className="font-mono-tech text-[10px] text-[#869397]">Tervalidasi</span>
+            <div className="mt-1 pt-2.5 border-t border-white/10 flex items-center gap-2 px-3">
+              <span className="bg-[#0db8d3] rounded-full size-2" />
+              <span className="font-mono-tech text-[10px] text-[#4bd7f3] uppercase tracking-wider">
+                DATA SDI 2023 · 38 PROVINSI
+              </span>
             </div>
           </nav>
         )}

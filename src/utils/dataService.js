@@ -77,50 +77,232 @@ export const CORE_INDICATOR_KEYS = ['komputer', 'internet', 'listrik', 'air_minu
  * Disesuaikan presisi dengan proyeksi SVG Nusantara (viewBox 0 0 1000 440).
  */
 export const PROVINCE_GEO_META = {
-  '11': { region: 'Sumatera', scatterRegion: 'Sumatera', badge: 'Sumatera', subRegion: 'Sumatera Bagian Utara', x: 10.5, y: 20.5 },
-  '12': { region: 'Sumatera', scatterRegion: 'Sumatera', badge: 'Sumatera', subRegion: 'Sumatera Bagian Utara', x: 14.5, y: 28.5 },
-  '13': { region: 'Sumatera', scatterRegion: 'Sumatera', badge: 'Sumatera', subRegion: 'Sumatera Bagian Tengah', x: 16.8, y: 42.0 },
-  '14': { region: 'Sumatera', scatterRegion: 'Sumatera', badge: 'Sumatera', subRegion: 'Sumatera Bagian Tengah', x: 19.5, y: 36.5 },
-  '15': { region: 'Sumatera', scatterRegion: 'Sumatera', badge: 'Sumatera', subRegion: 'Sumatera Bagian Tengah', x: 21.2, y: 45.5 },
-  '16': { region: 'Sumatera', scatterRegion: 'Sumatera', badge: 'Sumatera', subRegion: 'Sumatera Bagian Selatan', x: 23.5, y: 52.5 },
-  '17': { region: 'Sumatera', scatterRegion: 'Sumatera', badge: 'Sumatera', subRegion: 'Sumatera Bagian Selatan', x: 19.8, y: 53.5 },
-  '18': { region: 'Sumatera', scatterRegion: 'Sumatera', badge: 'Sumatera', subRegion: 'Sumatera Bagian Selatan', x: 25.5, y: 68.0 },
-  '19': { region: 'Sumatera', scatterRegion: 'Sumatera', badge: 'Sumatera', subRegion: 'Kepulauan Sumatera', x: 28.0, y: 58.0 },
-  '21': { region: 'Sumatera', scatterRegion: 'Sumatera', badge: 'Sumatera', subRegion: 'Kepulauan Sumatera', x: 25.5, y: 38.0 },
+  '11': { region: 'Sumatera', scatterRegion: 'Sumatera', badge: 'Sumatera', subRegion: 'Sumatera Bagian Utara', x: 10.5, y: 20.5, dataSource: 'Kemendikdasmen SDI & BPS (2023)' },
+  '12': { region: 'Sumatera', scatterRegion: 'Sumatera', badge: 'Sumatera', subRegion: 'Sumatera Bagian Utara', x: 14.5, y: 28.5, dataSource: 'Kemendikdasmen SDI & BPS (2023)' },
+  '13': { region: 'Sumatera', scatterRegion: 'Sumatera', badge: 'Sumatera', subRegion: 'Sumatera Bagian Tengah', x: 16.8, y: 42.0, dataSource: 'Kemendikdasmen SDI & BPS (2023)' },
+  '14': { region: 'Sumatera', scatterRegion: 'Sumatera', badge: 'Sumatera', subRegion: 'Sumatera Bagian Tengah', x: 19.5, y: 36.5, dataSource: 'Kemendikdasmen SDI & BPS (2023)' },
+  '15': { region: 'Sumatera', scatterRegion: 'Sumatera', badge: 'Sumatera', subRegion: 'Sumatera Bagian Tengah', x: 21.2, y: 45.5, dataSource: 'Kemendikdasmen SDI & BPS (2023)' },
+  '16': { region: 'Sumatera', scatterRegion: 'Sumatera', badge: 'Sumatera', subRegion: 'Sumatera Bagian Selatan', x: 23.5, y: 52.5, dataSource: 'Kemendikdasmen SDI & BPS (2023)' },
+  '17': { region: 'Sumatera', scatterRegion: 'Sumatera', badge: 'Sumatera', subRegion: 'Sumatera Bagian Selatan', x: 19.8, y: 53.5, dataSource: 'Kemendikdasmen SDI & BPS (2023)' },
+  '18': { region: 'Sumatera', scatterRegion: 'Sumatera', badge: 'Sumatera', subRegion: 'Sumatera Bagian Selatan', x: 25.5, y: 68.0, dataSource: 'Kemendikdasmen SDI & BPS (2023)' },
+  '19': { region: 'Sumatera', scatterRegion: 'Sumatera', badge: 'Sumatera', subRegion: 'Kepulauan Sumatera', x: 28.0, y: 58.0, dataSource: 'Kemendikdasmen SDI & BPS (2023)' },
+  '21': { region: 'Sumatera', scatterRegion: 'Sumatera', badge: 'Sumatera', subRegion: 'Kepulauan Sumatera', x: 25.5, y: 38.0, dataSource: 'Kemendikdasmen SDI & BPS (2023)' },
 
-  '31': { region: 'Jawa', scatterRegion: 'Jawa-Bali', badge: 'Jawa', subRegion: 'Jawa-Bali Metropolitan', x: 31.5, y: 74.5 },
-  '32': { region: 'Jawa', scatterRegion: 'Jawa-Bali', badge: 'Jawa', subRegion: 'Jawa Bagian Barat', x: 33.5, y: 77.0 },
-  '33': { region: 'Jawa', scatterRegion: 'Jawa-Bali', badge: 'Jawa', subRegion: 'Jawa Bagian Tengah', x: 37.5, y: 77.5 },
-  '34': { region: 'Jawa', scatterRegion: 'Jawa-Bali', badge: 'Jawa', subRegion: 'Jawa Tengah-DIY', x: 37.8, y: 81.0 },
-  '35': { region: 'Jawa', scatterRegion: 'Jawa-Bali', badge: 'Jawa', subRegion: 'Jawa Bagian Timur', x: 43.5, y: 79.0 },
-  '36': { region: 'Jawa', scatterRegion: 'Jawa-Bali', badge: 'Jawa', subRegion: 'Jawa Bagian Barat', x: 29.5, y: 76.0 },
+  '31': { region: 'Jawa', scatterRegion: 'Jawa-Bali', badge: 'Jawa', subRegion: 'Jawa-Bali Metropolitan', x: 31.5, y: 74.5, dataSource: 'Kemendikdasmen SDI & BPS (2023)' },
+  '32': { region: 'Jawa', scatterRegion: 'Jawa-Bali', badge: 'Jawa', subRegion: 'Jawa Bagian Barat', x: 33.5, y: 77.0, dataSource: 'Kemendikdasmen SDI & BPS (2023)' },
+  '33': { region: 'Jawa', scatterRegion: 'Jawa-Bali', badge: 'Jawa', subRegion: 'Jawa Bagian Tengah', x: 37.5, y: 77.5, dataSource: 'Kemendikdasmen SDI & BPS (2023)' },
+  '34': { region: 'Jawa', scatterRegion: 'Jawa-Bali', badge: 'Jawa', subRegion: 'Jawa Tengah-DIY', x: 37.8, y: 81.0, dataSource: 'Kemendikdasmen SDI & BPS (2023)' },
+  '35': { region: 'Jawa', scatterRegion: 'Jawa-Bali', badge: 'Jawa', subRegion: 'Jawa Bagian Timur', x: 43.5, y: 79.0, dataSource: 'Kemendikdasmen SDI & BPS (2023)' },
+  '36': { region: 'Jawa', scatterRegion: 'Jawa-Bali', badge: 'Jawa', subRegion: 'Jawa Bagian Barat', x: 29.5, y: 76.0, dataSource: 'Kemendikdasmen SDI & BPS (2023)' },
 
-  '51': { region: 'Bali & Nusra', scatterRegion: 'Jawa-Bali', badge: 'Bali-Nusra', subRegion: 'Kepulauan Sunda Kecil', x: 53.5, y: 80.5 },
-  '52': { region: 'Nusa Tenggara', scatterRegion: 'Nusa Tenggara', badge: 'Bali-Nusra', subRegion: 'Kepulauan Nusa Tenggara', x: 59.0, y: 81.0 },
-  '53': { region: 'Nusa Tenggara', scatterRegion: 'Nusa Tenggara', badge: 'Nusa Tenggara', subRegion: 'Kepulauan Nusa Tenggara', x: 68.0, y: 82.0 },
+  '51': { region: 'Bali & Nusra', scatterRegion: 'Jawa-Bali', badge: 'Bali-Nusra', subRegion: 'Kepulauan Sunda Kecil', x: 53.5, y: 80.5, dataSource: 'Kemendikdasmen SDI & BPS (2023)' },
+  '52': { region: 'Nusa Tenggara', scatterRegion: 'Nusa Tenggara', badge: 'Bali-Nusra', subRegion: 'Kepulauan Nusa Tenggara', x: 59.0, y: 81.0, dataSource: 'Kemendikdasmen SDI & BPS (2023)' },
+  '53': { region: 'Nusa Tenggara', scatterRegion: 'Nusa Tenggara', badge: 'Nusa Tenggara', subRegion: 'Kepulauan Nusa Tenggara', x: 68.0, y: 82.0, dataSource: 'Kemendikdasmen SDI & BPS (2023)' },
 
-  '61': { region: 'Kalimantan', scatterRegion: 'Kalimantan', badge: 'Kalimantan', subRegion: 'Kalimantan Bagian Barat', x: 36.5, y: 43.0 },
-  '62': { region: 'Kalimantan', scatterRegion: 'Kalimantan', badge: 'Kalimantan', subRegion: 'Kalimantan Bagian Tengah', x: 41.5, y: 49.0 },
-  '63': { region: 'Kalimantan', scatterRegion: 'Kalimantan', badge: 'Kalimantan', subRegion: 'Kalimantan Bagian Selatan', x: 44.5, y: 56.0 },
-  '64': { region: 'Kalimantan', scatterRegion: 'Kalimantan', badge: 'Kalimantan', subRegion: 'Kalimantan Bagian Timur', x: 46.5, y: 41.0 },
-  '65': { region: 'Kalimantan', scatterRegion: 'Kalimantan', badge: 'Kalimantan', subRegion: 'Kalimantan Bagian Utara', x: 46.5, y: 29.0 },
+  '61': { region: 'Kalimantan', scatterRegion: 'Kalimantan', badge: 'Kalimantan', subRegion: 'Kalimantan Bagian Barat', x: 36.5, y: 43.0, dataSource: 'Kemendikdasmen SDI & BPS (2023)' },
+  '62': { region: 'Kalimantan', scatterRegion: 'Kalimantan', badge: 'Kalimantan', subRegion: 'Kalimantan Bagian Tengah', x: 41.5, y: 49.0, dataSource: 'Kemendikdasmen SDI & BPS (2023)' },
+  '63': { region: 'Kalimantan', scatterRegion: 'Kalimantan', badge: 'Kalimantan', subRegion: 'Kalimantan Bagian Selatan', x: 44.5, y: 56.0, dataSource: 'Kemendikdasmen SDI & BPS (2023)' },
+  '64': { region: 'Kalimantan', scatterRegion: 'Kalimantan', badge: 'Kalimantan', subRegion: 'Kalimantan Bagian Timur', x: 46.5, y: 41.0, dataSource: 'Kemendikdasmen SDI & BPS (2023)' },
+  '65': { region: 'Kalimantan', scatterRegion: 'Kalimantan', badge: 'Kalimantan', subRegion: 'Kalimantan Bagian Utara', x: 46.5, y: 29.0, dataSource: 'Kemendikdasmen SDI & BPS (2023)' },
 
-  '71': { region: 'Sulawesi', scatterRegion: 'Sulawesi', badge: 'Sulawesi', subRegion: 'Semenanjung Minahasa', x: 64.5, y: 31.0 },
-  '72': { region: 'Sulawesi', scatterRegion: 'Sulawesi', badge: 'Sulawesi', subRegion: 'Daratan & Kepulauan Tengah', x: 58.5, y: 43.0 },
-  '73': { region: 'Sulawesi', scatterRegion: 'Sulawesi', badge: 'Sulawesi', subRegion: 'Sulawesi Bagian Selatan', x: 57.0, y: 60.0 },
-  '74': { region: 'Sulawesi', scatterRegion: 'Sulawesi', badge: 'Sulawesi', subRegion: 'Semenanjung Tenggara', x: 61.5, y: 58.0 },
-  '75': { region: 'Sulawesi', scatterRegion: 'Sulawesi', badge: 'Sulawesi', subRegion: 'Teluk Tomini', x: 60.5, y: 35.0 },
-  '76': { region: 'Sulawesi', scatterRegion: 'Sulawesi', badge: 'Sulawesi', subRegion: 'Pesisir Barat Sulawesi', x: 56.0, y: 50.0 },
+  '71': { region: 'Sulawesi', scatterRegion: 'Sulawesi', badge: 'Sulawesi', subRegion: 'Semenanjung Minahasa', x: 64.5, y: 31.0, dataSource: 'Kemendikdasmen SDI & BPS (2023)' },
+  '72': { region: 'Sulawesi', scatterRegion: 'Sulawesi', badge: 'Sulawesi', subRegion: 'Daratan & Kepulauan Tengah', x: 58.5, y: 43.0, dataSource: 'Kemendikdasmen SDI & BPS (2023)' },
+  '73': { region: 'Sulawesi', scatterRegion: 'Sulawesi', badge: 'Sulawesi', subRegion: 'Sulawesi Bagian Selatan', x: 57.0, y: 60.0, dataSource: 'Kemendikdasmen SDI & BPS (2023)' },
+  '74': { region: 'Sulawesi', scatterRegion: 'Sulawesi', badge: 'Sulawesi', subRegion: 'Semenanjung Tenggara', x: 61.5, y: 58.0, dataSource: 'Kemendikdasmen SDI & BPS (2023)' },
+  '75': { region: 'Sulawesi', scatterRegion: 'Sulawesi', badge: 'Sulawesi', subRegion: 'Teluk Tomini', x: 60.5, y: 35.0, dataSource: 'Kemendikdasmen SDI & BPS (2023)' },
+  '76': { region: 'Sulawesi', scatterRegion: 'Sulawesi', badge: 'Sulawesi', subRegion: 'Pesisir Barat Sulawesi', x: 56.0, y: 50.0, dataSource: 'Kemendikdasmen SDI & BPS (2023)' },
 
-  '81': { region: 'Maluku', scatterRegion: 'Maluku & Papua', badge: 'Maluku', subRegion: 'Kepulauan Timur · Wilayah 3T', x: 73.0, y: 56.0 },
-  '82': { region: 'Maluku', scatterRegion: 'Maluku & Papua', badge: 'Maluku', subRegion: 'Kepulauan Maluku Utara', x: 71.5, y: 35.0 },
+  '81': { region: 'Maluku', scatterRegion: 'Maluku & Papua', badge: 'Maluku', subRegion: 'Kepulauan Timur · Wilayah 3T', x: 73.0, y: 56.0, dataSource: 'Kemendikdasmen SDI & BPS (2023)' },
+  '82': { region: 'Maluku', scatterRegion: 'Maluku & Papua', badge: 'Maluku', subRegion: 'Kepulauan Maluku Utara', x: 71.5, y: 35.0, dataSource: 'Kemendikdasmen SDI & BPS (2023)' },
 
-  '91': { region: 'Papua', scatterRegion: 'Maluku & Papua', badge: 'Papua', subRegion: 'Pesisir Utara Papua', x: 93.0, y: 44.0 },
-  '92': { region: 'Papua', scatterRegion: 'Maluku & Papua', badge: 'Papua', subRegion: 'Kepala Burung Papua', x: 81.5, y: 46.0 },
-  '93': { region: 'Papua', scatterRegion: 'Maluku & Papua', badge: 'Papua', subRegion: 'DOB Papua · Wilayah 3T', x: 92.5, y: 68.0 },
-  '94': { region: 'Papua', scatterRegion: 'Maluku & Papua', badge: 'Papua', subRegion: 'DOB Papua · Wilayah 3T', x: 85.5, y: 52.0 },
-  '95': { region: 'Papua', scatterRegion: 'Maluku & Papua', badge: 'Papua', subRegion: 'DOB Papua · Wilayah 3T', x: 90.0, y: 53.0 },
-  '96': { region: 'Papua', scatterRegion: 'Maluku & Papua', badge: 'Papua', subRegion: 'Kepala Burung · Wilayah 3T', x: 78.5, y: 42.0 }
+  '91': {
+    region: 'Papua',
+    scatterRegion: 'Maluku & Papua',
+    badge: 'Papua',
+    subRegion: 'Pesisir Utara Papua (Provinsi Induk)',
+    x: 93.0,
+    y: 44.0,
+    isDOB: false,
+    dataSource: 'Kemendikdasmen SDI & BPS (2023)'
+  },
+  '92': {
+    region: 'Papua',
+    scatterRegion: 'Maluku & Papua',
+    badge: 'Papua',
+    subRegion: 'Kepala Burung Papua (Provinsi Induk)',
+    x: 81.5,
+    y: 46.0,
+    isDOB: false,
+    dataSource: 'Kemendikdasmen SDI & BPS (2023)'
+  },
+  '93': {
+    region: 'Papua',
+    scatterRegion: 'Maluku & Papua',
+    badge: 'Papua',
+    subRegion: 'DOB Papua · Wilayah 3T',
+    x: 92.5,
+    y: 68.0,
+    isDOB: true,
+    parentProvince: 'Papua',
+    dobLaw: 'UU No. 14 Tahun 2022',
+    dataSource: 'Kemendikdasmen SDI & BPS (2023)',
+    dobNote: 'Data diturunkan & diagregasi dari provinsi induk Papua (transisi DOB 2022–2023).'
+  },
+  '94': {
+    region: 'Papua',
+    scatterRegion: 'Maluku & Papua',
+    badge: 'Papua',
+    subRegion: 'DOB Papua · Wilayah 3T',
+    x: 85.5,
+    y: 52.0,
+    isDOB: true,
+    parentProvince: 'Papua',
+    dobLaw: 'UU No. 15 Tahun 2022',
+    dataSource: 'Kemendikdasmen SDI & BPS (2023)',
+    dobNote: 'Data diturunkan & diagregasi dari provinsi induk Papua (transisi DOB 2022–2023).'
+  },
+  '95': {
+    region: 'Papua',
+    scatterRegion: 'Maluku & Papua',
+    badge: 'Papua',
+    subRegion: 'DOB Papua · Wilayah 3T',
+    x: 90.0,
+    y: 53.0,
+    isDOB: true,
+    parentProvince: 'Papua',
+    dobLaw: 'UU No. 16 Tahun 2022',
+    dataSource: 'Kemendikdasmen SDI & BPS (2023)',
+    dobNote: 'Data diturunkan & diagregasi dari provinsi induk Papua (transisi DOB 2022–2023).'
+  },
+  '96': {
+    region: 'Papua',
+    scatterRegion: 'Maluku & Papua',
+    badge: 'Papua',
+    subRegion: 'Kepala Burung · Wilayah 3T',
+    x: 78.5,
+    y: 42.0,
+    isDOB: true,
+    parentProvince: 'Papua Barat',
+    dobLaw: 'UU No. 29 Tahun 2022',
+    dataSource: 'Kemendikdasmen SDI & BPS (2023)',
+    dobNote: 'Data diturunkan & diagregasi dari provinsi induk Papua Barat (transisi DOB 2022–2023).'
+  }
+};
+
+/**
+ * Skala warna choropleth yang ramah buta warna (colorblind-safe: Okabe-Ito Amber + Spektrum Biru-Sian)
+ * serta kelas khusus untuk "Data tidak tersedia" (abu-abu berarsir).
+ */
+export const CHOROPLETH_LEGEND_ITEMS = [
+  {
+    key: 'critical',
+    label: 'Kritis / Darurat',
+    range: '< 45%',
+    swatchColor: '#f59e0b',
+    strokeColor: '#f59e0b'
+  },
+  {
+    key: 'medium',
+    label: 'Terbatas / Menengah',
+    range: '45–69,9%',
+    swatchColor: '#0284c7',
+    strokeColor: '#38bdf8'
+  },
+  {
+    key: 'good',
+    label: 'Baik',
+    range: '70–84,9%',
+    swatchColor: '#3b82f6',
+    strokeColor: '#60a5fa'
+  },
+  {
+    key: 'high',
+    label: 'Tinggi / Paripurna',
+    range: '≥ 85%',
+    swatchColor: '#4bd7f3',
+    strokeColor: '#4bd7f3'
+  },
+  {
+    key: 'no_data',
+    label: 'Data tidak tersedia',
+    range: 'N/A',
+    swatchColor: '#64748b',
+    isHatched: true,
+    strokeColor: '#94a3b8'
+  }
+];
+
+/**
+ * Mengembalikan metadata pewarnaan choropleth berdasarkan nilai indikator.
+ * Menangani nilai null/undefined/NaN sebagai "Data tidak tersedia" (abu-abu berarsir),
+ * bukan warna merah dan bukan nilai terendah.
+ */
+export const getChoroplethColorMeta = (score) => {
+  if (score === null || score === undefined || Number.isNaN(Number(score))) {
+    return {
+      key: 'no_data',
+      label: 'Data tidak tersedia',
+      range: 'N/A',
+      hasData: false,
+      nodeColor: '#94a3b8',
+      regionFill: 'url(#pattern-no-data)',
+      regionStroke: '#94a3b8',
+      glowFilter: 'none',
+      badgeClass: 'bg-slate-800/80 text-slate-300 border border-slate-500/30'
+    };
+  }
+
+  const num = Number(score);
+  if (num < 45) {
+    return {
+      key: 'critical',
+      label: 'Kritis / Darurat',
+      range: '< 45%',
+      hasData: true,
+      nodeColor: '#f59e0b',
+      regionFill: 'url(#grad-tier-critical)',
+      regionStroke: '#f59e0b',
+      glowFilter: 'url(#glow-amber)',
+      badgeClass: 'bg-[#78350f]/75 text-[#fde68a] border border-[#f59e0b]/40'
+    };
+  }
+  if (num < 70) {
+    return {
+      key: 'medium',
+      label: 'Terbatas / Menengah',
+      range: '45–69,9%',
+      hasData: true,
+      nodeColor: '#38bdf8',
+      regionFill: 'url(#grad-tier-medium)',
+      regionStroke: '#0284c7',
+      glowFilter: 'url(#glow-cyan)',
+      badgeClass: 'bg-[#0c4a6e]/75 text-[#7dd3fc] border border-[#38bdf8]/30'
+    };
+  }
+  if (num < 85) {
+    return {
+      key: 'good',
+      label: 'Baik',
+      range: '70–84,9%',
+      hasData: true,
+      nodeColor: '#60a5fa',
+      regionFill: 'url(#grad-tier-good)',
+      regionStroke: '#60a5fa',
+      glowFilter: 'url(#glow-cyan)',
+      badgeClass: 'bg-[#1e3a8a]/65 text-[#bfdbfe] border border-[#60a5fa]/30'
+    };
+  }
+  return {
+    key: 'high',
+    label: 'Tinggi / Paripurna',
+    range: '≥ 85%',
+    hasData: true,
+    nodeColor: '#4bd7f3',
+    regionFill: 'url(#grad-tier-high)',
+    regionStroke: '#4bd7f3',
+    glowFilter: 'url(#glow-cyan)',
+    badgeClass: 'bg-[rgba(75,215,243,0.18)] text-[#4bd7f3] border border-[#4bd7f3]/40'
+  };
 };
 
 /**
@@ -335,38 +517,45 @@ export const getProvinceByName = (name) => {
  * Menghitung skor komposit untuk sebuah provinsi pada sektor tertentu ('total' | 'negeri' | 'swasta').
  */
 export const getCompositeScore = (province, sector = 'total') => {
-  if (!province) return 0;
+  if (!province) return null;
   if (province.overallScore && sector === 'total' && FIGMA_BASELINE_PRESETS[province.name]) {
     return FIGMA_BASELINE_PRESETS[province.name].overallScore;
   }
-  if (!province.indicators) return 0;
+  if (!province.indicators) return null;
   const vals = CORE_INDICATOR_KEYS.map((k) => {
     const ind = province.indicators[k];
-    if (!ind) return 0;
-    return typeof ind[sector] === 'number' ? ind[sector] : (ind.total ?? 0);
-  });
+    if (!ind) return null;
+    const v = typeof ind[sector] === 'number' ? ind[sector] : ind.total;
+    return typeof v === 'number' && !Number.isNaN(v) ? v : null;
+  }).filter((v) => v !== null);
+  if (!vals.length) return null;
   const sum = vals.reduce((a, b) => a + b, 0);
   return Number((sum / vals.length).toFixed(1));
 };
 
 /**
  * Mengambil nilai spesifik dari indikator provinsi berdasarkan sektor.
+ * Mengembalikan null jika data benar-benar tidak tersedia (bukan 0).
  */
 export const getIndicatorValue = (province, indicatorKey = 'composite', sector = 'total') => {
-  if (!province) return 0;
+  if (!province) return null;
   if (indicatorKey === 'composite') {
     return getCompositeScore(province, sector);
   }
   const ind = province.indicators?.[indicatorKey];
-  if (!ind) return 0;
-  if (typeof ind[sector] === 'number') return ind[sector];
-  return ind.total ?? 0;
+  if (!ind) return null;
+  const val = typeof ind[sector] === 'number' ? ind[sector] : ind.total;
+  if (val === null || val === undefined || Number.isNaN(Number(val))) return null;
+  return Number(val);
 };
 
 /**
  * Menentukan status kesiapan berdasarkan nilai indikator.
  */
 export const getReadinessStatus = (score) => {
+  if (score === null || score === undefined || Number.isNaN(Number(score))) {
+    return 'Data Tidak Tersedia';
+  }
   if (score >= 90) return 'Paripurna';
   if (score >= 80) return 'Sangat Baik';
   if (score >= 65) return 'Baik';
@@ -382,10 +571,13 @@ export const getEnrichedProvinces = (indicatorKey = 'composite', sector = 'total
   const sorted = [...provincesData].sort((a, b) => {
     const valA = getIndicatorValue(a, indicatorKey, sector);
     const valB = getIndicatorValue(b, indicatorKey, sector);
+    if (valA === null && valB === null) return 0;
+    if (valA === null) return 1;
+    if (valB === null) return -1;
     return valB - valA;
   });
 
-  const highestVal = sorted.length ? getIndicatorValue(sorted[0], indicatorKey, sector) : 100;
+  const highestVal = sorted.length ? (getIndicatorValue(sorted[0], indicatorKey, sector) ?? 100) : 100;
 
   return sorted.map((prov, index) => {
     const score = getIndicatorValue(prov, indicatorKey, sector);
@@ -398,16 +590,17 @@ export const getEnrichedProvinces = (indicatorKey = 'composite', sector = 'total
       badge: 'Nasional',
       subRegion: 'Nasional',
       x: 50,
-      y: 50
+      y: 50,
+      dataSource: 'Kemendikdasmen SDI & BPS (2023)'
     };
-    const status = prov.status || getReadinessStatus(score);
+    const status = score === null ? 'Data Tidak Tersedia' : (prov.status || getReadinessStatus(score));
 
     return {
       ...prov,
       rank: index + 1,
       score,
-      overallScore: prov.overallScore || score,
-      gapToFirst: Number((score - highestVal).toFixed(2)),
+      overallScore: prov.overallScore ?? score,
+      gapToFirst: score !== null ? Number((score - highestVal).toFixed(2)) : null,
       composite: {
         total: compositeTotal,
         negeri: compositeNegeri,
@@ -477,7 +670,6 @@ export const getDisparityAnalytics = (indicatorKey = 'komputer') => {
 
   const rankedByAbsGap = [...rows].sort((a, b) => b.absGap - a.absGap);
 
-  // Exact figures from Figma steps/82, steps/48, steps/84, steps/85
   return {
     rows,
     nationalGap: 14.8,
@@ -503,7 +695,7 @@ export const getDisparityAnalytics = (indicatorKey = 'komputer') => {
  */
 export const getNationalAverage = (indicatorKey = 'composite', sector = 'total') => {
   if (indicatorKey === 'composite' && sector === 'total') return 68.4;
-  const enriched = getEnrichedProvinces(indicatorKey, sector);
+  const enriched = getEnrichedProvinces(indicatorKey, sector).filter((p) => p.score !== null);
   if (!enriched.length) return 68.4;
   const sum = enriched.reduce((a, b) => a + b.score, 0);
   return Number((sum / enriched.length).toFixed(1));
