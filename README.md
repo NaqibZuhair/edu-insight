@@ -23,7 +23,7 @@ Dalam visualisasi aplikasi, **indeks komposit kesiapan sarana dan prasarana dasa
 - Ringkasan KPI: skor komposit rata-rata nasional, provinsi tertinggi, provinsi terendah, dan median.
 - Peta tematik Indonesia dengan cakupan 38 provinsi.
 - Eksplorasi indikator fasilitas, termasuk komputer sekolah, internet, listrik, sanitasi/air bersih, dan kualifikasi pendidik.
-- Filter jenjang/sektor sesuai pilihan yang tersedia pada antarmuka.
+- Filter sektor sesuai pilihan yang tersedia pada antarmuka.
 - Daftar **5 provinsi tertinggi** dan **5 provinsi terendah** untuk membantu identifikasi wilayah prioritas.
 - Akses ekspor data melalui tombol unduh yang tersedia pada aplikasi.
 
@@ -31,7 +31,7 @@ Dalam visualisasi aplikasi, **indeks komposit kesiapan sarana dan prasarana dasa
 
 - Membandingkan **2–3 provinsi** secara berdampingan.
 - Menampilkan skor komposit dan indikator fasilitas setiap provinsi.
-- Grafik komparatif **7 indikator** dan tabel pembanding.
+- Grafik komparatif **5 indikator** dan tabel pembanding.
 - Garis acuan nasional untuk membantu membaca perbedaan capaian.
 - Fitur tambah/hapus provinsi dan atur ulang pilihan.
 
@@ -155,7 +155,7 @@ edu-insight/
 
 **EduInsight — Final Submission, Web In Action, Multimedia In Action 2026**  
 **Institusi:** Politeknik Negeri Jakarta  
-**Anggota Tim:** Naqib Sulthon, dan Najwa  
+**Anggota Tim:** Naqib, Sulthon dan Najwa  
 **Nama tim:** Disuruh Isi Nama Tim
 
 ## Penutup
