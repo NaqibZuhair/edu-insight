@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 import { Menu, X } from 'lucide-react';
 import { useMotionPreferences } from './MotionPrimitives';
 
-const LOGO_HERO = '/assets/figma/11e472fa-f082-4980-9ccb-2e26f4cba3c0.png';
+const LOGO_HERO = '/assets/figma/a548bed8-2806-4eee-a51b-ddef03e042e0.png';
 
 const NAV_TABS = [
   { id: 'dashboard', label: 'Dasbor' },
